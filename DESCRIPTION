@@ -7,7 +7,12 @@ Authors@R:
            role = c("aut", "cre"),
            email = "christopherkenny@fas.harvard.edu",
            comment = c(ORCID = "0000-0002-9386-6860"))
-Description: What the package does (one paragraph).
+Description: Download data from the United States Census Bureau API 
+    <https://www.census.gov/data/developers/data-sets.html>. Functions
+    support major surveys, including the American Community Survey and the
+    decennial census. Data is formatted in a tidy way, where each observation 
+    is a geographic unit. Geometry data for a geography is available automatically
+    joined with 'tinytiger'.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
