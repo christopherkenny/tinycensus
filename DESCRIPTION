@@ -1,5 +1,5 @@
 Package: tinycensus
-Title: Lightweight Interface to the US Census API
+Title: Lightweight Interface to the US Census Bureau API
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Christopher T.",
@@ -12,7 +12,7 @@ Description: Download data from the United States Census Bureau API
     support major surveys, including the American Community Survey and the
     decennial census. Data is formatted in a tidy way, where each observation 
     is a geographic unit. Geometry data for a geography is available automatically
-    joined with 'tinytiger'.
+    joined with shapes from 'tinytiger'.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

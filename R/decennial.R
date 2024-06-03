@@ -8,4 +8,11 @@ tc_decennial <- function(geography, variables, year = 2020, state = NULL, county
 
   req <- httr2::request('https://api.census.gov/data') |>
     httr2::req_url_path_append(year)
+
+  resp <- req |>
+    httr2::req_perform() |>
+    httr2::resp_body_json(simplifyVector = TRUE) |>
+    as_tib()
+
+  resp
 }
