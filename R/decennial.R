@@ -7,7 +7,7 @@ tc_decennial <- function(geography, variables, year = 2020, state = NULL, county
   }
 
   req <- httr2::request('https://api.census.gov/data') |>
-    httr2::req_url_path_append(year)
+    httr2::req_url_path_append(year, 'dec')
 
   resp <- req |>
     httr2::req_perform() |>
