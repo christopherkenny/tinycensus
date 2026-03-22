@@ -1,8 +1,7 @@
 tc_build_get_clause <- function(
   variables,
   group = NULL,
-  include_name = TRUE,
-  meta = NULL
+  include_name = TRUE
 ) {
   parts <- character()
 
@@ -19,6 +18,10 @@ tc_build_get_clause <- function(
 
 tc_prepare_predicates <- function(predicates) {
   if (is.null(predicates)) {
+    return(list())
+  }
+
+  if (is.list(predicates) && length(predicates) == 0L) {
     return(list())
   }
 
@@ -134,8 +137,7 @@ tc_query_params <- function(
   get_clause <- tc_build_get_clause(
     variables = variables,
     group = group,
-    include_name = isTRUE(name) && !is.null(geography),
-    meta = meta
+    include_name = isTRUE(name) && !is.null(geography)
   )
 
   params <- list(get = paste(get_clause, collapse = ","))
@@ -220,7 +222,10 @@ tc_execute_query <- function(
     params = params,
     endpoint = endpoint
   )
-  resp <- tc_fetch_json(url)
+  resp <- tc_fetch_json(
+    url,
+    context = list(dataset = dataset, year = year, geography = geography)
+  )
   tc_parse_census_response(
     resp,
     dataset = dataset,
@@ -244,38 +249,7 @@ tc_join_chunks <- function(chunks) {
   )
 }
 
-#' Retrieve data from the Census API
-#'
-#' @param dataset A Census dataset identifier like `"acs/acs5"`.
-#' @param year A dataset year.
-#' @param variables Optional character vector of variable names.
-#' @param group Optional group or table identifier.
-#' @param geography Optional Census geography name.
-#' @param within Optional named list of parent geographies.
-#' @param predicates Optional named list of additional predicate values.
-#' @param key Optional Census API key. Defaults to [tc_get_key()].
-#' @param geometry Should the result be joined to `tinytiger` geometry?
-#' @param output Output shape, `"wide"` or `"long"`.
-#' @param name Should `NAME` be requested when available?
-#' @param refresh Should cached metadata be refreshed?
-#' @param cache Should discovery metadata be cached locally?
-#' @param ucgid Optional `ucgid` predicate.
-#' @param geography_vintage Optional geography vintage used for input
-#'   normalization when it differs from the dataset release year.
-#' @param ... Geography values such as `state = "NY"` or
-#'   `county = c("001", "003")`.
-#'
-#' @return A tibble, or an `sf` object when `geometry = TRUE`.
-#' @export
-#' @examplesIf tc_has_key()
-#' tc_get(
-#'   dataset = "acs/acs5",
-#'   year = 2024,
-#'   variables = "B01001_001E",
-#'   geography = "state",
-#'   state = c("NY", "Delaware")
-#' )
-tc_get <- function(
+tc_dataset_query_raw <- function(
   dataset,
   year,
   variables = NULL,
@@ -284,8 +258,6 @@ tc_get <- function(
   within = NULL,
   predicates = NULL,
   key = tc_get_key(),
-  geometry = FALSE,
-  output = c("wide", "long"),
   name = TRUE,
   refresh = FALSE,
   cache = TRUE,
@@ -293,7 +265,6 @@ tc_get <- function(
   geography_vintage = NULL,
   ...
 ) {
-  output <- rlang::arg_match(output)
   dataset_info <- tc_resolve_dataset(
     dataset,
     year,
@@ -374,22 +345,224 @@ tc_get <- function(
     )
   }
 
+  attr(out, "dataset") <- dataset
+  attr(out, "year") <- year
+  attr(out, "geography") <- geography
+  attr(out, "within") <- tc_normalize_within(geo_inputs$within)
+  out
+}
+
+tc_metric_info <- function(variable) {
+  if (grepl("(EA|PEA|NA)$", variable)) {
+    return(list(variable = sub("(EA|PEA|NA)$", "", variable), role = "annotation"))
+  }
+
+  if (grepl("(MA|PMA)$", variable)) {
+    return(list(variable = sub("(MA|PMA)$", "", variable), role = "annotation"))
+  }
+
+  if (grepl("E$", variable)) {
+    return(list(variable = sub("E$", "", variable), role = "estimate"))
+  }
+
+  if (grepl("M$", variable)) {
+    return(list(variable = sub("M$", "", variable), role = "moe"))
+  }
+
+  if (grepl("N$", variable)) {
+    return(list(variable = sub("N$", "", variable), role = "estimate"))
+  }
+
+  list(variable = variable, role = "estimate")
+}
+
+tc_is_measure_variable <- function(variable) {
+  grepl("(EA|PEA|NA|MA|PMA|E|M|N)$", variable)
+}
+
+tc_metric_map <- function(variables) {
+  info <- lapply(variables, tc_metric_info)
+  tibble::tibble(
+    raw_variable = variables,
+    variable = vapply(info, `[[`, character(1), "variable"),
+    role = vapply(info, `[[`, character(1), "role")
+  )
+}
+
+tc_companion_variables <- function(dataset, year, variables, refresh = FALSE) {
+  meta <- tc_variables(dataset, year, refresh = refresh)
+  expanded <- unique(as.character(variables))
+
+  for (variable in variables) {
+    if (grepl("E$", variable)) {
+      companion <- sub("E$", "M", variable)
+      if (companion %in% meta$name) {
+        expanded <- unique(c(expanded, companion))
+      }
+    }
+  }
+
+  expanded
+}
+
+tc_summary_columns <- function(summary_var) {
+  if (is.null(summary_var)) {
+    return(list(raw = character(), estimate = NULL, moe = NULL))
+  }
+
+  info <- tc_metric_info(summary_var)
+  estimate_col <- summary_var
+  moe_col <- NULL
+
+  if (info$role == "moe") {
+    estimate_col <- sub("M$", "E", summary_var)
+    moe_col <- summary_var
+  } else if (grepl("E$", summary_var)) {
+    moe_col <- sub("E$", "M", summary_var)
+  }
+
+  list(
+    raw = unique(c(estimate_col, moe_col)),
+    estimate = estimate_col,
+    moe = moe_col
+  )
+}
+
+tc_add_summary_columns <- function(data, summary_var = NULL) {
+  summary_cols <- tc_summary_columns(summary_var)
+
+  if (!length(summary_cols$raw)) {
+    return(data)
+  }
+
+  if (!is.null(summary_cols$estimate) && summary_cols$estimate %in% names(data)) {
+    data$summary_estimate <- data[[summary_cols$estimate]]
+  }
+
+  if (!is.null(summary_cols$moe) && summary_cols$moe %in% names(data)) {
+    data$summary_moe <- data[[summary_cols$moe]]
+  }
+
+  data[, setdiff(names(data), summary_cols$raw), drop = FALSE]
+}
+
+tc_shape_product_wide <- function(
+  data,
+  dataset,
+  year,
+  summary_var = NULL,
+  refresh = FALSE
+) {
+  map <- tc_metric_map(names(data))
+  keep <- map$role != "annotation"
+  out <- data[, map$raw_variable[keep], drop = FALSE]
+  meta <- tc_variables(dataset, year, refresh = refresh)
+  shared <- intersect(names(out), meta$name)
+  measure_cols <- shared[meta$predicate_type[match(shared, meta$name)] %in% c(
+    "int",
+    "integer",
+    "float",
+    "numeric"
+  )]
+  for (column in measure_cols) {
+    out[[column]] <- suppressWarnings(as.numeric(out[[column]]))
+  }
+  tc_add_summary_columns(out, summary_var = summary_var)
+}
+
+tc_product_query <- function(
+  dataset,
+  year,
+  variables = NULL,
+  table = NULL,
+  geography = NULL,
+  within = NULL,
+  predicates = NULL,
+  key = tc_get_key(),
+  geometry = FALSE,
+  keep_geo_vars = FALSE,
+  summary_var = NULL,
+  refresh = FALSE,
+  cache = TRUE,
+  ucgid = NULL,
+  geography_vintage = NULL,
+  ...
+) {
+  variables <- tc_null_if_empty(variables)
+  table <- tc_null_if_empty(table)
+  summary_var <- tc_null_if_empty(summary_var)
+
+  if (!is.null(variables) && !is.null(table)) {
+    cli::cli_abort(
+      "{.arg variables} and {.arg table} are mutually exclusive."
+    )
+  }
+
+  if (is.null(variables) && is.null(table)) {
+    cli::cli_abort("Supply either {.arg variables} or {.arg table}.")
+  }
+
+  dataset_info <- tc_resolve_dataset(
+    dataset,
+    year,
+    refresh = refresh,
+    cache = cache
+  )
+  year <- dataset_info$year[[1]]
+
+  request_vars <- variables
+  if (!is.null(request_vars)) {
+    request_vars <- tc_companion_variables(
+      dataset,
+      year,
+      request_vars,
+      refresh = refresh
+    )
+  }
+
+  if (!is.null(summary_var)) {
+    request_vars <- unique(c(
+      request_vars,
+      tc_companion_variables(dataset, year, summary_var, refresh = refresh)
+    ))
+  }
+
+  raw <- tc_dataset_query_raw(
+    dataset = dataset,
+    year = year,
+    variables = request_vars,
+    group = table,
+    geography = geography,
+    within = within,
+    predicates = predicates,
+    key = key,
+    name = TRUE,
+    refresh = refresh,
+    cache = cache,
+    ucgid = ucgid,
+    geography_vintage = geography_vintage,
+    ...
+  )
+
+  geography <- attr(raw, "geography")
+  out <- tc_shape_product_wide(
+    raw,
+    dataset = dataset,
+    year = year,
+    summary_var = summary_var,
+    refresh = refresh
+  )
+
   if (isTRUE(geometry)) {
     if (is.null(geography)) {
       cli::cli_abort("Geometry requires an explicit {.arg geography}.")
     }
-    out <- tc_add_geometry(out, geography = geography, year = year)
-  }
-
-  if (identical(output, "long")) {
-    id_columns <- c(
-      "NAME",
-      "GEOID",
-      geography,
-      names(tc_normalize_within(geo_inputs$within))
+    out <- tc_add_geometry(
+      out,
+      geography = geography,
+      year = year,
+      keep_geo_vars = keep_geo_vars
     )
-    measure_columns <- setdiff(names(out), id_columns)
-    out <- tc_to_long(out, value_columns = measure_columns)
   }
 
   tc_as_tinycensus_tbl(

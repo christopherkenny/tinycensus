@@ -2,7 +2,7 @@
 % Please edit documentation in R/census-metadata.R
 \name{tc_groups}
 \alias{tc_groups}
-\title{Retrieve Census group metadata}
+\title{Retrieve raw Census group metadata}
 \usage{
 tc_groups(dataset, year = NULL, refresh = FALSE)
 }
@@ -14,10 +14,15 @@ tc_groups(dataset, year = NULL, refresh = FALSE)
 \item{refresh}{Should cached metadata be refreshed?}
 }
 \value{
-A tibble of group metadata.
+A tibble of group metadata from the Census API.
 }
 \description{
-Retrieve Census group metadata
+Retrieve raw Census group metadata
+}
+\details{
+This is a lower-level metadata helper. For most ACS and decennial workflows,
+\code{\link[=tc_tables]{tc_tables()}} is the more natural entry point because Census "groups" usually
+correspond to user-facing tables.
 }
 \examples{
 \dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}

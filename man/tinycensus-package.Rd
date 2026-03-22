@@ -7,8 +7,15 @@
 \title{tinycensus: Lightweight Interface to the US Census Bureau API}
 \description{
 \code{tinycensus} provides lightweight, metadata-driven access to the
-\href{https://www.census.gov/data/developers.html}{US Census Bureau API}. It
-supports flexible geography inputs, broad aggregate dataset discovery, and
+\href{https://www.census.gov/data/developers.html}{US Census Bureau API}. The
+package is organized around product-specific retrieval helpers such as
+\code{\link[=tc_get_acs]{tc_get_acs()}}, \code{\link[=tc_get_decennial]{tc_get_decennial()}}, \code{\link[=tc_get_pep]{tc_get_pep()}}, \code{\link[=tc_get_cbp]{tc_get_cbp()}},
+\code{\link[=tc_get_flows]{tc_get_flows()}}, and \code{\link[=tc_get_timeseries]{tc_get_timeseries()}}, rather than a single generic
+user-facing query function.
+}
+\details{
+It also includes task-oriented metadata helpers for discovering datasets,
+variables, geographies, and tables, along with flexible geography inputs and
 optional geometry joins through \code{tinytiger}.
 }
 \seealso{

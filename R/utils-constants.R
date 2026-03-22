@@ -84,20 +84,30 @@ tc_geography_aliases <- c(
   "block groups" = "block group",
   "block group" = "block group",
   "places" = "place",
+  "county subdivisions" = "county subdivision",
+  "cousub" = "county subdivision",
   "zcta" = "zip code tabulation area",
   "zip code tabulation areas" = "zip code tabulation area",
   "zip code tabulation area" = "zip code tabulation area",
   "cd" = "congressional district",
-  "congressional districts" = "congressional district"
+  "congressional districts" = "congressional district",
+  "metropolitan statistical area" = "metropolitan statistical area/micropolitan statistical area",
+  "micropolitan statistical area" = "metropolitan statistical area/micropolitan statistical area",
+  "cbsa" = "metropolitan statistical area/micropolitan statistical area"
 )
 
 tc_geoid_map <- list(
   "state" = c("state"),
   "county" = c("state", "county"),
+  "county subdivision" = c("state", "county", "county subdivision"),
   "tract" = c("state", "county", "tract"),
   "block group" = c("state", "county", "tract", "block group"),
   "place" = c("state", "place"),
   "congressional district" = c("state", "congressional district"),
+  "metropolitan statistical area/micropolitan statistical area" = c("metropolitan statistical area/micropolitan statistical area"),
+  "cbsa" = c("cbsa"),
+  "metropolitan division" = c("metropolitan division"),
+  "combined statistical area" = c("combined statistical area"),
   "zip code tabulation area" = c("zip code tabulation area"),
   "public use microdata area" = c("state", "public use microdata area"),
   "school district (elementary)" = c("state", "school district (elementary)"),

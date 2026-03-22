@@ -2,29 +2,57 @@
 % Please edit documentation in R/tc_get_timeseries.R
 \name{tc_get_timeseries}
 \alias{tc_get_timeseries}
-\title{Retrieve time-series Census API data}
+\title{Retrieve Census time-series data}
 \usage{
-tc_get_timeseries(dataset, ...)
+tc_get_timeseries(
+  dataset,
+  variables = NULL,
+  table = NULL,
+  predicates = NULL,
+  time = NULL,
+  year = NULL,
+  key = tc_get_key(),
+  refresh = FALSE,
+  cache = TRUE,
+  ucgid = NULL
+)
 }
 \arguments{
 \item{dataset}{A time-series dataset identifier.}
 
-\item{...}{Geography values such as \code{state = "NY"} or
-\code{county = c("001", "003")}.}
+\item{variables}{Optional character vector of variable names.}
+
+\item{table}{Optional group or table identifier. Mutually exclusive with
+\code{variables}.}
+
+\item{predicates}{Optional named list of filter predicates other than \code{time}.}
+
+\item{time}{Optional timeseries date value, such as \code{"2024-01"}.}
+
+\item{year}{Optional dataset year. Most timeseries datasets ignore this and
+resolve through the discovery catalog.}
+
+\item{key}{Optional Census API key.}
+
+\item{refresh}{Should cached metadata be refreshed?}
+
+\item{cache}{Should discovery metadata be cached locally?}
+
+\item{ucgid}{Optional \code{ucgid} predicate.}
 }
 \value{
-A tibble or \code{sf} object.
+A tibble.
 }
 \description{
-Retrieve time-series Census API data
+Retrieve Census time-series data
 }
 \examples{
 \dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_get_timeseries(
   dataset = "intltrade/exports/hs",
-  year = NULL,
   variables = "ALL_VAL_MO",
-  predicates = list(time = "2024-01", CTY_CODE = "2010")
+  time = "2024-01",
+  predicates = list(CTY_CODE = "2010")
 )
 \dontshow{\}) # examplesIf}
 }

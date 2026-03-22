@@ -1,0 +1,30 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2020/dec/pl?get=NAME%2CP1_001N&for=county%3A%2A&in=state%3A10&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Sun, 22 Mar 2026 19:23:18 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a46b8a5dd3e8ddcca87d1198087e2cafbb69c4bfa2910e32c5f64bd608fa5b3ad01ac1f8bfe20f1fac4d32bdd68e7c0539;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","P1_001N","state","county"],
+        ["Kent County, Delaware","181851","10","001"],
+        ["New Castle County, Delaware","570719","10","003"],
+        ["Sussex County, Delaware","237378","10","005"]]
+  recorded_at: 2026-03-22 19:23:18
+recorded_with: VCR-vcr/2.1.0

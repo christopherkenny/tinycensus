@@ -26,6 +26,7 @@ Imports:
     httr2,
     rappdirs,
     rlang,
+    sf,
     tibble,
     tinytiger,
     vctrs

@@ -4,13 +4,61 @@
 \alias{tc_get_pep}
 \title{Retrieve Population Estimates Program data}
 \usage{
-tc_get_pep(dataset, ...)
+tc_get_pep(
+  year,
+  variables = NULL,
+  table = NULL,
+  geography = NULL,
+  within = NULL,
+  predicates = NULL,
+  dataset = "population",
+  summary_var = NULL,
+  key = tc_get_key(),
+  geometry = FALSE,
+  keep_geo_vars = FALSE,
+  refresh = FALSE,
+  cache = TRUE,
+  ucgid = NULL,
+  geography_vintage = NULL,
+  ...
+)
 }
 \arguments{
-\item{dataset}{A \code{pep/...} dataset identifier.}
+\item{year}{Dataset year.}
 
-\item{...}{Geography values such as \code{state = "NY"} or
-\code{county = c("001", "003")}.}
+\item{variables}{Optional character vector of variable names.}
+
+\item{table}{Optional table or group identifier. Mutually exclusive with
+\code{variables}.}
+
+\item{geography}{Census geography name.}
+
+\item{within}{Optional named list of parent geographies.}
+
+\item{predicates}{Optional named list of additional predicates.}
+
+\item{dataset}{PEP dataset path, such as \code{"population"} or
+\code{"components"}. A leading \code{"pep/"} is optional.}
+
+\item{summary_var}{Optional summary variable to append as
+\code{summary_estimate} / \code{summary_moe}.}
+
+\item{key}{Optional Census API key.}
+
+\item{geometry}{Should geometry be joined after retrieval?}
+
+\item{keep_geo_vars}{Should source geometry attributes be retained?}
+
+\item{refresh}{Should cached metadata be refreshed?}
+
+\item{cache}{Should discovery metadata be cached locally?}
+
+\item{ucgid}{Optional \code{ucgid} predicate.}
+
+\item{geography_vintage}{Optional geography vintage used for input
+normalization.}
+
+\item{...}{Geography values such as \code{state = "NY"} or \code{county = "001"}.}
 }
 \value{
 A tibble or \code{sf} object.
@@ -21,8 +69,8 @@ Retrieve Population Estimates Program data
 \examples{
 \dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_get_pep(
-  dataset = "pep/population",
   year = 2021,
+  dataset = "population",
   variables = "POP_2021",
   geography = "state",
   state = c("NY", "Delaware")

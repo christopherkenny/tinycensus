@@ -1,0 +1,28 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/timeseries/intltrade/exports/hs?get=ALL_VAL_MO&CTY_CODE=2010&time=2024-01&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Sun, 22 Mar 2026 19:54:07 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4908e5a736a2f0bae0c2455b4cd141a408cceb42ba403f4fe75c1765e021822b9374758bad70a91ecc576cab6fabc9861;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["ALL_VAL_MO","CTY_CODE","time"],
+        ["26439153527","2010","2024-01"]]
+  recorded_at: 2026-03-22 19:54:07
+recorded_with: VCR-vcr/2.1.0

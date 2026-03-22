@@ -97,6 +97,9 @@ tc_json_matrix_to_tibble <- function(x) {
 
   colnames <- x[1, , drop = TRUE]
   values <- x[-1, , drop = FALSE]
+  keep <- !duplicated(colnames)
+  colnames <- colnames[keep]
+  values <- values[, keep, drop = FALSE]
 
   out <- as.data.frame(values, stringsAsFactors = FALSE)
   names(out) <- colnames

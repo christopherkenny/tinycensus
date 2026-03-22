@@ -33,6 +33,20 @@ tc_fetch_geometry <- function(data, geography, year) {
     return(tc_geometry_bind(parts))
   }
 
+  if (geography == "county subdivision") {
+    combos <- unique(data[c("state", "county")])
+    parts <- lapply(seq_len(nrow(combos)), function(i) {
+      geom <- tinytiger::tt_county_subdivisions(
+        state = combos$state[[i]],
+        county = combos$county[[i]],
+        year = tiger_year
+      )
+      geom$GEOID <- paste0(geom$STATEFP, geom$COUNTYFP, geom$COUSUBFP)
+      geom
+    })
+    return(tc_geometry_bind(parts))
+  }
+
   if (geography == "tract") {
     combos <- unique(data[c("state", "county")])
     parts <- lapply(seq_len(nrow(combos)), function(i) {
@@ -75,6 +89,29 @@ tc_fetch_geometry <- function(data, geography, year) {
     return(tc_geometry_bind(parts))
   }
 
+  if (
+    geography %in% c(
+      "metropolitan statistical area/micropolitan statistical area",
+      "cbsa"
+    )
+  ) {
+    geom <- tinytiger::tt_cbsa(year = tiger_year)
+    geom$GEOID <- geom$CBSAFP
+    return(geom)
+  }
+
+  if (geography == "metropolitan division") {
+    geom <- tinytiger::tt_metropolitan_divisions(year = tiger_year)
+    geom$GEOID <- geom$METDIVFP
+    return(geom)
+  }
+
+  if (geography == "combined statistical area") {
+    geom <- tinytiger::tt_csa(year = tiger_year)
+    geom$GEOID <- geom$CSAFP
+    return(geom)
+  }
+
   if (geography == "zip code tabulation area") {
     geom <- tinytiger::tt_zcta(year = tiger_year)
     if (!"GEOID" %in% names(geom) && "ZCTA5CE20" %in% names(geom)) {
@@ -102,12 +139,48 @@ tc_fetch_geometry <- function(data, geography, year) {
     return(tc_geometry_bind(parts))
   }
 
+  if (geography == "school district (elementary)") {
+    parts <- lapply(tc_unique(data$state), function(state) {
+      geom <- tinytiger::tt_elementary_school_districts(
+        state = state,
+        year = tiger_year
+      )
+      geom$GEOID <- paste0(geom$STATEFP, geom$ELSDLEA)
+      geom
+    })
+    return(tc_geometry_bind(parts))
+  }
+
+  if (geography == "school district (secondary)") {
+    parts <- lapply(tc_unique(data$state), function(state) {
+      geom <- tinytiger::tt_secondary_school_districts(
+        state = state,
+        year = tiger_year
+      )
+      geom$GEOID <- paste0(geom$STATEFP, geom$SCSDLEA)
+      geom
+    })
+    return(tc_geometry_bind(parts))
+  }
+
+  if (geography == "school district (unified)") {
+    parts <- lapply(tc_unique(data$state), function(state) {
+      geom <- tinytiger::tt_unified_school_districts(
+        state = state,
+        year = tiger_year
+      )
+      geom$GEOID <- paste0(geom$STATEFP, geom$UNSDLEA)
+      geom
+    })
+    return(tc_geometry_bind(parts))
+  }
+
   cli::cli_abort(
     "Geometry is not yet supported for geography {.val {geography}} through {.pkg tinytiger}."
   )
 }
 
-tc_add_geometry <- function(data, geography, year) {
+tc_add_geometry <- function(data, geography, year, keep_geo_vars = FALSE) {
   if (!"GEOID" %in% names(data)) {
     cli::cli_abort(
       "Geometry requests require a deterministic `GEOID` for the requested geography."
@@ -115,8 +188,26 @@ tc_add_geometry <- function(data, geography, year) {
   }
 
   geom <- tc_fetch_geometry(data, geography = geography, year = year)
-  keep <- unique(c("GEOID", "geometry"))
+  keep <- if (isTRUE(keep_geo_vars)) {
+    names(geom)
+  } else {
+    unique(c("GEOID", "geometry"))
+  }
   geom <- geom[keep[keep %in% names(geom)]]
 
-  merge(geom, data, by = "GEOID", all.y = TRUE, sort = FALSE)
+  conflicts <- intersect(setdiff(names(geom), c("GEOID", "geometry")), names(data))
+  if (length(conflicts)) {
+    names(geom)[match(conflicts, names(geom))] <- paste0("geo_", conflicts)
+  }
+
+  index <- seq_len(nrow(data))
+  data$..tc_rowid.. <- index
+  out <- merge(data, geom, by = "GEOID", all.x = TRUE, sort = FALSE)
+  out <- out[order(out$..tc_rowid..), , drop = FALSE]
+  out$..tc_rowid.. <- NULL
+  if ("geometry" %in% names(out) && inherits(out$geometry, "sfc")) {
+    return(sf::st_as_sf(out))
+  }
+
+  out
 }

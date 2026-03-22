@@ -10,13 +10,13 @@
 `tinycensus` is a lightweight, metadata-driven interface to the [US
 Census Bureau API](https://www.census.gov/data/developers.html). It is
 designed to stay small while still covering a broad set of aggregate
-datasets, including ACS, decennial census products, population
-estimates, county business patterns, time-series endpoints, and other
-datasets exposed through the Census discovery catalog.
+datasets, with first-class support for ACS, decennial census products,
+PEP, CBP, migration flows, time-series endpoints, and related discovery
+metadata.
 
-The package is built around a generic query engine plus a small set of
-convenience wrappers. The goal is to make common Census workflows easy
-without pulling in a large dependency stack.
+The package is built around product-specific interfaces rather than one
+generic user-facing query function. The goal is to make common Census
+workflows easy without pulling in a large dependency stack.
 
 ## Installation
 
@@ -30,10 +30,11 @@ pak::pak("christopherkenny/tinycensus")
 ## What it does
 
 - Discovers Census datasets from the live API catalog
-- Retrieves metadata for variables, groups, geographies, and example
+- Retrieves metadata for variables, tables, geographies, and example
   queries
-- Pulls tabular results with one generic interface
-- Provides wrappers for common products like ACS and decennial census
+- Provides product-specific retrieval for ACS, decennial census, PEP,
+  CBP, flows, and time-series datasets
+- Searches variables and retrieves encoded value metadata
 - Accepts flexible geography inputs like `"NY"`, `"New York"`, and
   `"36"`
 - Returns optional `sf` output through `tinytiger`
@@ -115,16 +116,16 @@ The ACS wrapper makes common requests compact:
 ``` r
 tc_get_acs(
   year = 2024,
-  variables = c("B01001_001E", "B19013_001E"),
+  variables = "B19013_001E",
   geography = "state",
   state = c("NY", "Delaware")
 )
 #> tinycensus result: "acs/acs5" (2024)
-#> # A tibble: 2 × 5
-#>   NAME     B01001_001E B19013_001E state GEOID
-#>   <chr>          <dbl>       <dbl> <chr> <chr>
-#> 1 Delaware     1021191       84954 10    10   
-#> 2 New York    19852366       85974 36    36
+#> # A tibble: 2 × 4
+#>   NAME     B19013_001E state GEOID
+#>   <chr>          <dbl> <chr> <chr>
+#> 1 Delaware       84954 10    10   
+#> 2 New York       85974 36    36
 ```
 
 You can do the same with a decennial dataset:
@@ -146,31 +147,35 @@ tc_get_decennial(
 #> 3 Sussex County, Delaware      237378 10    005    10005
 ```
 
-## Use the generic interface
-
-`tc_get()` is the core engine. Wrappers like `tc_get_acs()` mainly
-prefill dataset details.
+You can also request a full ACS table directly:
 
 ``` r
-tc_get(
-  dataset = "acs/acs5",
+tc_get_acs(
   year = 2024,
-  variables = "B01001_001E",
+  table = "B01001",
   geography = "state",
-  state = c("NY", "Delaware")
+  state = "Delaware"
 )
 #> tinycensus result: "acs/acs5" (2024)
-#> # A tibble: 2 × 4
-#>   NAME     B01001_001E state GEOID
-#>   <chr>          <dbl> <chr> <chr>
-#> 1 Delaware     1021191 10    10   
-#> 2 New York    19852366 36    36
+#> # A tibble: 1 × 102
+#>   NAME   B01001_001E B01001_001M B01001_002E B01001_002M B01001_003E B01001_003M
+#>   <chr>        <dbl> <chr>             <dbl> <chr>             <dbl> <chr>      
+#> 1 Delaw…     1021191 -555555555       494652 170               27816 143        
+#> # ℹ 95 more variables: B01001_004E <dbl>, B01001_004M <chr>, B01001_005E <dbl>,
+#> #   B01001_005M <chr>, B01001_006E <dbl>, B01001_006M <chr>, B01001_007E <dbl>,
+#> #   B01001_007M <chr>, B01001_008E <dbl>, B01001_008M <chr>, B01001_009E <dbl>,
+#> #   B01001_009M <chr>, B01001_010E <dbl>, B01001_010M <chr>, B01001_011E <dbl>,
+#> #   B01001_011M <chr>, B01001_012E <dbl>, B01001_012M <chr>, B01001_013E <dbl>,
+#> #   B01001_013M <chr>, B01001_014E <dbl>, B01001_014M <chr>, B01001_015E <dbl>,
+#> #   B01001_015M <chr>, B01001_016E <dbl>, B01001_016M <chr>, …
 ```
 
 ## Inspect metadata
 
 Metadata helpers make it easier to explore unfamiliar datasets before
-you query them.
+you query them. For most workflows, `tc_tables()` is the best way to
+browse table-level metadata; `tc_groups()` remains available as a
+lower-level helper for the raw Census API concept.
 
 ``` r
 vars <- tc_variables("acs/acs5", 2024)
@@ -202,6 +207,94 @@ tc_geography("acs/acs5", 2024)[1:10, c("geography", "summary_level")]
 #> 10 block group               150
 ```
 
+``` r
+tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
+#> # A tibble: 5 × 2
+#>   name   description                                                            
+#>   <chr>  <chr>                                                                  
+#> 1 B17015 Poverty Status in the Past 12 Months of Families by Family Type by Soc…
+#> 2 B18104 Sex by Age by Cognitive Difficulty                                     
+#> 3 B17016 Poverty Status in the Past 12 Months of Families by Family Type by Wor…
+#> 4 B18105 Sex by Age by Ambulatory Difficulty                                    
+#> 5 B17017 Poverty Status in the Past 12 Months by Household Type by Age of House…
+```
+
+``` r
+tc_search_variables("acs/acs5", 2024, query = "median household income")[
+  1:5,
+  c("name", "label", "concept")
+]
+#> # A tibble: 5 × 3
+#>   name         label                                                     concept
+#>   <chr>        <chr>                                                     <chr>  
+#> 1 B19013_001E  Estimate!!Median household income in the past 12 months … Median…
+#> 2 B19013A_001E Estimate!!Median household income in the past 12 months … Median…
+#> 3 B19013B_001E Estimate!!Median household income in the past 12 months … Median…
+#> 4 B19013C_001E Estimate!!Median household income in the past 12 months … Median…
+#> 5 B19013D_001E Estimate!!Median household income in the past 12 months … Median…
+```
+
+## Migration flows
+
+``` r
+tc_get_flows(
+  geography = "county",
+  year = 2018,
+  state = "NY",
+  county = "001"
+)
+#> tinycensus result: "acs/flows" (2018)
+#> # A tibble: 316 × 10
+#>    origin_geoid destination_geoid origin_name          destination_name moved_in
+#>    <chr>        <chr>             <chr>                <chr>               <dbl>
+#>  1 36001        <NA>              Albany County, New … Africa                 45
+#>  2 36001        <NA>              Albany County, New … Asia                 1203
+#>  3 36001        <NA>              Albany County, New … Central America       232
+#>  4 36001        <NA>              Albany County, New … Caribbean              18
+#>  5 36001        <NA>              Albany County, New … Europe                495
+#>  6 36001        <NA>              Albany County, New … U.S. Island Are…       28
+#>  7 36001        <NA>              Albany County, New … Northern America       18
+#>  8 36001        <NA>              Albany County, New … South America         255
+#>  9 36001        01103             Albany County, New … Morgan County, …        0
+#> 10 36001        02090             Albany County, New … Fairbanks North…        0
+#> # ℹ 306 more rows
+#> # ℹ 5 more variables: moved_in_moe <dbl>, moved_out <dbl>, moved_out_moe <dbl>,
+#> #   moved_net <dbl>, moved_net_moe <dbl>
+```
+
+## Other products
+
+``` r
+tc_get_pep(
+  year = 2021,
+  dataset = "population",
+  variables = "POP_2021",
+  geography = "state",
+  state = c("NY", "Delaware")
+)
+#> tinycensus result: "pep/population" (2021)
+#> # A tibble: 2 × 4
+#>   NAME     POP_2021 state GEOID
+#>   <chr>       <dbl> <chr> <chr>
+#> 1 Delaware  1003384 10    10   
+#> 2 New York 19835913 36    36
+```
+
+``` r
+tc_get_cbp(
+  year = 2021,
+  variables = "ESTAB",
+  geography = "state",
+  state = c("NY", "DE")
+)
+#> tinycensus result: "cbp" (2021)
+#> # A tibble: 2 × 4
+#>   NAME      ESTAB state GEOID
+#>   <chr>     <dbl> <chr> <chr>
+#> 1 Delaware  28553 10    10   
+#> 2 New York 535758 36    36
+```
+
 ## Time-series datasets
 
 The package also supports discovery-catalog time-series endpoints:
@@ -209,21 +302,23 @@ The package also supports discovery-catalog time-series endpoints:
 ``` r
 tc_get_timeseries(
   dataset = "intltrade/exports/hs",
-  year = NULL,
   variables = "ALL_VAL_MO",
-  predicates = list(time = "2024-01", CTY_CODE = "2010")
+  time = "2024-01",
+  predicates = list(CTY_CODE = "2010")
 )
 #> tinycensus result: "timeseries/intltrade/exports/hs" (NA)
 #> # A tibble: 1 × 3
-#>    ALL_VAL_MO time    CTY_CODE
-#>         <dbl> <chr>   <chr>   
-#> 1 26439153527 2024-01 2010
+#>    ALL_VAL_MO CTY_CODE time   
+#>         <dbl> <chr>    <chr>  
+#> 1 26439153527 2010     2024-01
 ```
 
 ## Optional geometry with tinytiger
 
 When `geometry = TRUE`, `tinycensus` fetches the tabular result first
-and then joins matching geometry from `tinytiger`.
+and then joins matching geometry from `tinytiger`. Set
+`keep_geo_vars = TRUE` if you want the original geometry attributes as
+well.
 
 ``` r
 tc_get_acs(
@@ -231,17 +326,24 @@ tc_get_acs(
   variables = "B01001_001E",
   geography = "state",
   state = c("NY", "Delaware"),
-  geometry = TRUE
+  geometry = TRUE,
+  keep_geo_vars = TRUE
 )
 #> tinycensus result: "acs/acs5" (2024)
-#> Simple feature collection with 2 features and 4 fields
+#> Simple feature collection with 2 features and 18 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY
 #> Bounding box:  xmin: -79.76259 ymin: 38.45113 xmax: -71.77749 ymax: 45.01586
 #> Geodetic CRS:  NAD83
-#>   GEOID     NAME B01001_001E state                       geometry
-#> 1    10 Delaware     1021191    10 MULTIPOLYGON (((-75.50949 3...
-#> 2    36 New York    19852366    36 MULTIPOLYGON (((-74.72623 4...
+#>   GEOID     NAME B01001_001E state REGION DIVISION STATEFP  STATENS     GEOIDFQ
+#> 1    10 Delaware     1021191    10      3        5      10 01779781 0400000US10
+#> 2    36 New York    19852366    36      1        2      36 01779796 0400000US36
+#>   STUSPS geo_NAME LSAD MTFCC FUNCSTAT        ALAND      AWATER    INTPTLAT
+#> 1     DE Delaware   00 G4000        A   5046692239  1399219008 +38.9985661
+#> 2     NY New York   00 G4000        A 122049155860 19256755462 +42.9133974
+#>       INTPTLON                       geometry
+#> 1 -075.4416440 MULTIPOLYGON (((-75.50949 3...
+#> 2 -075.5962723 MULTIPOLYGON (((-74.72623 4...
 ```
 
 ## Current scope

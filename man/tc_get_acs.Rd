@@ -7,46 +7,50 @@
 tc_get_acs(
   year,
   variables = NULL,
-  group = NULL,
+  table = NULL,
   geography = NULL,
   within = NULL,
   predicates = NULL,
-  survey = c("acs5", "acs1"),
+  survey = c("acs5", "acs1", "acs3"),
   product = c("detailed", "profile", "subject", "comparison"),
+  summary_var = NULL,
   key = tc_get_key(),
   geometry = FALSE,
-  output = c("wide", "long"),
-  name = TRUE,
+  keep_geo_vars = FALSE,
   refresh = FALSE,
   cache = TRUE,
   ucgid = NULL,
+  geography_vintage = NULL,
   ...
 )
 }
 \arguments{
-\item{year}{A dataset year.}
+\item{year}{ACS year.}
 
 \item{variables}{Optional character vector of variable names.}
 
-\item{group}{Optional group or table identifier.}
+\item{table}{Optional ACS table identifier. Mutually exclusive with
+\code{variables}.}
 
-\item{geography}{Optional Census geography name.}
+\item{geography}{Census geography name.}
 
 \item{within}{Optional named list of parent geographies.}
 
-\item{predicates}{Optional named list of additional predicate values.}
+\item{predicates}{Optional named list of additional predicates.}
 
-\item{survey}{ACS survey, either \code{"acs1"} or \code{"acs5"}.}
+\item{survey}{ACS survey, one of \code{"acs1"}, \code{"acs3"}, or \code{"acs5"}.}
 
-\item{product}{ACS product, such as \code{"detailed"} or \code{"profile"}.}
+\item{product}{ACS product, one of \code{"detailed"}, \code{"profile"}, \code{"subject"},
+or \code{"comparison"}.}
 
-\item{key}{Optional Census API key. Defaults to \code{\link[=tc_get_key]{tc_get_key()}}.}
+\item{summary_var}{Optional summary variable to append as
+\code{summary_estimate} / \code{summary_moe}.}
 
-\item{geometry}{Should the result be joined to \code{tinytiger} geometry?}
+\item{key}{Optional Census API key.}
 
-\item{output}{Output shape, \code{"wide"} or \code{"long"}.}
+\item{geometry}{Should geometry be joined after retrieval?}
 
-\item{name}{Should \code{NAME} be requested when available?}
+\item{keep_geo_vars}{Should source geometry attributes be retained?}
 
 \item{refresh}{Should cached metadata be refreshed?}
 
@@ -54,8 +58,10 @@ tc_get_acs(
 
 \item{ucgid}{Optional \code{ucgid} predicate.}
 
-\item{...}{Geography values such as \code{state = "NY"} or
-\code{county = c("001", "003")}.}
+\item{geography_vintage}{Optional geography vintage used for input
+normalization.}
+
+\item{...}{Geography values such as \code{state = "NY"} or \code{county = "001"}.}
 }
 \value{
 A tibble or \code{sf} object.

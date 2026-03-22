@@ -4,13 +4,60 @@
 \alias{tc_get_cbp}
 \title{Retrieve County Business Patterns data}
 \usage{
-tc_get_cbp(dataset = "cbp", ...)
+tc_get_cbp(
+  year,
+  variables = NULL,
+  table = NULL,
+  geography = NULL,
+  within = NULL,
+  predicates = NULL,
+  dataset = "cbp",
+  summary_var = NULL,
+  key = tc_get_key(),
+  geometry = FALSE,
+  keep_geo_vars = FALSE,
+  refresh = FALSE,
+  cache = TRUE,
+  ucgid = NULL,
+  geography_vintage = NULL,
+  ...
+)
 }
 \arguments{
+\item{year}{Dataset year.}
+
+\item{variables}{Optional character vector of variable names.}
+
+\item{table}{Optional table or group identifier. Mutually exclusive with
+\code{variables}.}
+
+\item{geography}{Census geography name.}
+
+\item{within}{Optional named list of parent geographies.}
+
+\item{predicates}{Optional named list of additional predicates.}
+
 \item{dataset}{A \code{cbp} dataset identifier. Defaults to \code{"cbp"}.}
 
-\item{...}{Geography values such as \code{state = "NY"} or
-\code{county = c("001", "003")}.}
+\item{summary_var}{Optional summary variable to append as
+\code{summary_estimate} / \code{summary_moe}.}
+
+\item{key}{Optional Census API key.}
+
+\item{geometry}{Should geometry be joined after retrieval?}
+
+\item{keep_geo_vars}{Should source geometry attributes be retained?}
+
+\item{refresh}{Should cached metadata be refreshed?}
+
+\item{cache}{Should discovery metadata be cached locally?}
+
+\item{ucgid}{Optional \code{ucgid} predicate.}
+
+\item{geography_vintage}{Optional geography vintage used for input
+normalization.}
+
+\item{...}{Geography values such as \code{state = "NY"} or \code{county = "001"}.}
 }
 \value{
 A tibble or \code{sf} object.

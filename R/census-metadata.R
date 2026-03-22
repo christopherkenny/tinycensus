@@ -22,36 +22,69 @@ tc_cache_write <- function(object, path) {
   invisible(object)
 }
 
-tc_fetch_json <- function(url) {
-  req <- httr2::request(url) |>
-    httr2::req_user_agent(
-      "tinycensus (https://github.com/christopherkenny/tinycensus)"
-    ) |>
-    httr2::req_retry(max_tries = 3)
-
-  resp <- httr2::req_perform(req)
-
-  if (httr2::resp_status(resp) >= 400) {
-    cli::cli_abort("Census API request failed for {.url {url}}.")
+tc_http_error_context <- function(context = NULL) {
+  if (is.null(context) || !length(context)) {
+    return(NULL)
   }
 
-  httr2::resp_body_json(resp, simplifyVector = TRUE)
+  bits <- vapply(
+    names(context),
+    function(name) {
+      value <- context[[name]]
+      if (is.null(value) || length(value) == 0L || all(is.na(value))) {
+        return(NA_character_)
+      }
+      paste0(name, ": ", paste(value, collapse = ", "))
+    },
+    character(1)
+  )
+  bits <- bits[!is.na(bits)]
+  if (!length(bits)) {
+    return(NULL)
+  }
+
+  paste(bits, collapse = "; ")
 }
 
-tc_fetch_json_list <- function(url) {
+tc_abort_http_error <- function(resp, url, context = NULL) {
+  body <- httr2::resp_body_string(resp)
+  body <- gsub("<[^>]+>", "", body)
+  body <- gsub("[{}]", "", body)
+  body <- trimws(body)
+  status <- httr2::resp_status(resp)
+  context_text <- tc_http_error_context(context)
+
+  cli::cli_abort(c(
+    "Census API request failed with status {.val {status}}.",
+    x = if (nzchar(body)) body else "No error body returned.",
+    i = "{.url {url}}",
+    i = if (!is.null(context_text)) context_text else NULL
+  ))
+}
+
+tc_request_json <- function(url, simplifyVector = TRUE, context = NULL) {
   req <- httr2::request(url) |>
     httr2::req_user_agent(
       "tinycensus (https://github.com/christopherkenny/tinycensus)"
     ) |>
-    httr2::req_retry(max_tries = 3)
+    httr2::req_retry(max_tries = 3) |>
+    httr2::req_error(is_error = function(resp) FALSE)
 
   resp <- httr2::req_perform(req)
 
   if (httr2::resp_status(resp) >= 400) {
-    cli::cli_abort("Census API request failed for {.url {url}}.")
+    tc_abort_http_error(resp, url = url, context = context)
   }
 
-  httr2::resp_body_json(resp, simplifyVector = FALSE)
+  httr2::resp_body_json(resp, simplifyVector = simplifyVector)
+}
+
+tc_fetch_json <- function(url, context = NULL) {
+  tc_request_json(url, simplifyVector = TRUE, context = context)
+}
+
+tc_fetch_json_list <- function(url, context = NULL) {
+  tc_request_json(url, simplifyVector = FALSE, context = context)
 }
 
 tc_normalize_link <- function(x) {
@@ -103,7 +136,10 @@ tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
     return(cached)
   }
 
-  json <- tc_fetch_json_list("https://api.census.gov/data.json")
+  json <- tc_fetch_json_list(
+    "https://api.census.gov/data.json",
+    context = list(endpoint = "data.json")
+  )
   catalog <- json[["dataset"]]
 
   out <- tibble::tibble(
@@ -274,7 +310,10 @@ tc_fetch_metadata <- function(
     return(cached)
   }
 
-  json <- tc_fetch_json(url)
+  json <- tc_fetch_json(
+    url,
+    context = list(dataset = dataset, year = year, metadata = type)
+  )
 
   if (isTRUE(cache)) {
     tc_cache_write(json, cache_path)
@@ -395,11 +434,29 @@ tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
   out[order(out$name), ]
 }
 
-#' Retrieve Census group metadata
+tc_variable_metadata_url <- function(dataset, year, variable) {
+  dataset_info <- tc_resolve_dataset(dataset, year, cache = TRUE)
+  variables_url <- dataset_info$variables_url[[1]]
+
+  if (is.na(variables_url)) {
+    cli::cli_abort(
+      "No variable metadata endpoint is available for {.val {dataset}} in {.val {year}}."
+    )
+  }
+
+  paste0(sub("variables\\.json$", "variables/", variables_url), variable, ".json")
+}
+
+#' Retrieve raw Census group metadata
 #'
 #' @inheritParams tc_variables
 #'
-#' @return A tibble of group metadata.
+#' @return A tibble of group metadata from the Census API.
+#'
+#' @details
+#' This is a lower-level metadata helper. For most ACS and decennial workflows,
+#' [tc_tables()] is the more natural entry point because Census "groups" usually
+#' correspond to user-facing tables.
 #' @export
 #' @examplesIf tc_has_key()
 #' tc_groups("acs/acs5", 2024, refresh = TRUE)
@@ -428,6 +485,53 @@ tc_groups <- function(dataset, year = NULL, refresh = FALSE) {
       NA_character_,
     variables_url = vapply(groups$variables, tc_normalize_link, character(1))
   )
+}
+
+#' Retrieve Census table metadata
+#'
+#' @inheritParams tc_groups
+#'
+#' @return A tibble of table metadata.
+#'
+#' @details
+#' This is the preferred helper for exploring ACS and decennial table-level
+#' metadata. It wraps the Census API's group metadata in a table-oriented
+#' interface.
+#' @export
+tc_tables <- function(dataset, year = NULL, refresh = FALSE) {
+  out <- tc_groups(dataset, year = year, refresh = refresh)
+  tibble::as_tibble(out)
+}
+
+#' Retrieve variables for a Census table
+#'
+#' @param dataset A Census dataset identifier like `"acs/acs5"`.
+#' @param table Table or group identifier.
+#' @param year Optional dataset year.
+#' @param refresh Should cached metadata be refreshed?
+#'
+#' @return A tibble of variable metadata for the requested table.
+#' @export
+tc_table_variables <- function(
+  dataset,
+  table,
+  year = NULL,
+  refresh = FALSE
+) {
+  if (!is.character(table) || length(table) != 1L || !nzchar(table)) {
+    cli::cli_abort("{.arg table} must be a single non-empty string.")
+  }
+
+  vars <- tc_variables(dataset, year = year, refresh = refresh)
+  out <- vars[vars$group == table, , drop = FALSE]
+
+  if (!nrow(out)) {
+    cli::cli_abort(
+      "Table {.val {table}} was not found for dataset {.val {dataset}}."
+    )
+  }
+
+  tibble::as_tibble(out[order(out$name), , drop = FALSE])
 }
 
 tc_parse_geography_requires <- function(entry) {
@@ -527,4 +631,80 @@ tc_examples <- function(dataset, year = NULL, refresh = FALSE) {
   )
   year <- dataset_info$year[[1]]
   tc_fetch_metadata(dataset, year, "examples", refresh = refresh, cache = TRUE)
+}
+
+#' Search Census variable metadata
+#'
+#' @param dataset A Census dataset identifier like `"acs/acs5"`.
+#' @param year Optional dataset year.
+#' @param query Search string.
+#' @param fields Metadata fields to search.
+#' @param ignore_case Should matching ignore case?
+#' @param refresh Should cached metadata be refreshed?
+#'
+#' @return A tibble of matching variables.
+#' @export
+tc_search_variables <- function(
+  dataset,
+  year = NULL,
+  query,
+  fields = c("name", "label", "concept"),
+  ignore_case = TRUE,
+  refresh = FALSE
+) {
+  if (!is.character(query) || length(query) != 1L || !nzchar(query)) {
+    cli::cli_abort("{.arg query} must be a single non-empty string.")
+  }
+
+  fields <- unique(fields)
+  valid_fields <- c("name", "label", "concept")
+  if (!all(fields %in% valid_fields)) {
+    cli::cli_abort(
+      "{.arg fields} must be drawn from {.val {valid_fields}}."
+    )
+  }
+
+  vars <- tc_variables(dataset, year, refresh = refresh)
+  text <- apply(
+    vars[, fields, drop = FALSE],
+    1,
+    function(x) paste(x, collapse = " ")
+  )
+  keep <- grepl(query, text, ignore.case = ignore_case)
+  tibble::as_tibble(vars[keep, , drop = FALSE])
+}
+
+#' Retrieve encoded values metadata for a Census variable
+#'
+#' @param dataset A Census dataset identifier like `"acs/acs5"`.
+#' @param year Optional dataset year.
+#' @param variable Variable name.
+#' @param refresh Should cached metadata be refreshed?
+#'
+#' @return A tibble of value codes and labels.
+#' @export
+tc_values <- function(dataset, year = NULL, variable, refresh = FALSE) {
+  if (!is.character(variable) || length(variable) != 1L || !nzchar(variable)) {
+    cli::cli_abort("{.arg variable} must be a single non-empty string.")
+  }
+
+  dataset_info <- tc_resolve_dataset(dataset, year, refresh = refresh, cache = TRUE)
+  year <- dataset_info$year[[1]]
+  url <- tc_variable_metadata_url(dataset, year, variable)
+  json <- tc_fetch_json(
+    url,
+    context = list(dataset = dataset, year = year, variable = variable)
+  )
+
+  values <- json$values$item
+  if (is.null(values) || !length(values)) {
+    cli::cli_abort(
+      "No encoded values metadata is available for {.val {variable}} in {.val {dataset}} ({.val {year}})."
+    )
+  }
+
+  tibble::tibble(
+    code = names(values),
+    label = unname(unlist(values, use.names = FALSE))
+  )
 }

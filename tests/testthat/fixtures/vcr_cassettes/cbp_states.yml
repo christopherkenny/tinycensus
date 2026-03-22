@@ -1,0 +1,29 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2021/cbp?get=NAME%2CESTAB&for=state%3A36%2C10&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Sun, 22 Mar 2026 19:51:05 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4d635f377d11ae8eb3c40a26eb05ffc27f7874bf04d48f966401d64a0dedac9d3330778fadcf4c7bb9e9b2491ee46dd8f;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","ESTAB","state"],
+        ["Delaware","28553","10"],
+        ["New York","535758","36"]]
+  recorded_at: 2026-03-22 19:51:05
+recorded_with: VCR-vcr/2.1.0

@@ -19,9 +19,9 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 `tinycensus` is a lightweight, metadata-driven interface to the [US Census Bureau API](https://www.census.gov/data/developers.html).
-It is designed to stay small while still covering a broad set of aggregate datasets, including ACS, decennial census products, population estimates, county business patterns, time-series endpoints, and other datasets exposed through the Census discovery catalog.
+It is designed to stay small while still covering a broad set of aggregate datasets, with first-class support for ACS, decennial census products, PEP, CBP, migration flows, time-series endpoints, and related discovery metadata.
 
-The package is built around a generic query engine plus a small set of convenience wrappers.
+The package is built around product-specific interfaces rather than one generic user-facing query function.
 The goal is to make common Census workflows easy without pulling in a large dependency stack.
 
 ## Installation
@@ -36,9 +36,9 @@ pak::pak("christopherkenny/tinycensus")
 ## What it does
 
 - Discovers Census datasets from the live API catalog
-- Retrieves metadata for variables, groups, geographies, and example queries
-- Pulls tabular results with one generic interface
-- Provides wrappers for common products like ACS and decennial census
+- Retrieves metadata for variables, tables, geographies, and example queries
+- Provides product-specific retrieval for ACS, decennial census, PEP, CBP, flows, and time-series datasets
+- Searches variables and retrieves encoded value metadata
 - Accepts flexible geography inputs like `"NY"`, `"New York"`, and `"36"`
 - Returns optional `sf` output through `tinytiger`
 
@@ -100,7 +100,7 @@ The ACS wrapper makes common requests compact:
 ```{r acs}
 tc_get_acs(
   year = 2024,
-  variables = c("B01001_001E", "B19013_001E"),
+  variables = "B19013_001E",
   geography = "state",
   state = c("NY", "Delaware")
 )
@@ -118,23 +118,21 @@ tc_get_decennial(
 )
 ```
 
-## Use the generic interface
+You can also request a full ACS table directly:
 
-`tc_get()` is the core engine. Wrappers like `tc_get_acs()` mainly prefill dataset details.
-
-```{r generic}
-tc_get(
-  dataset = "acs/acs5",
+```{r acs-table}
+tc_get_acs(
   year = 2024,
-  variables = "B01001_001E",
+  table = "B01001",
   geography = "state",
-  state = c("NY", "Delaware")
+  state = "Delaware"
 )
 ```
 
 ## Inspect metadata
 
 Metadata helpers make it easier to explore unfamiliar datasets before you query them.
+For most workflows, `tc_tables()` is the best way to browse table-level metadata; `tc_groups()` remains available as a lower-level helper for the raw Census API concept.
 
 ```{r metadata}
 vars <- tc_variables("acs/acs5", 2024)
@@ -148,6 +146,49 @@ vars[
 tc_geography("acs/acs5", 2024)[1:10, c("geography", "summary_level")]
 ```
 
+```{r tables}
+tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
+```
+
+```{r search}
+tc_search_variables("acs/acs5", 2024, query = "median household income")[
+  1:5,
+  c("name", "label", "concept")
+]
+```
+
+## Migration flows
+
+```{r flows}
+tc_get_flows(
+  geography = "county",
+  year = 2018,
+  state = "NY",
+  county = "001"
+)
+```
+
+## Other products
+
+```{r pep}
+tc_get_pep(
+  year = 2021,
+  dataset = "population",
+  variables = "POP_2021",
+  geography = "state",
+  state = c("NY", "Delaware")
+)
+```
+
+```{r cbp}
+tc_get_cbp(
+  year = 2021,
+  variables = "ESTAB",
+  geography = "state",
+  state = c("NY", "DE")
+)
+```
+
 ## Time-series datasets
 
 The package also supports discovery-catalog time-series endpoints:
@@ -155,15 +196,16 @@ The package also supports discovery-catalog time-series endpoints:
 ```{r timeseries}
 tc_get_timeseries(
   dataset = "intltrade/exports/hs",
-  year = NULL,
   variables = "ALL_VAL_MO",
-  predicates = list(time = "2024-01", CTY_CODE = "2010")
+  time = "2024-01",
+  predicates = list(CTY_CODE = "2010")
 )
 ```
 
 ## Optional geometry with tinytiger
 
 When `geometry = TRUE`, `tinycensus` fetches the tabular result first and then joins matching geometry from `tinytiger`.
+Set `keep_geo_vars = TRUE` if you want the original geometry attributes as well.
 
 ```{r geometry}
 tc_get_acs(
@@ -171,7 +213,8 @@ tc_get_acs(
   variables = "B01001_001E",
   geography = "state",
   state = c("NY", "Delaware"),
-  geometry = TRUE
+  geometry = TRUE,
+  keep_geo_vars = TRUE
 )
 ```
 
