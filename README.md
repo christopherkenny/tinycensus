@@ -18,6 +18,12 @@ The package is built around product-specific interfaces rather than one
 generic user-facing query function. The goal is to make common Census
 workflows easy without pulling in a large dependency stack.
 
+The basic pattern is:
+
+1.  discover a dataset, table, or variable with the metadata helpers
+2.  retrieve data with a product-specific wrapper
+3.  optionally join geometry with `tinytiger`
+
 ## Installation
 
 You can install the development version of tinycensus from GitHub with:
@@ -121,6 +127,10 @@ that the request year alone determines valid county codes. For example,
 ACS 2024 uses current county equivalents, while decennial 2020 products
 keep 2020 county definitions. If you need to override that behavior for
 a specific dataset, use `geography_vintage =`.
+
+The same interface also works with less-common geographies when the
+dataset supports them, such as places, congressional districts,
+metropolitan areas, and school districts.
 
 ## Retrieve Census data
 
@@ -251,24 +261,50 @@ tc_get_flows(
   geography = "county",
   year = 2018,
   state = "NY",
-  county = "001"
+  county = "001",
+  geometry = "destination"
 )
-#> # A tibble: 316 × 10
-#>    origin_geoid destination_geoid origin_name          destination_name moved_in
-#>    <chr>        <chr>             <chr>                <chr>               <dbl>
-#>  1 36001        <NA>              Albany County, New … Africa                 45
-#>  2 36001        <NA>              Albany County, New … Asia                 1203
-#>  3 36001        <NA>              Albany County, New … Central America       232
-#>  4 36001        <NA>              Albany County, New … Caribbean              18
-#>  5 36001        <NA>              Albany County, New … Europe                495
-#>  6 36001        <NA>              Albany County, New … U.S. Island Are…       28
-#>  7 36001        <NA>              Albany County, New … Northern America       18
-#>  8 36001        <NA>              Albany County, New … South America         255
-#>  9 36001        01103             Albany County, New … Morgan County, …        0
-#> 10 36001        02090             Albany County, New … Fairbanks North…        0
-#> # ℹ 306 more rows
-#> # ℹ 5 more variables: moved_in_moe <dbl>, moved_out <dbl>, moved_out_moe <dbl>,
-#> #   moved_net <dbl>, moved_net_moe <dbl>
+#> Warning in st_point_on_surface.sfc(geom$geometry): st_point_on_surface may not
+#> give correct results for longitude/latitude data
+#> Simple feature collection with 316 features and 10 fields (with 8 geometries empty)
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -146.3702 ymin: 18.13797 xmax: -65.7906 ymax: 64.85516
+#> Geodetic CRS:  NAD83
+#> First 10 features:
+#>     destination_geoid origin_geoid             origin_name
+#> 309              <NA>        36001 Albany County, New York
+#> 310              <NA>        36001 Albany County, New York
+#> 311              <NA>        36001 Albany County, New York
+#> 312              <NA>        36001 Albany County, New York
+#> 313              <NA>        36001 Albany County, New York
+#> 314              <NA>        36001 Albany County, New York
+#> 315              <NA>        36001 Albany County, New York
+#> 316              <NA>        36001 Albany County, New York
+#> 1               01103        36001 Albany County, New York
+#> 2               02090        36001 Albany County, New York
+#>                         destination_name moved_in moved_in_moe moved_out
+#> 309                               Africa       45           33        NA
+#> 310                                 Asia     1203          329        NA
+#> 311                      Central America      232          260        NA
+#> 312                            Caribbean       18           24        NA
+#> 313                               Europe      495          300        NA
+#> 314                    U.S. Island Areas       28           45        NA
+#> 315                     Northern America       18           19        NA
+#> 316                        South America      255          303        NA
+#> 1                 Morgan County, Alabama        0           28        14
+#> 2   Fairbanks North Star Borough, Alaska        0           28        21
+#>     moved_out_moe moved_net moved_net_moe                   geometry
+#> 309            NA        NA            NA                POINT EMPTY
+#> 310            NA        NA            NA                POINT EMPTY
+#> 311            NA        NA            NA                POINT EMPTY
+#> 312            NA        NA            NA                POINT EMPTY
+#> 313            NA        NA            NA                POINT EMPTY
+#> 314            NA        NA            NA                POINT EMPTY
+#> 315            NA        NA            NA                POINT EMPTY
+#> 316            NA        NA            NA                POINT EMPTY
+#> 1              22       -14            22  POINT (-86.83417 34.4932)
+#> 2              27       -21            27 POINT (-146.3702 64.85516)
 ```
 
 ## Other products

@@ -34,10 +34,11 @@ tc_get_flows(
 
 \item{key}{Optional Census API key.}
 
-\item{geometry}{Should centroid geometry be joined?}
+\item{geometry}{Should centroid geometry be joined? Use \code{TRUE} or
+\code{"destination"} for destination geometry, or \code{"origin"} for origin geometry.}
 
-\item{keep_geo_vars}{Should source geometry attributes be retained with
-origin/destination prefixes?}
+\item{keep_geo_vars}{Should source geometry attributes for the selected
+geometry role be retained?}
 }
 \value{
 A tibble or \code{sf} object.

@@ -44,56 +44,63 @@ test_that("tc_get_flows validates geography-specific inputs", {
   )
 })
 
-test_that("tc_get_flows geometry helpers preserve row order", {
+test_that("tc_get_flows defaults to destination geometry and preserves row order", {
+  skip_if_not_installed("vcr")
   skip_if_not_installed("sf")
+  skip_if_offline()
+  vcr::local_cassette("flows_geometry")
 
-  data <- tibble::tibble(
-    origin_geoid = c("36001", "36003"),
-    destination_geoid = c("36005", "36007"),
-    moved_in = c(10, 20)
-  )
-  geom <- sf::st_as_sf(
-    tibble::tibble(
-      GEOID = c("36003", "36001", "36007", "36005"),
-      geometry = sf::st_sfc(
-        sf::st_point(c(1, 1)),
-        sf::st_point(c(2, 2)),
-        sf::st_point(c(3, 3)),
-        sf::st_point(c(4, 4)),
-        crs = 4326
-      ),
-      STATEFP = c("36", "36", "36", "36")
-    )
+  tabular <- tc_get_flows(
+    geography = "county",
+    year = 2018,
+    state = "NY",
+    county = "001"
   )
 
-  origin <- tinycensus:::tc_flows_geometry_frame(
-    geom,
-    keep_geo_vars = TRUE,
-    prefix = "origin"
-  )
-  names(origin)[match("GEOID", names(origin))] <- "origin_geoid"
-
-  destination <- tinycensus:::tc_flows_geometry_frame(
-    geom,
-    keep_geo_vars = TRUE,
-    prefix = "destination"
-  )
-  names(destination)[match("GEOID", names(destination))] <- "destination_geoid"
-
-  out <- tinycensus:::tc_flows_join_geometry(
-    data,
-    geometry = origin,
-    key = "origin_geoid",
-    geometry_name = "geometry"
-  )
-  out <- tinycensus:::tc_flows_join_geometry(
-    out,
-    geometry = destination,
-    key = "destination_geoid",
-    geometry_name = "destination_geometry"
+  spatial <- tc_get_flows(
+    geography = "county",
+    year = 2018,
+    state = "NY",
+    county = "001",
+    geometry = TRUE,
+    keep_geo_vars = TRUE
   )
 
-  expect_equal(out$origin_geoid, data$origin_geoid)
-  expect_equal(out$destination_geoid, data$destination_geoid)
-  expect_true(all(c("origin_geo_STATEFP", "destination_geo_STATEFP") %in% names(out)))
+  expect_true(inherits(spatial, "sf"))
+  expect_equal(spatial$origin_geoid, tabular$origin_geoid)
+  expect_equal(spatial$destination_geoid, tabular$destination_geoid)
+  expect_true("geo_STATEFP" %in% names(spatial))
+  expect_false("destination_geometry" %in% names(spatial))
+})
+
+test_that("tc_get_flows can use origin geometry explicitly", {
+  skip_if_not_installed("vcr")
+  skip_if_not_installed("sf")
+  skip_if_offline()
+  vcr::local_cassette("flows_geometry")
+
+  origin <- tc_get_flows(
+    geography = "county",
+    year = 2018,
+    state = "NY",
+    county = "001",
+    geometry = "origin",
+    keep_geo_vars = TRUE
+  )
+
+  expect_true(inherits(origin, "sf"))
+  expect_true("geo_STATEFP" %in% names(origin))
+})
+
+test_that("tc_get_flows validates geometry role", {
+  expect_error(
+    tc_get_flows(
+      geography = "county",
+      year = 2018,
+      state = "NY",
+      county = "001",
+      geometry = "both"
+    ),
+    "geometry.*must be one of"
+  )
 })

@@ -33,22 +33,3 @@ test_that("geography vintages can differ from dataset year", {
     2022
   )
 })
-
-test_that("less-common geography aliases normalize cleanly", {
-  expect_equal(
-    tinycensus:::tc_normalize_geography_name("metro division"),
-    "metropolitan division"
-  )
-  expect_equal(
-    tinycensus:::tc_normalize_geography_name("CSA"),
-    "combined statistical area"
-  )
-  expect_equal(
-    tinycensus:::tc_normalize_geography_name("PUMAs"),
-    "public use microdata area"
-  )
-  expect_equal(
-    tinycensus:::tc_normalize_geography_name("elementary school districts"),
-    "school district (elementary)"
-  )
-})

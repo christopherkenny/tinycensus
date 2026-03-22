@@ -263,69 +263,63 @@ tc_flows_geometry_keys <- function(geoids, geography) {
   )
 }
 
-tc_flows_geometry_frame <- function(geom, keep_geo_vars = FALSE, prefix = NULL) {
-  keep <- if (isTRUE(keep_geo_vars)) {
-    names(geom)
-  } else {
-    unique(c("GEOID", "geometry"))
-  }
+tc_flows_geometry_frame <- function(geom, key, keep_geo_vars = FALSE) {
+  keep <- if (isTRUE(keep_geo_vars)) names(geom) else unique(c("GEOID", "geometry"))
   geom <- geom[keep[keep %in% names(geom)]]
+  names(geom)[match("GEOID", names(geom))] <- key
 
-  extra <- setdiff(names(geom), c("GEOID", "geometry"))
-  if (length(extra)) {
-    names(geom)[match(extra, names(geom))] <- paste0(prefix, "_geo_", extra)
+  geo_cols <- setdiff(names(geom), c(key, "geometry"))
+  if (length(geo_cols)) {
+    names(geom)[match(geo_cols, names(geom))] <- paste0("geo_", geo_cols)
   }
 
   geom
 }
 
-tc_flows_join_geometry <- function(data, geometry, key, geometry_name) {
+tc_flows_join_geometry <- function(data, geometry, key) {
+
   index <- seq_len(nrow(data))
   data$..tc_rowid.. <- index
   out <- merge(data, geometry, by = key, all.x = TRUE, sort = FALSE)
   out <- out[order(out$..tc_rowid..), , drop = FALSE]
   out$..tc_rowid.. <- NULL
 
-  if (geometry_name != "geometry" && "geometry" %in% names(out)) {
-    names(out)[match("geometry", names(out))] <- geometry_name
-  }
-
   out
 }
 
-tc_add_flows_geometry <- function(data, geography, year, keep_geo_vars = FALSE) {
-  keys <- tc_flows_geometry_keys(
-    c(data$origin_geoid, data$destination_geoid),
-    geography = geography
+tc_flows_geometry_role <- function(geometry) {
+  if (isFALSE(geometry)) {
+    return(FALSE)
+  }
+
+  if (isTRUE(geometry)) {
+    return("destination")
+  }
+
+  if (is.character(geometry) && length(geometry) == 1L) {
+    if (geometry %in% c("destination", "origin")) {
+      return(geometry)
+    }
+  }
+
+  cli::cli_abort(
+    "{.arg geometry} must be one of {.val FALSE}, {.val TRUE}, {.val \"destination\"}, or {.val \"origin\"}."
   )
+}
+
+tc_add_flows_geometry <- function(
+  data,
+  geography,
+  year,
+  geometry = "destination",
+  keep_geo_vars = FALSE
+) {
+  key <- paste0(geometry, "_geoid")
+  keys <- tc_flows_geometry_keys(data[[key]], geography = geography)
   geom <- tc_fetch_geometry(keys, geography = geography, year = year)
-  geom$geometry <- sf::st_point_on_surface(geom$geometry)
-  origin <- tc_flows_geometry_frame(
-    geom,
-    keep_geo_vars = keep_geo_vars,
-    prefix = "origin"
-  )
-  names(origin)[match("GEOID", names(origin))] <- "origin_geoid"
-
-  destination <- tc_flows_geometry_frame(
-    geom,
-    keep_geo_vars = keep_geo_vars,
-    prefix = "destination"
-  )
-  names(destination)[match("GEOID", names(destination))] <- "destination_geoid"
-
-  out <- tc_flows_join_geometry(
-    data,
-    geometry = origin,
-    key = "origin_geoid",
-    geometry_name = "geometry"
-  )
-  out <- tc_flows_join_geometry(
-    out,
-    geometry = destination,
-    key = "destination_geoid",
-    geometry_name = "destination_geometry"
-  )
+  geom$geometry <- suppressWarnings(sf::st_point_on_surface(geom$geometry))
+  geom <- tc_flows_geometry_frame(geom, key = key, keep_geo_vars = keep_geo_vars)
+  out <- tc_flows_join_geometry(data, geometry = geom, key = key)
   sf::st_as_sf(out, sf_column_name = "geometry")
 }
 
@@ -339,9 +333,10 @@ tc_add_flows_geometry <- function(data, geography, year, keep_geo_vars = FALSE) 
 #' @param county Optional county input.
 #' @param msa Optional metropolitan area codes.
 #' @param key Optional Census API key.
-#' @param geometry Should centroid geometry be joined?
-#' @param keep_geo_vars Should source geometry attributes be retained with
-#'   origin/destination prefixes?
+#' @param geometry Should centroid geometry be joined? Use `TRUE` or
+#'   `"destination"` for destination geometry, or `"origin"` for origin geometry.
+#' @param keep_geo_vars Should source geometry attributes for the selected
+#'   geometry role be retained?
 #' @return A tibble or `sf` object.
 #' @export
 tc_get_flows <- function(
@@ -357,6 +352,7 @@ tc_get_flows <- function(
   keep_geo_vars = FALSE
 ) {
   geography <- tc_normalize_geography_name(geography)
+  geometry_role <- tc_flows_geometry_role(geometry)
 
   raw <- tc_flows_query(
     year = year,
@@ -370,11 +366,12 @@ tc_get_flows <- function(
   )
   out <- tc_flows_clean_names(raw)
 
-  if (isTRUE(geometry)) {
+  if (!identical(geometry_role, FALSE)) {
     out <- tc_add_flows_geometry(
       out,
       geography = geography,
       year = year,
+      geometry = geometry_role,
       keep_geo_vars = keep_geo_vars
     )
   }

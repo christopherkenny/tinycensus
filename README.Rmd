@@ -24,6 +24,12 @@ It is designed to stay small while still covering a broad set of aggregate datas
 The package is built around product-specific interfaces rather than one generic user-facing query function.
 The goal is to make common Census workflows easy without pulling in a large dependency stack.
 
+The basic pattern is:
+
+1. discover a dataset, table, or variable with the metadata helpers
+2. retrieve data with a product-specific wrapper
+3. optionally join geometry with `tinytiger`
+
 ## Installation
 
 You can install the development version of tinycensus from GitHub with:
@@ -106,6 +112,8 @@ That means `tinycensus` uses the county definitions implied by the dataset rathe
 For example, ACS 2024 uses current county equivalents, while decennial 2020 products keep 2020 county definitions.
 If you need to override that behavior for a specific dataset, use `geography_vintage =`.
 
+The same interface also works with less-common geographies when the dataset supports them, such as places, congressional districts, metropolitan areas, and school districts.
+
 ## Retrieve Census data
 
 The ACS wrapper makes common requests compact:
@@ -177,7 +185,8 @@ tc_get_flows(
   geography = "county",
   year = 2018,
   state = "NY",
-  county = "001"
+  county = "001",
+  geometry = "destination"
 )
 ```
 

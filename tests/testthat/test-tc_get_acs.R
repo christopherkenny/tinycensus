@@ -139,3 +139,30 @@ test_that("tc_get_acs validates geography inputs through the public interface", 
     "Supply an explicit .*geography"
   )
 })
+
+test_that("tc_get_acs supports less-common geography aliases", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("acs_less_common_geographies")
+
+  cd <- tc_get_acs(
+    year = 2024,
+    variables = "B01001_001E",
+    geography = "congressional districts",
+    state = "NY"
+  )
+
+  place <- tc_get_acs(
+    year = 2024,
+    variables = "B01001_001E",
+    geography = "places",
+    state = "Delaware"
+  )
+
+  expect_s3_class(cd, "tbl_df")
+  expect_s3_class(place, "tbl_df")
+  expect_true("congressional district" %in% names(cd))
+  expect_true("place" %in% names(place))
+  expect_true(all(cd$state == "36"))
+  expect_true(all(place$state == "10"))
+})
