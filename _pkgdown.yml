@@ -1,0 +1,35 @@
+url: https://christopherkenny.github.io/tinycensus/
+template:
+  bootstrap: 5
+
+reference:
+- title: Retrieve Census data
+  desc: Product-specific wrappers for Census data products.
+  contents:
+  - tc_get_acs
+  - tc_get_decennial
+  - tc_get_pep
+  - tc_get_cbp
+  - tc_get_flows
+  - tc_get_timeseries
+
+- title: Explore metadata
+  desc: Helpers for discovering datasets, variables, tables, geographies, and examples.
+  contents:
+  - tc_datasets
+  - tc_dataset
+  - tc_variables
+  - tc_tables
+  - tc_table_variables
+  - tc_groups
+  - tc_geography
+  - tc_examples
+  - tc_search_variables
+  - tc_values
+
+- title: API key tools
+  desc: Manage Census API credentials.
+  contents:
+  - tc_set_key
+  - tc_get_key
+  - tc_has_key

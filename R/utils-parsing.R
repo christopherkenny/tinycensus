@@ -107,7 +107,6 @@ tc_json_matrix_to_tibble <- function(x) {
 }
 
 tc_as_tinycensus_tbl <- function(x, dataset, year, geography = NULL) {
-  class(x) <- c("tinycensus_tbl", class(x))
   attr(x, "dataset") <- dataset
   attr(x, "year") <- year
   attr(x, "geography") <- geography

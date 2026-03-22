@@ -21,6 +21,7 @@ optional geometry joins through \code{tinytiger}.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://christophertkenny.com/tinycensus/}
   \item \url{https://github.com/christopherkenny/tinycensus}
   \item Report bugs at \url{https://github.com/christopherkenny/tinycensus/issues}
 }
