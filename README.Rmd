@@ -18,38 +18,165 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of tinycensus is to ...
+`tinycensus` is a lightweight, metadata-driven interface to the [US Census Bureau API](https://www.census.gov/data/developers.html).
+It is designed to stay small while still covering a broad set of aggregate datasets, including ACS, decennial census products, population estimates, county business patterns, time-series endpoints, and other datasets exposed through the Census discovery catalog.
+
+The package is built around a generic query engine plus a small set of convenience wrappers.
+The goal is to make common Census workflows easy without pulling in a large dependency stack.
 
 ## Installation
 
-You can install the development version of tinycensus from [GitHub](https://github.com/) with:
+You can install the development version of tinycensus from GitHub with:
 
 ``` r
 # install.packages("pak")
 pak::pak("christopherkenny/tinycensus")
 ```
 
-## Example
+## What it does
 
-This is a basic example which shows you how to solve a common problem:
+- Discovers Census datasets from the live API catalog
+- Retrieves metadata for variables, groups, geographies, and example queries
+- Pulls tabular results with one generic interface
+- Provides wrappers for common products like ACS and decennial census
+- Accepts flexible geography inputs like `"NY"`, `"New York"`, and `"36"`
+- Returns optional `sf` output through `tinytiger`
 
-```{r example}
+## API key
+
+You can use many endpoints without a key for light exploration, but a Census API key is recommended for regular usage.
+
+``` r
+tinycensus::tc_set_key("YOUR-KEY")
+```
+
+To write the key to a `.Renviron` file for future sessions, set `install = TRUE`
+and supply the target path explicitly:
+
+``` r
+tinycensus::tc_set_key(
+  "YOUR-KEY",
+  install = TRUE,
+  r_env = file.path(Sys.getenv("HOME"), ".Renviron")
+)
+```
+
+You can also check whether a key is available:
+
+```{r key}
 library(tinycensus)
-## basic example code
+
+tc_has_key()
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+## Discover datasets
 
-```{r cars}
-summary(cars)
+```{r datasets}
+tc_datasets(year = 2024, family = "acs")[1:5, c("year", "dataset", "title")]
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+## Flexible geography inputs
 
-You can also embed plots, for example:
+State inputs can be abbreviations, names, or FIPS codes directly in the query interface:
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+```{r normalize}
+tc_get_acs(
+  year = 2024,
+  variables = "B01001_001E",
+  geography = "state",
+  state = c("NY", "Delaware", "36")
+)
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+County normalization is geography-vintage aware.
+That means `tinycensus` uses the county definitions implied by the dataset rather than assuming that the request year alone determines valid county codes.
+For example, ACS 2024 uses current county equivalents, while decennial 2020 products keep 2020 county definitions.
+If you need to override that behavior for a specific dataset, use `geography_vintage =`.
+
+## Pull data with wrappers
+
+The ACS wrapper makes common requests compact:
+
+```{r acs}
+tc_get_acs(
+  year = 2024,
+  variables = c("B01001_001E", "B19013_001E"),
+  geography = "state",
+  state = c("NY", "Delaware")
+)
+```
+
+You can do the same with a decennial dataset:
+
+```{r decennial}
+tc_get_decennial(
+  year = 2020,
+  dataset = "pl",
+  variables = "P1_001N",
+  geography = "county",
+  state = "Delaware"
+)
+```
+
+## Use the generic interface
+
+`tc_get()` is the core engine. Wrappers like `tc_get_acs()` mainly prefill dataset details.
+
+```{r generic}
+tc_get(
+  dataset = "acs/acs5",
+  year = 2024,
+  variables = "B01001_001E",
+  geography = "state",
+  state = c("NY", "Delaware")
+)
+```
+
+## Inspect metadata
+
+Metadata helpers make it easier to explore unfamiliar datasets before you query them.
+
+```{r metadata}
+vars <- tc_variables("acs/acs5", 2024)
+vars[
+  vars$name %in% c("B01001_001E", "B19013_001E"),
+  c("name", "label", "concept")
+]
+```
+
+```{r geographies}
+tc_geography("acs/acs5", 2024)[1:10, c("geography", "summary_level")]
+```
+
+## Time-series datasets
+
+The package also supports discovery-catalog time-series endpoints:
+
+```{r timeseries}
+tc_get_timeseries(
+  dataset = "intltrade/exports/hs",
+  year = NULL,
+  variables = "ALL_VAL_MO",
+  predicates = list(time = "2024-01", CTY_CODE = "2010")
+)
+```
+
+## Optional geometry with tinytiger
+
+When `geometry = TRUE`, `tinycensus` fetches the tabular result first and then joins matching geometry from `tinytiger`.
+
+```{r geometry}
+tc_get_acs(
+  year = 2024,
+  variables = "B01001_001E",
+  geography = "state",
+  state = c("NY", "Delaware"),
+  geometry = TRUE
+)
+```
+
+## Current scope
+
+`tinycensus` is currently focused on aggregate Census API datasets.
+That means the package is aimed at products like ACS, decennial, PEP, CBP, and similar tabular endpoints available through the Census discovery feed.
+Microdata-specific ergonomics are not the focus of the current development version.

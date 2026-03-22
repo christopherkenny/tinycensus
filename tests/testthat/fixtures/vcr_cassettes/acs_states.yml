@@ -1,0 +1,29 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2024/acs/acs5?get=NAME%2CB01001_001E&for=state%3A36%2C10&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Sun, 22 Mar 2026 16:44:48 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a484b37a2295180a3eb1306ce3bfff7145060b907481e9920ef9e28a5fb584d3dec9b33e273935400f7967d4f91e54c964;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B01001_001E","state"],
+        ["Delaware","1021191","10"],
+        ["New York","19852366","36"]]
+  recorded_at: 2026-03-22 16:44:49
+recorded_with: VCR-vcr/2.1.0

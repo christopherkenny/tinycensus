@@ -1,0 +1,106 @@
+tc_api_base <- function() {
+  "https://api.census.gov/data"
+}
+
+tc_state_lookup <- data.frame(
+  name = c(
+    state.name,
+    "District of Columbia",
+    "Puerto Rico",
+    "American Samoa",
+    "Guam",
+    "Northern Mariana Islands",
+    "United States Virgin Islands"
+  ),
+  abb = c(state.abb, "DC", "PR", "AS", "GU", "MP", "VI"),
+  fips = c(
+    c(
+      "01",
+      "02",
+      "04",
+      "05",
+      "06",
+      "08",
+      "09",
+      "10",
+      "12",
+      "13",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50",
+      "51",
+      "53",
+      "54",
+      "55",
+      "56"
+    ),
+    "11",
+    "72",
+    "60",
+    "66",
+    "69",
+    "78"
+  ),
+  stringsAsFactors = FALSE
+)
+
+tc_geography_aliases <- c(
+  "states" = "state",
+  "counties" = "county",
+  "tracts" = "tract",
+  "tract" = "tract",
+  "block groups" = "block group",
+  "block group" = "block group",
+  "places" = "place",
+  "zcta" = "zip code tabulation area",
+  "zip code tabulation areas" = "zip code tabulation area",
+  "zip code tabulation area" = "zip code tabulation area",
+  "cd" = "congressional district",
+  "congressional districts" = "congressional district"
+)
+
+tc_geoid_map <- list(
+  "state" = c("state"),
+  "county" = c("state", "county"),
+  "tract" = c("state", "county", "tract"),
+  "block group" = c("state", "county", "tract", "block group"),
+  "place" = c("state", "place"),
+  "congressional district" = c("state", "congressional district"),
+  "zip code tabulation area" = c("zip code tabulation area"),
+  "public use microdata area" = c("state", "public use microdata area"),
+  "school district (elementary)" = c("state", "school district (elementary)"),
+  "school district (secondary)" = c("state", "school district (secondary)"),
+  "school district (unified)" = c("state", "school district (unified)")
+)
