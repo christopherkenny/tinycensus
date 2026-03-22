@@ -42,6 +42,19 @@ pak::pak("christopherkenny/tinycensus")
 - Accepts flexible geography inputs like `"NY"`, `"New York"`, and `"36"`
 - Returns optional `sf` output through `tinytiger`
 
+## Core workflows
+
+The main entry points are:
+
+- `tc_get_acs()` for ACS products
+- `tc_get_decennial()` for decennial census products
+- `tc_get_pep()` for population estimates
+- `tc_get_cbp()` for County Business Patterns
+- `tc_get_flows()` for ACS migration flows
+- `tc_get_timeseries()` for discovery-catalog time-series endpoints
+
+For metadata discovery, start with `tc_datasets()`, `tc_variables()`, `tc_tables()`, and `tc_search_variables()`.
+
 ## API key
 
 You can use many endpoints without a key for light exploration, but a Census API key is recommended for regular usage.
@@ -93,7 +106,7 @@ That means `tinycensus` uses the county definitions implied by the dataset rathe
 For example, ACS 2024 uses current county equivalents, while decennial 2020 products keep 2020 county definitions.
 If you need to override that behavior for a specific dataset, use `geography_vintage =`.
 
-## Pull data with wrappers
+## Retrieve Census data
 
 The ACS wrapper makes common requests compact:
 

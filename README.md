@@ -39,6 +39,20 @@ pak::pak("christopherkenny/tinycensus")
   `"36"`
 - Returns optional `sf` output through `tinytiger`
 
+## Core workflows
+
+The main entry points are:
+
+- `tc_get_acs()` for ACS products
+- `tc_get_decennial()` for decennial census products
+- `tc_get_pep()` for population estimates
+- `tc_get_cbp()` for County Business Patterns
+- `tc_get_flows()` for ACS migration flows
+- `tc_get_timeseries()` for discovery-catalog time-series endpoints
+
+For metadata discovery, start with `tc_datasets()`, `tc_variables()`,
+`tc_tables()`, and `tc_search_variables()`.
+
 ## API key
 
 You can use many endpoints without a key for light exploration, but a
@@ -94,7 +108,6 @@ tc_get_acs(
   geography = "state",
   state = c("NY", "Delaware", "36")
 )
-#> tinycensus result: "acs/acs5" (2024)
 #> # A tibble: 2 × 4
 #>   NAME     B01001_001E state GEOID
 #>   <chr>          <dbl> <chr> <chr>
@@ -109,7 +122,7 @@ ACS 2024 uses current county equivalents, while decennial 2020 products
 keep 2020 county definitions. If you need to override that behavior for
 a specific dataset, use `geography_vintage =`.
 
-## Pull data with wrappers
+## Retrieve Census data
 
 The ACS wrapper makes common requests compact:
 
@@ -120,7 +133,6 @@ tc_get_acs(
   geography = "state",
   state = c("NY", "Delaware")
 )
-#> tinycensus result: "acs/acs5" (2024)
 #> # A tibble: 2 × 4
 #>   NAME     B19013_001E state GEOID
 #>   <chr>          <dbl> <chr> <chr>
@@ -138,7 +150,6 @@ tc_get_decennial(
   geography = "county",
   state = "Delaware"
 )
-#> tinycensus result: "dec/pl" (2020)
 #> # A tibble: 3 × 5
 #>   NAME                        P1_001N state county GEOID
 #>   <chr>                         <dbl> <chr> <chr>  <chr>
@@ -156,7 +167,6 @@ tc_get_acs(
   geography = "state",
   state = "Delaware"
 )
-#> tinycensus result: "acs/acs5" (2024)
 #> # A tibble: 1 × 102
 #>   NAME   B01001_001E B01001_001M B01001_002E B01001_002M B01001_003E B01001_003M
 #>   <chr>        <dbl> <chr>             <dbl> <chr>             <dbl> <chr>      
@@ -243,7 +253,6 @@ tc_get_flows(
   state = "NY",
   county = "001"
 )
-#> tinycensus result: "acs/flows" (2018)
 #> # A tibble: 316 × 10
 #>    origin_geoid destination_geoid origin_name          destination_name moved_in
 #>    <chr>        <chr>             <chr>                <chr>               <dbl>
@@ -272,7 +281,6 @@ tc_get_pep(
   geography = "state",
   state = c("NY", "Delaware")
 )
-#> tinycensus result: "pep/population" (2021)
 #> # A tibble: 2 × 4
 #>   NAME     POP_2021 state GEOID
 #>   <chr>       <dbl> <chr> <chr>
@@ -287,7 +295,6 @@ tc_get_cbp(
   geography = "state",
   state = c("NY", "DE")
 )
-#> tinycensus result: "cbp" (2021)
 #> # A tibble: 2 × 4
 #>   NAME      ESTAB state GEOID
 #>   <chr>     <dbl> <chr> <chr>
@@ -306,7 +313,6 @@ tc_get_timeseries(
   time = "2024-01",
   predicates = list(CTY_CODE = "2010")
 )
-#> tinycensus result: "timeseries/intltrade/exports/hs" (NA)
 #> # A tibble: 1 × 3
 #>    ALL_VAL_MO CTY_CODE time   
 #>         <dbl> <chr>    <chr>  
@@ -329,7 +335,6 @@ tc_get_acs(
   geometry = TRUE,
   keep_geo_vars = TRUE
 )
-#> tinycensus result: "acs/acs5" (2024)
 #> Simple feature collection with 2 features and 18 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY
