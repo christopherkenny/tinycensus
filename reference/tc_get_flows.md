@@ -14,7 +14,8 @@ tc_get_flows(
   county = NULL,
   msa = NULL,
   key = tc_get_key(),
-  geometry = FALSE
+  geometry = FALSE,
+  keep_geo_vars = FALSE
 )
 ```
 
@@ -55,6 +56,11 @@ tc_get_flows(
 - geometry:
 
   Should centroid geometry be joined?
+
+- keep_geo_vars:
+
+  Should source geometry attributes be retained with origin/destination
+  prefixes?
 
 ## Value
 
