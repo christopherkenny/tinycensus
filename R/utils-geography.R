@@ -32,6 +32,13 @@ tc_normalize_within <- function(within) {
     tc_normalize_geography_name,
     character(1)
   )
+
+  if (anyDuplicated(names(within))) {
+    cli::cli_abort(
+      "Normalized {.arg within} geography names must be unique."
+    )
+  }
+
   within
 }
 
@@ -75,6 +82,7 @@ tc_geography_record <- function(dataset, year, geography, refresh = FALSE) {
 }
 
 tc_collect_geography_inputs <- function(geography, within, dots) {
+  geography <- tc_normalize_geography_name(geography)
   within <- tc_normalize_within(within)
   if (!length(dots)) {
     return(list(geography = geography, values = NULL, within = within))
@@ -86,10 +94,19 @@ tc_collect_geography_inputs <- function(geography, within, dots) {
   }
 
   dot_names <- vapply(dot_names, tc_normalize_geography_name, character(1))
+  if (anyDuplicated(dot_names)) {
+    cli::cli_abort(
+      "Normalized geography inputs passed through `...` must be unique."
+    )
+  }
   names(dots) <- dot_names
 
   if (is.null(geography) && length(dots) == 1L) {
     geography <- dot_names[[1]]
+  } else if (is.null(geography) && length(dots) > 1L) {
+    cli::cli_abort(
+      "Supply an explicit {.arg geography} when providing multiple geography inputs in `...`."
+    )
   }
 
   values <- NULL

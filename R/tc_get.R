@@ -71,6 +71,12 @@ tc_query_params <- function(
     cli::cli_abort("Supply either {.arg variables} or {.arg group}.")
   }
 
+  if (!is.null(ucgid) && !is.null(geography)) {
+    cli::cli_abort(
+      "{.arg ucgid} is mutually exclusive with {.arg geography} and parent geography inputs."
+    )
+  }
+
   meta <- tc_variables(dataset, year, refresh = refresh)
 
   if (!is.null(variables)) {
@@ -428,6 +434,44 @@ tc_summary_columns <- function(summary_var) {
   )
 }
 
+tc_validate_summary_var <- function(
+  summary_var,
+  dataset,
+  year,
+  table = NULL,
+  refresh = FALSE
+) {
+  summary_var <- tc_null_if_empty(summary_var)
+  if (is.null(summary_var)) {
+    return(invisible(NULL))
+  }
+
+  meta <- tc_variables(dataset, year, refresh = refresh)
+  info <- tc_metric_info(summary_var)
+  target <- if (info$role == "moe") {
+    sub("M$", "E", summary_var)
+  } else {
+    summary_var
+  }
+
+  if (!target %in% meta$name) {
+    cli::cli_abort(
+      "Unknown {.arg summary_var} {.val {summary_var}} for dataset {.val {dataset}}."
+    )
+  }
+
+  if (!is.null(table)) {
+    table_vars <- meta$name[meta$group == table]
+    if (!target %in% table_vars) {
+      cli::cli_abort(
+        "{.arg summary_var} must belong to table {.val {table}} when {.arg table} is supplied."
+      )
+    }
+  }
+
+  invisible(NULL)
+}
+
 tc_add_summary_columns <- function(data, summary_var = NULL) {
   summary_cols <- tc_summary_columns(summary_var)
 
@@ -509,6 +553,14 @@ tc_product_query <- function(
     cache = cache
   )
   year <- dataset_info$year[[1]]
+
+  tc_validate_summary_var(
+    summary_var = summary_var,
+    dataset = dataset,
+    year = year,
+    table = table,
+    refresh = refresh
+  )
 
   request_vars <- variables
   if (!is.null(request_vars)) {

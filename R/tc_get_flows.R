@@ -42,6 +42,64 @@ tc_flows_default_variables <- function() {
   )
 }
 
+tc_flows_validate_inputs <- function(
+  geography,
+  state = NULL,
+  county = NULL,
+  msa = NULL,
+  breakdown = NULL
+) {
+  if (!is.null(breakdown) && !is.character(breakdown)) {
+    cli::cli_abort("{.arg breakdown} must be a character vector.")
+  }
+
+  if (
+    !is.null(msa) &&
+      !geography %in% c(
+        "metropolitan statistical area/micropolitan statistical area",
+        "cbsa"
+      )
+  ) {
+    cli::cli_abort(
+      "{.arg msa} is only supported for metropolitan area flow requests."
+    )
+  }
+
+  if (identical(geography, "county") && !is.null(county)) {
+    if (is.null(state) || length(state) != 1L) {
+      cli::cli_abort(
+        "County flow requests for specific counties require exactly one {.arg state}."
+      )
+    }
+  }
+
+  if (identical(geography, "county subdivision")) {
+    if (is.null(state)) {
+      cli::cli_abort(
+        "County subdivision flows require at least one {.arg state}."
+      )
+    }
+
+    if (!is.null(county) && length(state) != 1L) {
+      cli::cli_abort(
+        "County subdivision flow requests with {.arg county} require exactly one {.arg state}."
+      )
+    }
+  }
+
+  if (
+    geography %in% c(
+      "metropolitan statistical area/micropolitan statistical area",
+      "cbsa"
+    ) &&
+      (!is.null(state) || !is.null(county))
+  ) {
+    cli::cli_abort(
+      "Metropolitan area flows do not accept {.arg state} or {.arg county}."
+    )
+  }
+}
+
 tc_flows_query <- function(
   year,
   geography,
@@ -76,31 +134,13 @@ tc_flows_query <- function(
     )
   }
 
-  if (identical(geography, "county") && !is.null(county)) {
-    if (is.null(state) || length(state) != 1L) {
-      cli::cli_abort(
-        "County flow requests for specific counties require exactly one {.arg state}."
-      )
-    }
-  }
-
-  if (identical(geography, "county subdivision") && is.null(state)) {
-    cli::cli_abort(
-      "County subdivision flows require at least one {.arg state}."
-    )
-  }
-
-  if (
-    geography %in% c(
-      "metropolitan statistical area/micropolitan statistical area",
-      "cbsa"
-    ) &&
-      (!is.null(state) || !is.null(county))
-  ) {
-    cli::cli_abort(
-      "Metropolitan area flows do not accept {.arg state} or {.arg county}."
-    )
-  }
+  tc_flows_validate_inputs(
+    geography = geography,
+    state = state,
+    county = county,
+    msa = msa,
+    breakdown = breakdown
+  )
 
   query_geography <- tc_flows_query_geography(geography, year)
   get_vars <- unique(c(tc_flows_default_variables(), breakdown, variables))
@@ -223,27 +263,68 @@ tc_flows_geometry_keys <- function(geoids, geography) {
   )
 }
 
-tc_add_flows_geometry <- function(data, geography, year) {
+tc_flows_geometry_frame <- function(geom, keep_geo_vars = FALSE, prefix = NULL) {
+  keep <- if (isTRUE(keep_geo_vars)) {
+    names(geom)
+  } else {
+    unique(c("GEOID", "geometry"))
+  }
+  geom <- geom[keep[keep %in% names(geom)]]
+
+  extra <- setdiff(names(geom), c("GEOID", "geometry"))
+  if (length(extra)) {
+    names(geom)[match(extra, names(geom))] <- paste0(prefix, "_geo_", extra)
+  }
+
+  geom
+}
+
+tc_flows_join_geometry <- function(data, geometry, key, geometry_name) {
+  index <- seq_len(nrow(data))
+  data$..tc_rowid.. <- index
+  out <- merge(data, geometry, by = key, all.x = TRUE, sort = FALSE)
+  out <- out[order(out$..tc_rowid..), , drop = FALSE]
+  out$..tc_rowid.. <- NULL
+
+  if (geometry_name != "geometry" && "geometry" %in% names(out)) {
+    names(out)[match("geometry", names(out))] <- geometry_name
+  }
+
+  out
+}
+
+tc_add_flows_geometry <- function(data, geography, year, keep_geo_vars = FALSE) {
   keys <- tc_flows_geometry_keys(
     c(data$origin_geoid, data$destination_geoid),
     geography = geography
   )
   geom <- tc_fetch_geometry(keys, geography = geography, year = year)
-  geom <- geom[c("GEOID", "geometry")]
   geom$geometry <- sf::st_point_on_surface(geom$geometry)
+  origin <- tc_flows_geometry_frame(
+    geom,
+    keep_geo_vars = keep_geo_vars,
+    prefix = "origin"
+  )
+  names(origin)[match("GEOID", names(origin))] <- "origin_geoid"
 
-  origin <- geom
-  names(origin) <- c("origin_geoid", "geometry")
-  destination <- geom
-  names(destination) <- c("destination_geoid", "destination_geometry")
+  destination <- tc_flows_geometry_frame(
+    geom,
+    keep_geo_vars = keep_geo_vars,
+    prefix = "destination"
+  )
+  names(destination)[match("GEOID", names(destination))] <- "destination_geoid"
 
-  out <- merge(data, origin, by = "origin_geoid", all.x = TRUE, sort = FALSE)
-  out <- merge(
+  out <- tc_flows_join_geometry(
+    data,
+    geometry = origin,
+    key = "origin_geoid",
+    geometry_name = "geometry"
+  )
+  out <- tc_flows_join_geometry(
     out,
-    destination,
-    by = "destination_geoid",
-    all.x = TRUE,
-    sort = FALSE
+    geometry = destination,
+    key = "destination_geoid",
+    geometry_name = "destination_geometry"
   )
   sf::st_as_sf(out, sf_column_name = "geometry")
 }
@@ -259,6 +340,8 @@ tc_add_flows_geometry <- function(data, geography, year) {
 #' @param msa Optional metropolitan area codes.
 #' @param key Optional Census API key.
 #' @param geometry Should centroid geometry be joined?
+#' @param keep_geo_vars Should source geometry attributes be retained with
+#'   origin/destination prefixes?
 #' @return A tibble or `sf` object.
 #' @export
 tc_get_flows <- function(
@@ -270,7 +353,8 @@ tc_get_flows <- function(
   county = NULL,
   msa = NULL,
   key = tc_get_key(),
-  geometry = FALSE
+  geometry = FALSE,
+  keep_geo_vars = FALSE
 ) {
   geography <- tc_normalize_geography_name(geography)
 
@@ -287,7 +371,12 @@ tc_get_flows <- function(
   out <- tc_flows_clean_names(raw)
 
   if (isTRUE(geometry)) {
-    out <- tc_add_flows_geometry(out, geography = geography, year = year)
+    out <- tc_add_flows_geometry(
+      out,
+      geography = geography,
+      year = year,
+      keep_geo_vars = keep_geo_vars
+    )
   }
 
   tc_as_tinycensus_tbl(out, dataset = "acs/flows", year = year, geography = geography)

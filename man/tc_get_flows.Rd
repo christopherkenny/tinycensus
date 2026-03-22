@@ -13,7 +13,8 @@ tc_get_flows(
   county = NULL,
   msa = NULL,
   key = tc_get_key(),
-  geometry = FALSE
+  geometry = FALSE,
+  keep_geo_vars = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ tc_get_flows(
 \item{key}{Optional Census API key.}
 
 \item{geometry}{Should centroid geometry be joined?}
+
+\item{keep_geo_vars}{Should source geometry attributes be retained with
+origin/destination prefixes?}
 }
 \value{
 A tibble or \code{sf} object.

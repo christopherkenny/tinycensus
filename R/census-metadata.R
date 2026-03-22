@@ -668,9 +668,13 @@ tc_search_variables <- function(
   text <- apply(
     vars[, fields, drop = FALSE],
     1,
-    function(x) paste(x, collapse = " ")
+    function(x) paste(stats::na.omit(x), collapse = " ")
   )
-  keep <- grepl(query, text, ignore.case = ignore_case)
+  if (isTRUE(ignore_case)) {
+    query <- tolower(query)
+    text <- tolower(text)
+  }
+  keep <- grepl(query, text, fixed = TRUE)
   tibble::as_tibble(vars[keep, , drop = FALSE])
 }
 
