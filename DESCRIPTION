@@ -1,16 +1,16 @@
 Package: tinycensus
 Title: Lightweight Interface to the US Census Bureau API
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:
     person(given = "Christopher T.",
            family = "Kenny",
            role = c("aut", "cre"),
-           email = "christopherkenny@fas.harvard.edu",
+           email = "ctkenny@proton.me",
            comment = c(ORCID = "0000-0002-9386-6860"))
-Description: Download data from the United States Census Bureau API 
+Description: Download data from the United States Census Bureau API
     <https://www.census.gov/data/developers/data-sets.html>. Functions
     support major surveys, including the American Community Survey and the
-    decennial census. Data is formatted in a tidy way, where each observation 
+    decennial census. Data is formatted in a tidy way, where each observation
     is a geographic unit. Geometry data for a geography is available automatically
     joined with shapes from 'tinytiger'.
 License: MIT + file LICENSE
@@ -19,6 +19,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 URL: https://github.com/christopherkenny/tinycensus
 BugReports: https://github.com/christopherkenny/tinycensus/issues
-Imports: 
+Imports:
     cli,
     httr2
