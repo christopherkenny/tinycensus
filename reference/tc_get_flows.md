@@ -55,12 +55,13 @@ tc_get_flows(
 
 - geometry:
 
-  Should centroid geometry be joined?
+  Should centroid geometry be joined? Use `TRUE` or `"destination"` for
+  destination geometry, or `"origin"` for origin geometry.
 
 - keep_geo_vars:
 
-  Should source geometry attributes be retained with origin/destination
-  prefixes?
+  Should source geometry attributes for the selected geometry role be
+  retained?
 
 ## Value
 

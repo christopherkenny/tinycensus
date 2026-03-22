@@ -53,6 +53,13 @@
 <!-- badges: end -->
 <p><code>tinycensus</code> is a lightweight, metadata-driven interface to the <a href="https://www.census.gov/data/developers.html" class="external-link">US Census Bureau API</a>. It is designed to stay small while still covering a broad set of aggregate datasets, with first-class support for ACS, decennial census products, PEP, CBP, migration flows, time-series endpoints, and related discovery metadata.</p>
 <p>The package is built around product-specific interfaces rather than one generic user-facing query function. The goal is to make common Census workflows easy without pulling in a large dependency stack.</p>
+<p>The basic pattern is:</p>
+<ol style="list-style-type: decimal">
+<li>discover a dataset, table, or variable with the metadata helpers</li>
+<li>retrieve data with a product-specific wrapper</li>
+<li>optionally join geometry with <code>tinytiger</code>
+</li>
+</ol>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -146,6 +153,7 @@
 <span><span class="co">#&gt; 1 Delaware     1021191 10    10   </span></span>
 <span><span class="co">#&gt; 2 New York    19852366 36    36</span></span></code></pre></div>
 <p>County normalization is geography-vintage aware. That means <code>tinycensus</code> uses the county definitions implied by the dataset rather than assuming that the request year alone determines valid county codes. For example, ACS 2024 uses current county equivalents, while decennial 2020 products keep 2020 county definitions. If you need to override that behavior for a specific dataset, use <code>geography_vintage =</code>.</p>
+<p>The same interface also works with less-common geographies when the dataset supports them, such as places, congressional districts, metropolitan areas, and school districts.</p>
 </div>
 <div class="section level2">
 <h2 id="retrieve-census-data">Retrieve Census data<a class="anchor" aria-label="anchor" href="#retrieve-census-data"></a>
@@ -260,24 +268,50 @@
 <span>  geography <span class="op">=</span> <span class="st">"county"</span>,</span>
 <span>  year <span class="op">=</span> <span class="fl">2018</span>,</span>
 <span>  state <span class="op">=</span> <span class="st">"NY"</span>,</span>
-<span>  county <span class="op">=</span> <span class="st">"001"</span></span>
+<span>  county <span class="op">=</span> <span class="st">"001"</span>,</span>
+<span>  geometry <span class="op">=</span> <span class="st">"destination"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 316 × 10</span></span>
-<span><span class="co">#&gt;    origin_geoid destination_geoid origin_name          destination_name moved_in</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;                &lt;chr&gt;               &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 36001        &lt;NA&gt;              Albany County, New … Africa                 45</span></span>
-<span><span class="co">#&gt;  2 36001        &lt;NA&gt;              Albany County, New … Asia                 1203</span></span>
-<span><span class="co">#&gt;  3 36001        &lt;NA&gt;              Albany County, New … Central America       232</span></span>
-<span><span class="co">#&gt;  4 36001        &lt;NA&gt;              Albany County, New … Caribbean              18</span></span>
-<span><span class="co">#&gt;  5 36001        &lt;NA&gt;              Albany County, New … Europe                495</span></span>
-<span><span class="co">#&gt;  6 36001        &lt;NA&gt;              Albany County, New … U.S. Island Are…       28</span></span>
-<span><span class="co">#&gt;  7 36001        &lt;NA&gt;              Albany County, New … Northern America       18</span></span>
-<span><span class="co">#&gt;  8 36001        &lt;NA&gt;              Albany County, New … South America         255</span></span>
-<span><span class="co">#&gt;  9 36001        01103             Albany County, New … Morgan County, …        0</span></span>
-<span><span class="co">#&gt; 10 36001        02090             Albany County, New … Fairbanks North…        0</span></span>
-<span><span class="co">#&gt; # ℹ 306 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 5 more variables: moved_in_moe &lt;dbl&gt;, moved_out &lt;dbl&gt;, moved_out_moe &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   moved_net &lt;dbl&gt;, moved_net_moe &lt;dbl&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in st_point_on_surface.sfc(geom$geometry): st_point_on_surface may not</span></span>
+<span><span class="co">#&gt; give correct results for longitude/latitude data</span></span>
+<span><span class="co">#&gt; Simple feature collection with 316 features and 10 fields (with 8 geometries empty)</span></span>
+<span><span class="co">#&gt; Geometry type: POINT</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -146.3702 ymin: 18.13797 xmax: -65.7906 ymax: 64.85516</span></span>
+<span><span class="co">#&gt; Geodetic CRS:  NAD83</span></span>
+<span><span class="co">#&gt; First 10 features:</span></span>
+<span><span class="co">#&gt;     destination_geoid origin_geoid             origin_name</span></span>
+<span><span class="co">#&gt; 309              &lt;NA&gt;        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 310              &lt;NA&gt;        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 311              &lt;NA&gt;        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 312              &lt;NA&gt;        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 313              &lt;NA&gt;        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 314              &lt;NA&gt;        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 315              &lt;NA&gt;        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 316              &lt;NA&gt;        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 1               01103        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt; 2               02090        36001 Albany County, New York</span></span>
+<span><span class="co">#&gt;                         destination_name moved_in moved_in_moe moved_out</span></span>
+<span><span class="co">#&gt; 309                               Africa       45           33        NA</span></span>
+<span><span class="co">#&gt; 310                                 Asia     1203          329        NA</span></span>
+<span><span class="co">#&gt; 311                      Central America      232          260        NA</span></span>
+<span><span class="co">#&gt; 312                            Caribbean       18           24        NA</span></span>
+<span><span class="co">#&gt; 313                               Europe      495          300        NA</span></span>
+<span><span class="co">#&gt; 314                    U.S. Island Areas       28           45        NA</span></span>
+<span><span class="co">#&gt; 315                     Northern America       18           19        NA</span></span>
+<span><span class="co">#&gt; 316                        South America      255          303        NA</span></span>
+<span><span class="co">#&gt; 1                 Morgan County, Alabama        0           28        14</span></span>
+<span><span class="co">#&gt; 2   Fairbanks North Star Borough, Alaska        0           28        21</span></span>
+<span><span class="co">#&gt;     moved_out_moe moved_net moved_net_moe                   geometry</span></span>
+<span><span class="co">#&gt; 309            NA        NA            NA                POINT EMPTY</span></span>
+<span><span class="co">#&gt; 310            NA        NA            NA                POINT EMPTY</span></span>
+<span><span class="co">#&gt; 311            NA        NA            NA                POINT EMPTY</span></span>
+<span><span class="co">#&gt; 312            NA        NA            NA                POINT EMPTY</span></span>
+<span><span class="co">#&gt; 313            NA        NA            NA                POINT EMPTY</span></span>
+<span><span class="co">#&gt; 314            NA        NA            NA                POINT EMPTY</span></span>
+<span><span class="co">#&gt; 315            NA        NA            NA                POINT EMPTY</span></span>
+<span><span class="co">#&gt; 316            NA        NA            NA                POINT EMPTY</span></span>
+<span><span class="co">#&gt; 1              22       -14            22  POINT (-86.83417 34.4932)</span></span>
+<span><span class="co">#&gt; 2              27       -21            27 POINT (-146.3702 64.85516)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="other-products">Other products<a class="anchor" aria-label="anchor" href="#other-products"></a>
