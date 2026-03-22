@@ -21,4 +21,5 @@ URL: https://github.com/christopherkenny/tinycensus
 BugReports: https://github.com/christopherkenny/tinycensus/issues
 Imports:
     cli,
-    httr2
+    httr2,
+    tinytiger
