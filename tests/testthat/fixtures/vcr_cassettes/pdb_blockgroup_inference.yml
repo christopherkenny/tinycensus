@@ -1,0 +1,28 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2024/pdb/blockgroup?get=Tot_Population_CEN_2020&for=block+group%3A%2A&in=state%3A36+county%3A061+tract%3A000100&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 13:58:51 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4c786d4ef347d4a244d90d931bb50cedff93b975273482e5711c91d35af5b4acc72c85d9cd839b632d240d22bc19064b2;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["Tot_Population_CEN_2020","state","county","tract","block group"],
+        ["0","36","061","000100","1"]]
+  recorded_at: 2026-03-23 13:58:48
+recorded_with: VCR-vcr/2.1.0

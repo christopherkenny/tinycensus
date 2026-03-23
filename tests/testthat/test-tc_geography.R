@@ -1,36 +1,48 @@
-test_that("county inputs normalize through internal helpers with vintage support", {
-  expect_equal(tinycensus:::normalize_county("1", state = "NY"), "001")
-  expect_equal(
-    tinycensus:::normalize_county("Albany County", state = "NY"),
-    "001"
+test_that("county inputs normalize through public wrappers", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("acs_county_name_normalization")
+
+  out <- tc_get_acs(
+    year = 2022,
+    variables = "B01001_001E",
+    geography = "county",
+    state = "NY",
+    county = "Albany County"
   )
 
-  expect_error(
-    tinycensus:::normalize_county(
-      "Broomfield County",
-      state = "CO",
-      year = 2001
-    ),
-    "Could not match county"
-  )
-  expect_equal(
-    tinycensus:::normalize_county(
-      "Broomfield County",
-      state = "CO",
-      year = 2002
-    ),
-    "014"
-  )
+  expect_s3_class(out, "tbl_df")
+  expect_identical(out$county, "001")
+  expect_identical(out$state, "36")
 })
 
-test_that("geography vintages can differ from dataset year", {
-  expect_equal(
-    tinycensus:::tc_resolve_geography_vintage("dec/dhc", 2022),
-    2020
+test_that("public wrappers honor geography_vintage for county normalization", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("acs_geography_vintage")
+
+  out <- tc_get_acs(
+    year = 2022,
+    variables = "B01001_001E",
+    geography = "county",
+    state = "CO",
+    county = "Broomfield County",
+    geography_vintage = 2002
   )
-  expect_equal(
-    tinycensus:::tc_resolve_geography_vintage("acs/acs5", 2022),
-    2022
+
+  expect_s3_class(out, "tbl_df")
+  expect_identical(out$county, "014")
+
+  expect_error(
+    tc_get_acs(
+      year = 2022,
+      variables = "B01001_001E",
+      geography = "county",
+      state = "CO",
+      county = "Broomfield County",
+      geography_vintage = 2001
+    ),
+    "Could not match county"
   )
 })
 

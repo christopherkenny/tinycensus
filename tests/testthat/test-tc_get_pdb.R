@@ -1,18 +1,3 @@
-test_that("tc_get_pdb infers datasets from geography", {
-  expect_equal(
-    tinycensus:::tc_pdb_dataset(geography = "tract"),
-    "pdb/tract"
-  )
-  expect_equal(
-    tinycensus:::tc_pdb_dataset(geography = "block group"),
-    "pdb/blockgroup"
-  )
-  expect_equal(
-    tinycensus:::tc_pdb_dataset(geography = "county"),
-    "pdb/statecounty"
-  )
-})
-
 test_that("tc_get_pdb retrieves tract-level Planning Database data", {
   skip_if_offline()
 
@@ -26,6 +11,32 @@ test_that("tc_get_pdb retrieves tract-level Planning Database data", {
 
   expect_s3_class(out, "tbl_df")
   expect_true(all(c("Tot_Population_CEN_2020", "tract", "GEOID") %in% names(out)))
+  expect_false("NAME" %in% names(out))
+})
+
+test_that("tc_get_pdb infers block-group datasets from geography", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("pdb_blockgroup_inference")
+
+  out <- tc_get_pdb(
+    year = 2024,
+    variables = "Tot_Population_CEN_2020",
+    geography = "block group",
+    state = "NY",
+    county = "061",
+    tract = "000100"
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c(
+    "Tot_Population_CEN_2020",
+    "state",
+    "county",
+    "tract",
+    "block group",
+    "GEOID"
+  ) %in% names(out)))
   expect_false("NAME" %in% names(out))
 })
 

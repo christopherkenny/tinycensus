@@ -64,7 +64,7 @@ tc_pep_breakdown_variables <- function(breakdown = NULL, dataset = NULL) {
     AGEGROUP = if (identical(dataset, "pep/charagegroups")) "AGEGROUP" else "AGE",
     SEX = "SEX",
     HISP = "HISP",
-    RACE = "POPGROUP"
+    RACE = if (identical(dataset, "pep/charv")) "POPGROUP" else "RACE"
   )
 
   unique(unname(mapped[breakdown]))

@@ -55,6 +55,26 @@ test_that("tc_get_pep supports older characteristics products", {
   expect_true(any(nzchar(stats::na.omit(out$HISP_LABEL))))
 })
 
+test_that("tc_get_pep supports legacy race characteristics", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("pep_characteristics_legacy_race")
+
+  out <- tc_get_pep(
+    year = 2019,
+    product = "characteristics",
+    breakdown = "RACE",
+    breakdown_labels = TRUE,
+    geography = "state",
+    state = "NY"
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c("POP", "RACE", "RACE_LABEL") %in% names(out)))
+  expect_true(any(nzchar(stats::na.omit(out$RACE_LABEL))))
+  expect_true(all(out$state == "36"))
+})
+
 test_that("tc_get_pep returns product defaults when variables are omitted", {
   skip_if_not_installed("vcr")
   skip_if_offline()
@@ -120,10 +140,12 @@ test_that("tc_get_pep validates dataset and product inputs", {
   )
 
   expect_error(
-    tinycensus:::tc_pep_dataset(
-      product = "characteristics",
+    tc_get_pep(
       year = 2019,
-      breakdown = c("AGE", "AGEGROUP")
+      product = "characteristics",
+      breakdown = c("AGE", "AGEGROUP"),
+      geography = "state",
+      state = "NY"
     ),
     "cannot include both"
   )

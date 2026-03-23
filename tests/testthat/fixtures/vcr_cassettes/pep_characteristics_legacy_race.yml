@@ -1,0 +1,135 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charage/variables/RACE.json
+  response:
+    status: 200
+    headers:
+      Cache-Control: private
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET,POST,OPTIONS
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Content-Length: '708'
+      Date: Mon, 23 Mar 2026 14:24:55 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4dc9f036ae064bea41d9efe7e3f193bad6a9442e3a5d2f03eb62c279b6892391ee3753527af010790fec8f9eb6039daf1;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+    body:
+      string: |-
+        {
+          "name": "RACE",
+          "label": "Race",
+          "required": "default displayed",
+          "predicateType": "int",
+          "group": "N/A",
+          "limit": 0,
+          "values": {
+            "item": {
+              "11": "Native Hawaiian and Other Pacific Islander alone or in combination",
+              "10": "Asian alone or in combination",
+              "9": "American Indian and Alaska Native alone or in combination",
+              "8": "Black alone or in combination",
+              "7": "White alone or in combination",
+              "6": "Two or more races",
+              "5": "Native Hawaiian and Other Pacific Islander alone",
+              "4": "Asian alone",
+              "3": "American Indian and Alaska Native alone",
+              "2": "Black alone",
+              "1": "White alone",
+              "0": "All races"
+            }
+          }
+        }
+  recorded_at: 2026-03-23 14:24:52
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charage?get=NAME%2CPOP%2CRACE&for=state%3A36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 14:24:55 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4be02074071b18cf709010d59b4b46e20f700001d39eee23e10cfda1b714e65146404c92e4dca3e69d2f5ddb7bbe84367;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","POP","RACE","state"],
+        ["New York","19453561","0","36"],
+        ["New York","13546776","1","36"],
+        ["New York","3421123","2","36"],
+        ["New York","189748","3","36"],
+        ["New York","1753199","4","36"],
+        ["New York","27034","5","36"],
+        ["New York","515681","6","36"],
+        ["New York","13971815","7","36"],
+        ["New York","3743356","8","36"],
+        ["New York","318858","9","36"],
+        ["New York","1929111","10","36"],
+        ["New York","52884","11","36"]]
+  recorded_at: 2026-03-23 14:24:52
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charage/variables/RACE.json
+  response:
+    status: 200
+    headers:
+      Cache-Control: private
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET,POST,OPTIONS
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Content-Length: '708'
+      Date: Mon, 23 Mar 2026 14:24:56 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a442c8e0e137a2c7705d60fc4acb6f7618e2dc59f462270c6b24a5dcafbeb7ea3fa848795346b659f8df49aa76b29206bc;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+    body:
+      string: |-
+        {
+          "name": "RACE",
+          "label": "Race",
+          "required": "default displayed",
+          "predicateType": "int",
+          "group": "N/A",
+          "limit": 0,
+          "values": {
+            "item": {
+              "11": "Native Hawaiian and Other Pacific Islander alone or in combination",
+              "10": "Asian alone or in combination",
+              "9": "American Indian and Alaska Native alone or in combination",
+              "8": "Black alone or in combination",
+              "7": "White alone or in combination",
+              "6": "Two or more races",
+              "5": "Native Hawaiian and Other Pacific Islander alone",
+              "4": "Asian alone",
+              "3": "American Indian and Alaska Native alone",
+              "2": "Black alone",
+              "1": "White alone",
+              "0": "All races"
+            }
+          }
+        }
+  recorded_at: 2026-03-23 14:24:53
+recorded_with: VCR-vcr/2.1.0
