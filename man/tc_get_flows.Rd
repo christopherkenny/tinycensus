@@ -6,27 +6,21 @@
 \usage{
 tc_get_flows(
   geography,
-  year = 2018,
-  variables = NULL,
-  breakdown = NULL,
   state = NULL,
   county = NULL,
   msa = NULL,
-  key = tc_get_key(),
+  year = 2018,
+  variables = NULL,
+  breakdown = NULL,
   breakdown_labels = FALSE,
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE
 )
 }
 \arguments{
 \item{geography}{Flows geography.}
-
-\item{year}{ACS migration flows year.}
-
-\item{variables}{Optional additional variables.}
-
-\item{breakdown}{Optional breakdown variables.}
 
 \item{state}{Optional state input.}
 
@@ -34,7 +28,11 @@ tc_get_flows(
 
 \item{msa}{Optional metropolitan area codes.}
 
-\item{key}{Optional Census API key.}
+\item{year}{ACS migration flows year.}
+
+\item{variables}{Optional additional variables.}
+
+\item{breakdown}{Optional breakdown variables.}
 
 \item{breakdown_labels}{Should label columns be added for supported coded
 breakdown variables?}
@@ -44,6 +42,8 @@ breakdown variables?}
 
 \item{keep_geo_vars}{Should source geometry attributes for the selected
 geometry role be retained?}
+
+\item{key}{Optional Census API key.}
 
 \item{refresh}{Included for consistency with other retrieval helpers. Flows
 data are requested directly and do not currently use cached metadata.}

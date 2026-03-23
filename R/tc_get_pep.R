@@ -127,26 +127,26 @@ tc_pep_label_variables <- function(dataset, breakdown = NULL) {
 
 #' Retrieve Population Estimates Program data
 #'
-#' @param year Dataset year.
+#' @param geography Census geography name.
 #' @param variables Optional character vector of variable names.
 #' @param table Optional table or group identifier. Mutually exclusive with
 #'   `variables`.
-#' @param geography Census geography name.
-#' @param within Optional named list of parent geographies.
-#' @param predicates Optional named list of additional predicates.
+#' @param year Dataset year.
 #' @param dataset PEP dataset path, such as `"population"` or
 #'   `"components"`. A leading `"pep/"` is optional.
 #' @param product Optional PEP product alias. Supported values are
 #'   `"population"`, `"components"`, `"housing"`, and `"characteristics"`.
 #' @param breakdown Optional characteristics breakdown variables. Supported
 #'   values are `"AGE"`, `"AGEGROUP"`, `"SEX"`, `"HISP"`, and `"RACE"`.
+#' @param within Optional named list of parent geographies.
+#' @param predicates Optional named list of additional predicates.
 #' @param breakdown_labels Should label variables for supported breakdowns be
 #'   added automatically?
 #' @param summary_var Optional summary variable to append as
 #'   `summary_estimate` / `summary_moe`.
-#' @param key Optional Census API key.
 #' @param geometry Should geometry be joined after retrieval?
 #' @param keep_geo_vars Should source geometry attributes be retained?
+#' @param key Optional Census API key.
 #' @param refresh Should cached metadata be refreshed?
 #' @param cache Should discovery metadata be cached locally?
 #' @param ucgid Optional `ucgid` predicate.
@@ -164,20 +164,20 @@ tc_pep_label_variables <- function(dataset, breakdown = NULL) {
 #'   state = c("NY", "Delaware")
 #' )
 tc_get_pep <- function(
-  year,
+  geography = NULL,
   variables = NULL,
   table = NULL,
-  geography = NULL,
-  within = NULL,
-  predicates = NULL,
+  year,
   dataset = NULL,
   product = NULL,
   breakdown = NULL,
+  within = NULL,
+  predicates = NULL,
   breakdown_labels = FALSE,
   summary_var = NULL,
-  key = tc_get_key(),
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
   ucgid = NULL,

@@ -5,17 +5,17 @@
 \title{Retrieve Census Planning Database data}
 \usage{
 tc_get_pdb(
-  year,
+  geography = NULL,
   variables = NULL,
   table = NULL,
-  geography = NULL,
+  year,
+  dataset = NULL,
   within = NULL,
   predicates = NULL,
-  dataset = NULL,
   summary_var = NULL,
-  key = tc_get_key(),
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
   ucgid = NULL,
@@ -24,30 +24,30 @@ tc_get_pdb(
 )
 }
 \arguments{
-\item{year}{Dataset year.}
+\item{geography}{Census geography name.}
 
 \item{variables}{Optional character vector of variable names.}
 
 \item{table}{Optional table or group identifier. Mutually exclusive with
 \code{variables}.}
 
-\item{geography}{Census geography name.}
+\item{year}{Dataset year.}
+
+\item{dataset}{Optional \code{pdb/...} dataset path. When omitted, the dataset is
+inferred from \code{geography}.}
 
 \item{within}{Optional named list of parent geographies.}
 
 \item{predicates}{Optional named list of additional predicates.}
 
-\item{dataset}{Optional \code{pdb/...} dataset path. When omitted, the dataset is
-inferred from \code{geography}.}
-
 \item{summary_var}{Optional summary variable to append as
 \code{summary_estimate} / \code{summary_moe}.}
-
-\item{key}{Optional Census API key.}
 
 \item{geometry}{Should geometry be joined after retrieval?}
 
 \item{keep_geo_vars}{Should source geometry attributes be retained?}
+
+\item{key}{Optional Census API key.}
 
 \item{refresh}{Should cached metadata be refreshed?}
 

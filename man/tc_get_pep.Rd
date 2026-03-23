@@ -5,20 +5,20 @@
 \title{Retrieve Population Estimates Program data}
 \usage{
 tc_get_pep(
-  year,
+  geography = NULL,
   variables = NULL,
   table = NULL,
-  geography = NULL,
-  within = NULL,
-  predicates = NULL,
+  year,
   dataset = NULL,
   product = NULL,
   breakdown = NULL,
+  within = NULL,
+  predicates = NULL,
   breakdown_labels = FALSE,
   summary_var = NULL,
-  key = tc_get_key(),
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
   ucgid = NULL,
@@ -27,18 +27,14 @@ tc_get_pep(
 )
 }
 \arguments{
-\item{year}{Dataset year.}
+\item{geography}{Census geography name.}
 
 \item{variables}{Optional character vector of variable names.}
 
 \item{table}{Optional table or group identifier. Mutually exclusive with
 \code{variables}.}
 
-\item{geography}{Census geography name.}
-
-\item{within}{Optional named list of parent geographies.}
-
-\item{predicates}{Optional named list of additional predicates.}
+\item{year}{Dataset year.}
 
 \item{dataset}{PEP dataset path, such as \code{"population"} or
 \code{"components"}. A leading \code{"pep/"} is optional.}
@@ -49,17 +45,21 @@ tc_get_pep(
 \item{breakdown}{Optional characteristics breakdown variables. Supported
 values are \code{"AGE"}, \code{"AGEGROUP"}, \code{"SEX"}, \code{"HISP"}, and \code{"RACE"}.}
 
+\item{within}{Optional named list of parent geographies.}
+
+\item{predicates}{Optional named list of additional predicates.}
+
 \item{breakdown_labels}{Should label variables for supported breakdowns be
 added automatically?}
 
 \item{summary_var}{Optional summary variable to append as
 \code{summary_estimate} / \code{summary_moe}.}
 
-\item{key}{Optional Census API key.}
-
 \item{geometry}{Should geometry be joined after retrieval?}
 
 \item{keep_geo_vars}{Should source geometry attributes be retained?}
+
+\item{key}{Optional Census API key.}
 
 \item{refresh}{Should cached metadata be refreshed?}
 

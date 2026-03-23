@@ -5,14 +5,14 @@
 \title{Retrieve Census time-series data}
 \usage{
 tc_get_timeseries(
+  geography = NULL,
   dataset,
   variables = NULL,
   table = NULL,
-  geography = NULL,
-  within = NULL,
-  predicates = NULL,
   time = NULL,
   year = NULL,
+  within = NULL,
+  predicates = NULL,
   key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
@@ -21,6 +21,8 @@ tc_get_timeseries(
 )
 }
 \arguments{
+\item{geography}{Optional Census geography name.}
+
 \item{dataset}{A time-series dataset identifier.}
 
 \item{variables}{Optional character vector of variable names.}
@@ -28,16 +30,14 @@ tc_get_timeseries(
 \item{table}{Optional group or table identifier. Mutually exclusive with
 \code{variables}.}
 
-\item{geography}{Optional Census geography name.}
-
-\item{within}{Optional named list of parent geographies.}
-
-\item{predicates}{Optional named list of filter predicates other than \code{time}.}
-
 \item{time}{Optional timeseries date value, such as \code{"2024-01"}.}
 
 \item{year}{Optional dataset year. Most timeseries datasets ignore this and
 resolve through the discovery catalog.}
+
+\item{within}{Optional named list of parent geographies.}
+
+\item{predicates}{Optional named list of filter predicates other than \code{time}.}
 
 \item{key}{Optional Census API key.}
 

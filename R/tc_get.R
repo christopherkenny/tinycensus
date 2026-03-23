@@ -233,6 +233,14 @@ tc_query_params <- function(
     requires <- geo_row$requires[[1]]
     if (length(requires)) {
       missing <- setdiff(requires, names(within))
+      wildcard <- geo_row$wildcard[[1]] %||% character()
+      wildcard_missing <- intersect(missing, wildcard)
+
+      if (length(wildcard_missing)) {
+        within[wildcard_missing] <- rep(list("*"), length(wildcard_missing))
+        missing <- setdiff(missing, wildcard_missing)
+      }
+
       if (length(missing)) {
         cli::cli_abort(
           "Geography {.val {geography}} requires parent geography input(s): {.val {missing}}."
@@ -545,7 +553,10 @@ tc_dataset_query_raw <- function(
 
 tc_metric_info <- function(variable) {
   if (grepl("(EA|PEA|NA)$", variable)) {
-    return(list(variable = sub("(EA|PEA|NA)$", "", variable), role = "annotation"))
+    return(list(
+      variable = sub("(EA|PEA|NA)$", "", variable),
+      role = "annotation"
+    ))
   }
 
   if (grepl("(MA|PMA)$", variable)) {
@@ -664,7 +675,9 @@ tc_add_summary_columns <- function(data, summary_var = NULL) {
     return(data)
   }
 
-  if (!is.null(summary_cols$estimate) && summary_cols$estimate %in% names(data)) {
+  if (
+    !is.null(summary_cols$estimate) && summary_cols$estimate %in% names(data)
+  ) {
     data$summary_estimate <- data[[summary_cols$estimate]]
   }
 
@@ -687,12 +700,15 @@ tc_shape_product_wide <- function(
   out <- data[, map$raw_variable[keep], drop = FALSE]
   meta <- tc_variables(dataset, year, refresh = refresh)
   shared <- intersect(names(out), meta$name)
-  measure_cols <- shared[meta$predicate_type[match(shared, meta$name)] %in% c(
-    "int",
-    "integer",
-    "float",
-    "numeric"
-  )]
+  measure_cols <- shared[
+    meta$predicate_type[match(shared, meta$name)] %in%
+      c(
+        "int",
+        "integer",
+        "float",
+        "numeric"
+      )
+  ]
   for (column in measure_cols) {
     out[[column]] <- suppressWarnings(as.numeric(out[[column]]))
   }
@@ -823,7 +839,7 @@ tc_product_query <- function(
     )
   }
 
-  tc_as_tinycensus_tbl(
+  tc_add_attributes(
     out,
     dataset = dataset,
     year = year,

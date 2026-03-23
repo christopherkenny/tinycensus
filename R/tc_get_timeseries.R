@@ -30,16 +30,16 @@ tc_timeseries_predicates <- function(predicates = NULL, time = NULL) {
 
 #' Retrieve Census time-series data
 #'
+#' @param geography Optional Census geography name.
 #' @param dataset A time-series dataset identifier.
 #' @param variables Optional character vector of variable names.
 #' @param table Optional group or table identifier. Mutually exclusive with
 #'   `variables`.
-#' @param geography Optional Census geography name.
-#' @param within Optional named list of parent geographies.
-#' @param predicates Optional named list of filter predicates other than `time`.
 #' @param time Optional timeseries date value, such as `"2024-01"`.
 #' @param year Optional dataset year. Most timeseries datasets ignore this and
 #'   resolve through the discovery catalog.
+#' @param within Optional named list of parent geographies.
+#' @param predicates Optional named list of filter predicates other than `time`.
 #' @param key Optional Census API key.
 #' @param refresh Should cached metadata be refreshed?
 #' @param cache Should discovery metadata be cached locally?
@@ -56,14 +56,14 @@ tc_timeseries_predicates <- function(predicates = NULL, time = NULL) {
 #'   predicates = list(CTY_CODE = "2010")
 #' )
 tc_get_timeseries <- function(
+  geography = NULL,
   dataset,
   variables = NULL,
   table = NULL,
-  geography = NULL,
-  within = NULL,
-  predicates = NULL,
   time = NULL,
   year = NULL,
+  within = NULL,
+  predicates = NULL,
   key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
@@ -81,11 +81,15 @@ tc_get_timeseries <- function(
   )
   variables <- tc_null_if_empty(specials$variables)
 
-  if (is.null(tc_null_if_empty(variables)) && is.null(tc_null_if_empty(table))) {
+  if (
+    is.null(tc_null_if_empty(variables)) && is.null(tc_null_if_empty(table))
+  ) {
     cli::cli_abort("Supply either {.arg variables} or {.arg table}.")
   }
 
-  if (!is.null(tc_null_if_empty(variables)) && !is.null(tc_null_if_empty(table))) {
+  if (
+    !is.null(tc_null_if_empty(variables)) && !is.null(tc_null_if_empty(table))
+  ) {
     cli::cli_abort("{.arg variables} and {.arg table} are mutually exclusive.")
   }
 
@@ -112,7 +116,7 @@ tc_get_timeseries <- function(
   )
   out <- tc_apply_aliases(out, specials$alias_map)
 
-  tc_as_tinycensus_tbl(
+  tc_add_attributes(
     out,
     dataset = attr(out, "dataset"),
     year = attr(out, "year"),

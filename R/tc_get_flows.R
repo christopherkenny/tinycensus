@@ -2,10 +2,11 @@ tc_flows_query_geography <- function(geography, year) {
   geography <- tc_normalize_geography_name(geography)
 
   if (
-    geography %in% c(
-      "metropolitan statistical area/micropolitan statistical area",
-      "cbsa"
-    )
+    geography %in%
+      c(
+        "metropolitan statistical area/micropolitan statistical area",
+        "cbsa"
+      )
   ) {
     if (year <= 2012L) {
       cli::cli_abort(
@@ -145,10 +146,11 @@ tc_flows_validate_inputs <- function(
 
   if (
     !is.null(msa) &&
-      !geography %in% c(
-        "metropolitan statistical area/micropolitan statistical area",
-        "cbsa"
-      )
+      !geography %in%
+        c(
+          "metropolitan statistical area/micropolitan statistical area",
+          "cbsa"
+        )
   ) {
     cli::cli_abort(
       "{.arg msa} is only supported for metropolitan area flow requests."
@@ -178,10 +180,11 @@ tc_flows_validate_inputs <- function(
   }
 
   if (
-    geography %in% c(
-      "metropolitan statistical area/micropolitan statistical area",
-      "cbsa"
-    ) &&
+    geography %in%
+      c(
+        "metropolitan statistical area/micropolitan statistical area",
+        "cbsa"
+      ) &&
       (!is.null(state) || !is.null(county))
   ) {
     cli::cli_abort(
@@ -207,12 +210,15 @@ tc_flows_query <- function(
   }
 
   geography <- tc_normalize_geography_name(geography)
-  if (!geography %in% c(
-    "county",
-    "county subdivision",
-    "metropolitan statistical area/micropolitan statistical area",
-    "cbsa"
-  )) {
+  if (
+    !geography %in%
+      c(
+        "county",
+        "county subdivision",
+        "metropolitan statistical area/micropolitan statistical area",
+        "cbsa"
+      )
+  ) {
     cli::cli_abort(
       "Flows geography must be county, county subdivision, or metropolitan statistical area."
     )
@@ -243,9 +249,14 @@ tc_flows_query <- function(
 
   if (!is.null(county)) {
     if (is.null(state)) {
-      cli::cli_abort("County flows require {.arg state} when {.arg county} is supplied.")
+      cli::cli_abort(
+        "County flows require {.arg state} when {.arg county} is supplied."
+      )
     }
-    county <- paste(normalize_county(county, state = state, year = year), collapse = ",")
+    county <- paste(
+      normalize_county(county, state = state, year = year),
+      collapse = ","
+    )
   }
 
   if (!is.null(msa)) {
@@ -270,10 +281,11 @@ tc_flows_query <- function(
   }
 
   if (
-    geography %in% c(
-      "metropolitan statistical area/micropolitan statistical area",
-      "cbsa"
-    ) &&
+    geography %in%
+      c(
+        "metropolitan statistical area/micropolitan statistical area",
+        "cbsa"
+      ) &&
       !is.null(msa)
   ) {
     for_area <- paste0(query_geography, ":", msa)
@@ -354,7 +366,11 @@ tc_flows_geometry_keys <- function(geoids, geography) {
 }
 
 tc_flows_geometry_frame <- function(geom, key, keep_geo_vars = FALSE) {
-  keep <- if (isTRUE(keep_geo_vars)) names(geom) else unique(c("GEOID", "geometry"))
+  keep <- if (isTRUE(keep_geo_vars)) {
+    names(geom)
+  } else {
+    unique(c("GEOID", "geometry"))
+  }
   geom <- geom[keep[keep %in% names(geom)]]
   names(geom)[match("GEOID", names(geom))] <- key
 
@@ -367,7 +383,6 @@ tc_flows_geometry_frame <- function(geom, key, keep_geo_vars = FALSE) {
 }
 
 tc_flows_join_geometry <- function(data, geometry, key) {
-
   index <- seq_len(nrow(data))
   data$..tc_rowid.. <- index
   out <- merge(data, geometry, by = key, all.x = TRUE, sort = FALSE)
@@ -408,7 +423,11 @@ tc_add_flows_geometry <- function(
   keys <- tc_flows_geometry_keys(data[[key]], geography = geography)
   geom <- tc_fetch_geometry(keys, geography = geography, year = year)
   geom$geometry <- suppressWarnings(sf::st_point_on_surface(geom$geometry))
-  geom <- tc_flows_geometry_frame(geom, key = key, keep_geo_vars = keep_geo_vars)
+  geom <- tc_flows_geometry_frame(
+    geom,
+    key = key,
+    keep_geo_vars = keep_geo_vars
+  )
   out <- tc_flows_join_geometry(data, geometry = geom, key = key)
   sf::st_as_sf(out, sf_column_name = "geometry")
 }
@@ -416,35 +435,35 @@ tc_add_flows_geometry <- function(
 #' Retrieve ACS migration flows
 #'
 #' @param geography Flows geography.
-#' @param year ACS migration flows year.
-#' @param variables Optional additional variables.
-#' @param breakdown Optional breakdown variables.
 #' @param state Optional state input.
 #' @param county Optional county input.
 #' @param msa Optional metropolitan area codes.
-#' @param key Optional Census API key.
+#' @param year ACS migration flows year.
+#' @param variables Optional additional variables.
+#' @param breakdown Optional breakdown variables.
 #' @param breakdown_labels Should label columns be added for supported coded
 #'   breakdown variables?
 #' @param geometry Should centroid geometry be joined? Use `TRUE` or
 #'   `"destination"` for destination geometry, or `"origin"` for origin geometry.
 #' @param keep_geo_vars Should source geometry attributes for the selected
 #'   geometry role be retained?
+#' @param key Optional Census API key.
 #' @param refresh Included for consistency with other retrieval helpers. Flows
 #'   data are requested directly and do not currently use cached metadata.
 #' @return A tibble or `sf` object.
 #' @export
 tc_get_flows <- function(
   geography,
-  year = 2018,
-  variables = NULL,
-  breakdown = NULL,
   state = NULL,
   county = NULL,
   msa = NULL,
-  key = tc_get_key(),
+  year = 2018,
+  variables = NULL,
+  breakdown = NULL,
   breakdown_labels = FALSE,
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE
 ) {
   geography <- tc_normalize_geography_name(geography)
@@ -479,5 +498,10 @@ tc_get_flows <- function(
     )
   }
 
-  tc_as_tinycensus_tbl(out, dataset = "acs/flows", year = year, geography = geography)
+  tc_add_attributes(
+    out,
+    dataset = "acs/flows",
+    year = year,
+    geography = geography
+  )
 }

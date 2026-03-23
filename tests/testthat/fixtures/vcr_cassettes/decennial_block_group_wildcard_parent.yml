@@ -1,0 +1,64 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2020/dec/dhc?get=NAME%2CP18_005N%2CP18_015N%2CP18_025N%2CP18_036N%2CP18_046N%2CP18_056N&for=block+group%3A%2A&in=state%3A12+county%3A039+tract%3A%2A&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 19:55:28 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4f8b4b95d557cb277ff9a56feec75a4ab15b9ee147d6f8ad0f2efd79226a90d43f798f3482eba85fb91eb4c5d473f4485;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","P18_005N","P18_015N","P18_025N","P18_036N","P18_046N","P18_056N","state","county","tract","block group"],
+        ["Block Group 4; Census Tract 208; Gadsden County; Florida","0","0","0","0","0","0","12","039","020800","4"],
+        ["Block Group 1; Census Tract 208; Gadsden County; Florida","0","0","0","0","0","0","12","039","020800","1"],
+        ["Block Group 2; Census Tract 208; Gadsden County; Florida","0","0","0","0","0","0","12","039","020800","2"],
+        ["Block Group 3; Census Tract 208; Gadsden County; Florida","0","0","0","0","0","0","12","039","020800","3"],
+        ["Block Group 5; Census Tract 208; Gadsden County; Florida","0","0","0","0","0","0","12","039","020800","5"],
+        ["Block Group 1; Census Tract 201.01; Gadsden County; Florida","0","0","0","0","0","0","12","039","020101","1"],
+        ["Block Group 2; Census Tract 201.01; Gadsden County; Florida","0","0","0","0","0","0","12","039","020101","2"],
+        ["Block Group 3; Census Tract 201.01; Gadsden County; Florida","0","0","0","0","0","0","12","039","020101","3"],
+        ["Block Group 1; Census Tract 201.03; Gadsden County; Florida","0","0","0","0","0","0","12","039","020103","1"],
+        ["Block Group 2; Census Tract 201.03; Gadsden County; Florida","0","0","0","0","0","0","12","039","020103","2"],
+        ["Block Group 1; Census Tract 201.04; Gadsden County; Florida","0","0","0","0","0","0","12","039","020104","1"],
+        ["Block Group 2; Census Tract 201.04; Gadsden County; Florida","0","0","0","0","0","0","12","039","020104","2"],
+        ["Block Group 1; Census Tract 203; Gadsden County; Florida","0","0","0","0","0","0","12","039","020300","1"],
+        ["Block Group 2; Census Tract 203; Gadsden County; Florida","0","0","0","0","0","0","12","039","020300","2"],
+        ["Block Group 3; Census Tract 203; Gadsden County; Florida","0","0","0","0","0","0","12","039","020300","3"],
+        ["Block Group 4; Census Tract 203; Gadsden County; Florida","0","0","0","0","0","0","12","039","020300","4"],
+        ["Block Group 5; Census Tract 203; Gadsden County; Florida","0","0","0","0","0","0","12","039","020300","5"],
+        ["Block Group 1; Census Tract 204; Gadsden County; Florida","0","0","0","0","0","0","12","039","020400","1"],
+        ["Block Group 2; Census Tract 204; Gadsden County; Florida","2","81","6","0","14","0","12","039","020400","2"],
+        ["Block Group 3; Census Tract 204; Gadsden County; Florida","0","0","0","0","0","0","12","039","020400","3"],
+        ["Block Group 4; Census Tract 204; Gadsden County; Florida","0","0","0","0","0","0","12","039","020400","4"],
+        ["Block Group 1; Census Tract 205; Gadsden County; Florida","0","0","0","0","0","0","12","039","020500","1"],
+        ["Block Group 2; Census Tract 205; Gadsden County; Florida","0","0","0","0","0","0","12","039","020500","2"],
+        ["Block Group 3; Census Tract 205; Gadsden County; Florida","0","0","0","0","0","0","12","039","020500","3"],
+        ["Block Group 4; Census Tract 205; Gadsden County; Florida","0","0","0","0","0","0","12","039","020500","4"],
+        ["Block Group 5; Census Tract 205; Gadsden County; Florida","0","0","0","0","0","0","12","039","020500","5"],
+        ["Block Group 1; Census Tract 206; Gadsden County; Florida","0","0","0","0","0","0","12","039","020600","1"],
+        ["Block Group 2; Census Tract 206; Gadsden County; Florida","0","406","8","0","6","0","12","039","020600","2"],
+        ["Block Group 3; Census Tract 206; Gadsden County; Florida","0","0","0","0","0","0","12","039","020600","3"],
+        ["Block Group 1; Census Tract 207.01; Gadsden County; Florida","0","0","0","0","0","0","12","039","020701","1"],
+        ["Block Group 2; Census Tract 207.01; Gadsden County; Florida","0","65","0","0","1","0","12","039","020701","2"],
+        ["Block Group 3; Census Tract 207.01; Gadsden County; Florida","0","0","0","0","0","0","12","039","020701","3"],
+        ["Block Group 1; Census Tract 207.02; Gadsden County; Florida","0","386","10","0","6","0","12","039","020702","1"],
+        ["Block Group 2; Census Tract 207.02; Gadsden County; Florida","0","0","0","0","0","0","12","039","020702","2"],
+        ["Block Group 3; Census Tract 207.02; Gadsden County; Florida","0","0","0","0","0","0","12","039","020702","3"],
+        ["Block Group 4; Census Tract 207.02; Gadsden County; Florida","0","0","0","0","0","0","12","039","020702","4"],
+        ["Block Group 5; Census Tract 207.02; Gadsden County; Florida","0","0","0","0","0","0","12","039","020702","5"]]
+  recorded_at: 2026-03-23 19:55:25
+recorded_with: VCR-vcr/2.1.0

@@ -65,6 +65,10 @@ tc_normalize_geo_value <- function(
     return(NULL)
   }
 
+  if (all(as.character(value) == "*")) {
+    return(as.character(value))
+  }
+
   if (geography == "state") {
     return(normalize_state(value))
   }
