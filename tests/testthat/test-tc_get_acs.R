@@ -63,6 +63,8 @@ test_that("tc_get_acs supports geometry and keep_geo_vars", {
 
   expect_true(inherits(minimal, "sf"))
   expect_true(inherits(rich, "sf"))
+  expect_true(inherits(minimal, "tbl_df"))
+  expect_true(inherits(rich, "tbl_df"))
   expect_false("STATEFP" %in% names(minimal))
   expect_true("STATEFP" %in% names(rich))
 })
@@ -243,6 +245,7 @@ test_that("tc_get_acs geometry preserves row order across supported geographies"
 
   expect_geometry_roundtrip <- function(tabular, spatial, geo_cols, geo_var) {
     expect_true(inherits(spatial, "sf"))
+    expect_true(inherits(spatial, "tbl_df"))
     expect_identical(spatial$GEOID, tabular$GEOID)
     spatial_df <- sf::st_drop_geometry(spatial)
     for (col in geo_cols) {

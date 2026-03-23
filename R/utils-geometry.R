@@ -216,7 +216,7 @@ tc_add_geometry <- function(data, geography, year, keep_geo_vars = FALSE) {
   out <- out[order(out$..tc_rowid..), , drop = FALSE]
   out$..tc_rowid.. <- NULL
   if ("geometry" %in% names(out) && inherits(out$geometry, "sfc")) {
-    return(sf::st_as_sf(out))
+    return(sf::st_as_sf(tibble::as_tibble(out)))
   }
 
   out

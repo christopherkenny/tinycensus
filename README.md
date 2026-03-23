@@ -390,10 +390,10 @@ tc_get_pep(
 #>  4 New York 13872582 002      36    36    White alone                           
 #>  5 New York 14391976 003      36    36    White alone or in combination with on…
 #>  6 New York 14322340 003      36    36    White alone or in combination with on…
-#>  7 New York   545066 102      36    36    Two or more races excluding Some Othe…
-#>  8 New York  3598865 004      36    36    Black or African American alone       
-#>  9 New York  3577768 004      36    36    Black or African American alone       
-#> 10 New York  3941239 005      36    36    Black or African American alone or in…
+#>  7 New York  3598865 004      36    36    Black or African American alone       
+#>  8 New York  3577768 004      36    36    Black or African American alone       
+#>  9 New York  3941239 005      36    36    Black or African American alone or in…
+#> 10 New York  3920776 005      36    36    Black or African American alone or in…
 #> # ℹ 14 more rows
 ```
 
@@ -512,15 +512,14 @@ tc_get_acs(
 #> Dimension:     XY
 #> Bounding box:  xmin: -79.76259 ymin: 38.45113 xmax: -71.77749 ymax: 45.01586
 #> Geodetic CRS:  NAD83
-#>   GEOID     NAME B01001_001E state REGION DIVISION STATEFP  STATENS     GEOIDFQ
-#> 1    10 Delaware     1021191    10      3        5      10 01779781 0400000US10
-#> 2    36 New York    19852366    36      1        2      36 01779796 0400000US36
-#>   STUSPS geo_NAME LSAD MTFCC FUNCSTAT        ALAND      AWATER    INTPTLAT
-#> 1     DE Delaware   00 G4000        A   5046692239  1399219008 +38.9985661
-#> 2     NY New York   00 G4000        A 122049155860 19256755462 +42.9133974
-#>       INTPTLON                       geometry
-#> 1 -075.4416440 MULTIPOLYGON (((-75.50949 3...
-#> 2 -075.5962723 MULTIPOLYGON (((-74.72623 4...
+#> # A tibble: 2 × 19
+#>   GEOID NAME    B01001_001E state REGION DIVISION STATEFP STATENS GEOIDFQ STUSPS
+#>   <chr> <chr>         <dbl> <chr> <chr>  <chr>    <chr>   <chr>   <chr>   <chr> 
+#> 1 10    Delawa…     1021191 10    3      5        10      017797… 040000… DE    
+#> 2 36    New Yo…    19852366 36    1      2        36      017797… 040000… NY    
+#> # ℹ 9 more variables: geo_NAME <chr>, LSAD <chr>, MTFCC <chr>, FUNCSTAT <chr>,
+#> #   ALAND <dbl>, AWATER <dbl>, INTPTLAT <chr>, INTPTLON <chr>,
+#> #   geometry <MULTIPOLYGON [°]>
 ```
 
 ## Current scope

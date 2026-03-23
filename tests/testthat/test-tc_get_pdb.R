@@ -102,6 +102,7 @@ test_that("tc_get_pdb geometry preserves row order for tract and block group", {
 
   expect_geometry_roundtrip <- function(tabular, spatial, cols, geo_var) {
     expect_true(inherits(spatial, "sf"))
+    expect_true(inherits(spatial, "tbl_df"))
     expect_identical(spatial$GEOID, tabular$GEOID)
     spatial_df <- sf::st_drop_geometry(spatial)
     for (col in cols) {
