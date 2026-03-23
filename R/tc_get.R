@@ -16,9 +16,123 @@ tc_build_get_clause <- function(
   c(parts, variables)
 }
 
+tc_label_variable_base <- function(variable) {
+  if (!grepl("_LABEL$", variable)) {
+    return(NULL)
+  }
+
+  sub("_LABEL$", "", variable)
+}
+
+tc_prepare_special_variables <- function(
+  dataset,
+  year,
+  variables = NULL,
+  geography = NULL,
+  refresh = FALSE
+) {
+  variables <- tc_null_if_empty(variables)
+  if (is.null(variables)) {
+    return(list(
+      variables = NULL,
+      include_name = !is.null(geography),
+      label_map = tibble::tibble(
+        label = character(),
+        code = character(),
+        keep_code = logical()
+      ),
+      alias_map = tibble::tibble(
+        variable = character(),
+        alias = character()
+      )
+    ))
+  }
+
+  include_name <- !is.null(geography)
+  requested <- unname(as.character(variables))
+  aliases <- names(variables)
+  alias_map <- tibble::tibble(
+    variable = requested,
+    alias = if (is.null(aliases)) {
+      requested
+    } else {
+      ifelse(nzchar(aliases), aliases, requested)
+    }
+  )
+
+  if (!is.null(geography) && "NAME" %in% requested) {
+    requested <- setdiff(requested, "NAME")
+    alias_map <- alias_map[alias_map$variable != "NAME", , drop = FALSE]
+  }
+
+  meta <- tc_variables(dataset, year, refresh = refresh)
+  label_vars <- requested[grepl("_LABEL$", requested)]
+  label_map <- vector("list", length(label_vars))
+
+  if (length(label_vars)) {
+    for (i in seq_along(label_vars)) {
+      label_var <- label_vars[[i]]
+      code_var <- tc_label_variable_base(label_var)
+
+      if (is.null(code_var) || !code_var %in% meta$name) {
+        cli::cli_abort(
+          "Unknown variable(s): {.val {label_var}}."
+        )
+      }
+
+      values <- tc_values(
+        dataset = dataset,
+        year = year,
+        variable = code_var,
+        refresh = refresh
+      )
+
+      if (!all(c("code", "label") %in% names(values)) || !nrow(values)) {
+        cli::cli_abort(
+          "Variable {.val {code_var}} does not expose encoded labels, so {.val {label_var}} is not available."
+        )
+      }
+
+      label_map[[i]] <- tibble::tibble(
+        label = label_var,
+        code = code_var,
+        keep_code = code_var %in% variables
+      )
+    }
+
+    label_map <- tibble::as_tibble(do.call(rbind, label_map))
+    requested <- unique(c(setdiff(requested, label_vars), label_map$code))
+  } else {
+    label_map <- tibble::tibble(
+      label = character(),
+      code = character(),
+      keep_code = logical()
+    )
+  }
+
+  list(
+    variables = requested,
+    include_name = include_name,
+    label_map = label_map,
+    alias_map = alias_map
+  )
+}
+
 tc_prepare_predicates <- function(predicates) {
   if (is.null(predicates)) {
     return(list())
+  }
+
+  if (!is.list(predicates)) {
+    if (
+      is.atomic(predicates) &&
+        !is.null(names(predicates)) &&
+        all(nzchar(names(predicates)))
+    ) {
+      return(as.list(predicates))
+    }
+
+    cli::cli_abort("{.arg predicates} must be a named list.")
   }
 
   if (is.list(predicates) && length(predicates) == 0L) {
@@ -26,8 +140,7 @@ tc_prepare_predicates <- function(predicates) {
   }
 
   if (
-    !is.list(predicates) ||
-      is.null(names(predicates)) ||
+    is.null(names(predicates)) ||
       any(!nzchar(names(predicates)))
   ) {
     cli::cli_abort("{.arg predicates} must be a named list.")
@@ -214,6 +327,65 @@ tc_parse_census_response <- function(
   tc_build_geoid(out, geography = geography)
 }
 
+tc_apply_value_labels <- function(
+  data,
+  dataset,
+  year,
+  label_map,
+  refresh = FALSE
+) {
+  if (is.null(label_map) || !nrow(label_map)) {
+    return(data)
+  }
+
+  out <- data
+
+  for (i in seq_len(nrow(label_map))) {
+    code_var <- label_map$code[[i]]
+    label_var <- label_map$label[[i]]
+
+    values <- tc_values(
+      dataset = dataset,
+      year = year,
+      variable = code_var,
+      refresh = refresh
+    )
+    labels <- stats::setNames(values$label, values$code)
+    out[[label_var]] <- unname(labels[as.character(out[[code_var]])])
+
+    if (!isTRUE(label_map$keep_code[[i]])) {
+      out[[code_var]] <- NULL
+    }
+  }
+
+  out
+}
+
+tc_apply_aliases <- function(data, alias_map) {
+  if (is.null(alias_map) || !nrow(alias_map)) {
+    return(data)
+  }
+
+  out <- data
+  alias_map <- alias_map[alias_map$variable %in% names(out), , drop = FALSE]
+  alias_map <- alias_map[!duplicated(alias_map$alias), , drop = FALSE]
+  alias_map <- alias_map[alias_map$variable != alias_map$alias, , drop = FALSE]
+
+  if (!nrow(alias_map)) {
+    return(out)
+  }
+
+  conflicts <- alias_map$alias %in% setdiff(names(out), alias_map$variable)
+  if (any(conflicts)) {
+    cli::cli_abort(
+      "Variable alias(es) conflict with existing output columns: {.val {alias_map$alias[conflicts]}}."
+    )
+  }
+
+  names(out)[match(alias_map$variable, names(out))] <- alias_map$alias
+  out
+}
+
 tc_execute_query <- function(
   dataset,
   year,
@@ -288,10 +460,6 @@ tc_dataset_query_raw <- function(
   geography <- geo_inputs$geography
   variables <- tc_null_if_empty(variables)
   group <- tc_null_if_empty(group)
-
-  if (!is.null(variables) && isTRUE(name) && "NAME" %in% variables) {
-    name <- FALSE
-  }
 
   if (is.null(group) && !is.null(variables) && length(variables) > 49L) {
     chunks <- split(variables, ceiling(seq_along(variables) / 49L))
@@ -553,6 +721,19 @@ tc_product_query <- function(
     cache = cache
   )
   year <- dataset_info$year[[1]]
+  geo_inputs <- tc_collect_geography_inputs(
+    geography = tc_null_if_empty(geography),
+    within = within,
+    dots = rlang::list2(...)
+  )
+  specials <- tc_prepare_special_variables(
+    dataset = dataset,
+    year = year,
+    variables = variables,
+    geography = geo_inputs$geography,
+    refresh = refresh
+  )
+  variables <- tc_null_if_empty(specials$variables)
 
   tc_validate_summary_var(
     summary_var = summary_var,
@@ -604,6 +785,14 @@ tc_product_query <- function(
     summary_var = summary_var,
     refresh = refresh
   )
+  out <- tc_apply_value_labels(
+    out,
+    dataset = dataset,
+    year = year,
+    label_map = specials$label_map,
+    refresh = refresh
+  )
+  out <- tc_apply_aliases(out, specials$alias_map)
 
   if (isTRUE(geometry)) {
     if (is.null(geography)) {

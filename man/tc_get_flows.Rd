@@ -13,8 +13,10 @@ tc_get_flows(
   county = NULL,
   msa = NULL,
   key = tc_get_key(),
+  breakdown_labels = FALSE,
   geometry = FALSE,
-  keep_geo_vars = FALSE
+  keep_geo_vars = FALSE,
+  refresh = FALSE
 )
 }
 \arguments{
@@ -34,11 +36,17 @@ tc_get_flows(
 
 \item{key}{Optional Census API key.}
 
+\item{breakdown_labels}{Should label columns be added for supported coded
+breakdown variables?}
+
 \item{geometry}{Should centroid geometry be joined? Use \code{TRUE} or
 \code{"destination"} for destination geometry, or \code{"origin"} for origin geometry.}
 
 \item{keep_geo_vars}{Should source geometry attributes for the selected
 geometry role be retained?}
+
+\item{refresh}{Included for consistency with other retrieval helpers. Flows
+data are requested directly and do not currently use cached metadata.}
 }
 \value{
 A tibble or \code{sf} object.

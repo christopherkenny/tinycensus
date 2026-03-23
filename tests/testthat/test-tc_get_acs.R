@@ -166,3 +166,36 @@ test_that("tc_get_acs supports less-common geography aliases", {
   expect_true(all(cd$state == "36"))
   expect_true(all(place$state == "10"))
 })
+
+test_that("tc_get_acs accepts NAME in requested variables", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("acs_name_variable")
+
+  out <- tc_get_acs(
+    year = 2022,
+    variables = c("NAME", "B01001_001E", "B19013_001E"),
+    geography = "place",
+    state = "01"
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c("NAME", "B01001_001E", "B19013_001E") %in% names(out)))
+})
+
+test_that("tc_get_acs preserves named variable aliases", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("acs_named_aliases")
+
+  out <- tc_get_acs(
+    year = 2022,
+    variables = c(total_pop = "B01001_001E", med_income = "B19013_001E"),
+    geography = "state",
+    state = "DE"
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c("total_pop", "med_income") %in% names(out)))
+  expect_false(any(c("B01001_001E", "B19013_001E") %in% names(out)))
+})

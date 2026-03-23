@@ -17,12 +17,24 @@ tc_normalize_within <- function(within) {
     return(list())
   }
 
+  if (!is.list(within)) {
+    if (
+      is.atomic(within) &&
+        !is.null(names(within)) &&
+        all(nzchar(names(within)))
+    ) {
+      within <- as.list(within)
+    } else {
+      cli::cli_abort("{.arg within} must be a named list.")
+    }
+  }
+
   if (length(within) == 0L) {
     return(list())
   }
 
   if (
-    !is.list(within) || is.null(names(within)) || any(!nzchar(names(within)))
+    is.null(names(within)) || any(!nzchar(names(within)))
   ) {
     cli::cli_abort("{.arg within} must be a named list.")
   }

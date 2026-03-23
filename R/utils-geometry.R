@@ -126,10 +126,9 @@ tc_fetch_geometry <- function(data, geography, year) {
         state = state,
         year = tiger_year
       )
-      district <- if ("CD119FP" %in% names(geom)) {
-        geom$CD119FP
-      } else if ("CD118FP" %in% names(geom)) {
-        geom$CD118FP
+      cd_col <- grep("^CD[0-9]{3}FP$", names(geom), value = TRUE)
+      district <- if (length(cd_col)) {
+        geom[[cd_col[[1]]]]
       } else {
         geom$CDFP
       }

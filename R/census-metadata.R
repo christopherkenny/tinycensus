@@ -13,7 +13,13 @@ tc_cache_read <- function(path) {
     return(NULL)
   }
 
-  readRDS(path)
+  tryCatch(
+    readRDS(path),
+    error = function(...) {
+      unlink(path)
+      NULL
+    }
+  )
 }
 
 tc_cache_write <- function(object, path) {
@@ -47,12 +53,19 @@ tc_http_error_context <- function(context = NULL) {
 }
 
 tc_abort_http_error <- function(resp, url, context = NULL) {
-  body <- httr2::resp_body_string(resp)
+  body <- tryCatch(
+    httr2::resp_body_string(resp),
+    error = function(...) ""
+  )
   body <- gsub("<[^>]+>", "", body)
   body <- gsub("[{}]", "", body)
   body <- trimws(body)
   status <- httr2::resp_status(resp)
   context_text <- tc_http_error_context(context)
+
+  if (!nzchar(body) && identical(status, 204L)) {
+    body <- "No records were returned for the requested query."
+  }
 
   cli::cli_abort(c(
     "Census API request failed with status {.val {status}}.",
@@ -402,6 +415,16 @@ tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
     cache = TRUE
   )
   variables <- as.list(json$variables)
+  groups <- tryCatch(
+    tc_groups(dataset, year = year, refresh = refresh),
+    error = function(...) NULL
+  )
+
+  group_universe <- if (!is.null(groups) && nrow(groups)) {
+    stats::setNames(groups$universe, groups$name)
+  } else {
+    character()
+  }
 
   out <- tibble::tibble(
     name = names(variables),
@@ -423,6 +446,20 @@ tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
     group = vapply(
       variables,
       function(x) x$group %||% NA_character_,
+      character(1)
+    ),
+    universe = vapply(
+      variables,
+      function(x) {
+        group <- x$group %||% NA_character_
+        if (is.na(group) || !nzchar(group) || identical(group, "N/A")) {
+          return(NA_character_)
+        }
+        if (!group %in% names(group_universe)) {
+          return(NA_character_)
+        }
+        group_universe[[group]] %||% NA_character_
+      },
       character(1)
     ),
     required = vapply(variables, function(x) isTRUE(x$required), logical(1)),

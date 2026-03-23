@@ -33,3 +33,19 @@ test_that("geography vintages can differ from dataset year", {
     2022
   )
 })
+
+test_that("within accepts named atomic vectors through public wrappers", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("acs_block_group_within_vector")
+
+  out <- tc_get_acs(
+    year = 2020,
+    variables = "B19013_001E",
+    geography = "block group",
+    within = c(state = "26", county = "161", tract = "400100")
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c("state", "county", "tract", "block group") %in% names(out)))
+})

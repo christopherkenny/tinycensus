@@ -8,13 +8,16 @@ tc_get_timeseries(
   dataset,
   variables = NULL,
   table = NULL,
+  geography = NULL,
+  within = NULL,
   predicates = NULL,
   time = NULL,
   year = NULL,
   key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
-  ucgid = NULL
+  ucgid = NULL,
+  ...
 )
 }
 \arguments{
@@ -24,6 +27,10 @@ tc_get_timeseries(
 
 \item{table}{Optional group or table identifier. Mutually exclusive with
 \code{variables}.}
+
+\item{geography}{Optional Census geography name.}
+
+\item{within}{Optional named list of parent geographies.}
 
 \item{predicates}{Optional named list of filter predicates other than \code{time}.}
 
@@ -39,6 +46,8 @@ resolve through the discovery catalog.}
 \item{cache}{Should discovery metadata be cached locally?}
 
 \item{ucgid}{Optional \code{ucgid} predicate.}
+
+\item{...}{Geography values such as \code{state = "NY"} or \code{county = "001"}.}
 }
 \value{
 A tibble.

@@ -42,6 +42,96 @@ tc_flows_default_variables <- function() {
   )
 }
 
+tc_flows_breakdown_codebook <- function(variable, year) {
+  variable <- toupper(variable)
+
+  if (year > 2015L) {
+    return(NULL)
+  }
+
+  if (identical(variable, "AGE")) {
+    return(tibble::tibble(
+      code = sprintf("%02d", 1:15),
+      label = c(
+        "1 to 4 years",
+        "5 to 17 years",
+        "18 to 19 years",
+        "20 to 24 years",
+        "25 to 29 years",
+        "30 to 34 years",
+        "35 to 39 years",
+        "40 to 44 years",
+        "45 to 49 years",
+        "50 to 54 years",
+        "55 to 59 years",
+        "60 to 64 years",
+        "65 to 69 years",
+        "70 to 74 years",
+        "75 years and over"
+      )
+    ))
+  }
+
+  if (identical(variable, "SEX")) {
+    return(tibble::tibble(
+      code = c("01", "02"),
+      label = c("Male", "Female")
+    ))
+  }
+
+  if (identical(variable, "RACE")) {
+    return(tibble::tibble(
+      code = c("01", "02", "03", "04"),
+      label = c(
+        "White alone",
+        "Black or African American alone",
+        "Asian alone",
+        "Other race alone or Two or more races"
+      )
+    ))
+  }
+
+  if (identical(variable, "HISP_ORIGIN")) {
+    return(tibble::tibble(
+      code = c("01", "02", "03"),
+      label = c(
+        "White alone, not Hispanic or Latino",
+        "Not white alone, not Hispanic or Latino",
+        "Hispanic or Latino"
+      )
+    ))
+  }
+
+  NULL
+}
+
+tc_flows_add_breakdown_labels <- function(data, breakdown, year) {
+  breakdown <- tc_null_if_empty(breakdown)
+  if (is.null(breakdown)) {
+    return(data)
+  }
+
+  out <- data
+
+  for (variable in unique(as.character(breakdown))) {
+    if (!variable %in% names(out)) {
+      next
+    }
+
+    codebook <- tc_flows_breakdown_codebook(variable, year = year)
+    if (is.null(codebook)) {
+      next
+    }
+
+    labels <- stats::setNames(codebook$label, codebook$code)
+    label_col <- paste0(variable, "_LABEL")
+    formatted <- sprintf("%02d", suppressWarnings(as.integer(out[[variable]])))
+    out[[label_col]] <- unname(labels[formatted])
+  }
+
+  out
+}
+
 tc_flows_validate_inputs <- function(
   geography,
   state = NULL,
@@ -333,10 +423,14 @@ tc_add_flows_geometry <- function(
 #' @param county Optional county input.
 #' @param msa Optional metropolitan area codes.
 #' @param key Optional Census API key.
+#' @param breakdown_labels Should label columns be added for supported coded
+#'   breakdown variables?
 #' @param geometry Should centroid geometry be joined? Use `TRUE` or
 #'   `"destination"` for destination geometry, or `"origin"` for origin geometry.
 #' @param keep_geo_vars Should source geometry attributes for the selected
 #'   geometry role be retained?
+#' @param refresh Included for consistency with other retrieval helpers. Flows
+#'   data are requested directly and do not currently use cached metadata.
 #' @return A tibble or `sf` object.
 #' @export
 tc_get_flows <- function(
@@ -348,8 +442,10 @@ tc_get_flows <- function(
   county = NULL,
   msa = NULL,
   key = tc_get_key(),
+  breakdown_labels = FALSE,
   geometry = FALSE,
-  keep_geo_vars = FALSE
+  keep_geo_vars = FALSE,
+  refresh = FALSE
 ) {
   geography <- tc_normalize_geography_name(geography)
   geometry_role <- tc_flows_geometry_role(geometry)
@@ -365,6 +461,13 @@ tc_get_flows <- function(
     msa = msa
   )
   out <- tc_flows_clean_names(raw)
+  if (isTRUE(breakdown_labels)) {
+    out <- tc_flows_add_breakdown_labels(
+      out,
+      breakdown = breakdown,
+      year = year
+    )
+  }
 
   if (!identical(geometry_role, FALSE)) {
     out <- tc_add_flows_geometry(

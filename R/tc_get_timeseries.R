@@ -34,6 +34,8 @@ tc_timeseries_predicates <- function(predicates = NULL, time = NULL) {
 #' @param variables Optional character vector of variable names.
 #' @param table Optional group or table identifier. Mutually exclusive with
 #'   `variables`.
+#' @param geography Optional Census geography name.
+#' @param within Optional named list of parent geographies.
 #' @param predicates Optional named list of filter predicates other than `time`.
 #' @param time Optional timeseries date value, such as `"2024-01"`.
 #' @param year Optional dataset year. Most timeseries datasets ignore this and
@@ -42,6 +44,7 @@ tc_timeseries_predicates <- function(predicates = NULL, time = NULL) {
 #' @param refresh Should cached metadata be refreshed?
 #' @param cache Should discovery metadata be cached locally?
 #' @param ucgid Optional `ucgid` predicate.
+#' @param ... Geography values such as `state = "NY"` or `county = "001"`.
 #'
 #' @return A tibble.
 #' @export
@@ -56,16 +59,27 @@ tc_get_timeseries <- function(
   dataset,
   variables = NULL,
   table = NULL,
+  geography = NULL,
+  within = NULL,
   predicates = NULL,
   time = NULL,
   year = NULL,
   key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
-  ucgid = NULL
+  ucgid = NULL,
+  ...
 ) {
   dataset <- tc_timeseries_dataset(dataset)
   predicates <- tc_timeseries_predicates(predicates = predicates, time = time)
+  specials <- tc_prepare_special_variables(
+    dataset = dataset,
+    year = year,
+    variables = variables,
+    geography = geography,
+    refresh = refresh
+  )
+  variables <- tc_null_if_empty(specials$variables)
 
   if (is.null(tc_null_if_empty(variables)) && is.null(tc_null_if_empty(table))) {
     cli::cli_abort("Supply either {.arg variables} or {.arg table}.")
@@ -80,12 +94,23 @@ tc_get_timeseries <- function(
     year = year,
     variables = variables,
     group = table,
+    geography = geography,
+    within = within,
     predicates = predicates,
     key = key,
     refresh = refresh,
     cache = cache,
-    ucgid = ucgid
+    ucgid = ucgid,
+    ...
   )
+  out <- tc_apply_value_labels(
+    out,
+    dataset = attr(out, "dataset"),
+    year = attr(out, "year"),
+    label_map = specials$label_map,
+    refresh = refresh
+  )
+  out <- tc_apply_aliases(out, specials$alias_map)
 
   tc_as_tinycensus_tbl(
     out,

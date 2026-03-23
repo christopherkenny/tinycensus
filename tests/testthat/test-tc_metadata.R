@@ -20,6 +20,16 @@ test_that("metadata helpers return variables geographies and tables", {
   expect_true("B01001_001E" %in% table_vars$name)
 })
 
+test_that("tc_variables exposes table universe where available", {
+  skip_if_offline()
+  vars <- tc_variables("acs/acs5", 2024)
+  row <- vars[vars$name == "B01001_001E", , drop = FALSE]
+
+  expect_true("universe" %in% names(vars))
+  expect_equal(nrow(row), 1)
+  expect_match(row$universe[[1]], "population", ignore.case = TRUE)
+})
+
 test_that("tc_search_variables returns matching variables", {
   skip_if_offline()
   out <- tc_search_variables("acs/acs5", 2024, query = "median household income")
