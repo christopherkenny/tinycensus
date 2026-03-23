@@ -35,6 +35,35 @@ test_that("tc_get_pep supports product aliases for characteristics", {
   expect_true(any(nzchar(out$POPGROUP_LABEL)))
 })
 
+test_that("tc_get_pep supports API-style characteristics predicates", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("pep_characteristics_api_style")
+
+  out <- tc_get_pep(
+    year = 2023,
+    product = "characteristics",
+    breakdown = "RACE",
+    breakdown_labels = TRUE,
+    geography = "cbsa",
+    cbsa = "31080",
+    predicates = list(MONTH = 4, YEAR = 2020, UNIVERSE = "R")
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c(
+    "POP",
+    "POPGROUP",
+    "POPGROUP_LABEL",
+    "MONTH",
+    "YEAR",
+    "UNIVERSE",
+    "GEOID"
+  ) %in% names(out)))
+  expect_true(any(nzchar(out$POPGROUP_LABEL)))
+  expect_true(all(out$`metropolitan statistical area/micropolitan statistical area` == "31080"))
+})
+
 test_that("tc_get_pep supports older characteristics products", {
   skip_if_not_installed("vcr")
   skip_if_offline()
