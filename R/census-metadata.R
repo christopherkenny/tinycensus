@@ -28,6 +28,28 @@ tc_cache_write <- function(object, path) {
   invisible(object)
 }
 
+tc_memory_cache <- new.env(parent = emptyenv())
+
+tc_memory_key <- function(...) {
+  parts <- unlist(lapply(list(...), as.character), use.names = FALSE)
+  paste(parts, collapse = "::")
+}
+
+tc_memory_get <- function(...) {
+  key <- tc_memory_key(...)
+  if (!exists(key, envir = tc_memory_cache, inherits = FALSE)) {
+    return(NULL)
+  }
+
+  get(key, envir = tc_memory_cache, inherits = FALSE)
+}
+
+tc_memory_set <- function(..., value) {
+  key <- tc_memory_key(...)
+  assign(key, value, envir = tc_memory_cache)
+  invisible(value)
+}
+
 tc_http_error_context <- function(context = NULL) {
   if (is.null(context) || !length(context)) {
     return(NULL)
@@ -138,6 +160,13 @@ tc_catalog_is_valid <- function(x) {
 }
 
 tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
+  if (isTRUE(cache) && !isTRUE(refresh)) {
+    memory_cached <- tc_memory_get("catalog")
+    if (!is.null(memory_cached) && tc_catalog_is_valid(memory_cached)) {
+      return(memory_cached)
+    }
+  }
+
   cache_path <- tc_cache_path("metadata", "catalog.rds")
   cached <- if (isTRUE(cache) && !isTRUE(refresh)) {
     tc_cache_read(cache_path)
@@ -146,6 +175,7 @@ tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
   }
 
   if (!is.null(cached) && tc_catalog_is_valid(cached)) {
+    tc_memory_set("catalog", value = cached)
     return(cached)
   }
 
@@ -247,6 +277,7 @@ tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
 
   if (isTRUE(cache)) {
     tc_cache_write(out, cache_path)
+    tc_memory_set("catalog", value = out)
   }
 
   out
@@ -381,12 +412,26 @@ tc_datasets <- function(
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_dataset("acs/acs5", 2024, refresh = TRUE)
 tc_dataset <- function(dataset, year = NULL, refresh = FALSE) {
-  tibble::as_tibble(tc_resolve_dataset(
+  memory_key <- c("tc_dataset", dataset, year %||% NA)
+  if (!isTRUE(refresh)) {
+    cached <- tc_memory_get(memory_key)
+    if (!is.null(cached)) {
+      return(cached)
+    }
+  }
+
+  out <- tibble::as_tibble(tc_resolve_dataset(
     dataset,
     year,
     refresh = refresh,
     cache = TRUE
   ))
+
+  if (!isTRUE(refresh)) {
+    tc_memory_set(memory_key, value = out)
+  }
+
+  out
 }
 
 #' Retrieve Census variable metadata
@@ -400,6 +445,14 @@ tc_dataset <- function(dataset, year = NULL, refresh = FALSE) {
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_variables("acs/acs5", 2024, refresh = TRUE)
 tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
+  memory_key <- c("tc_variables", dataset, year %||% NA)
+  if (!isTRUE(refresh)) {
+    cached <- tc_memory_get(memory_key)
+    if (!is.null(cached)) {
+      return(cached)
+    }
+  }
+
   dataset_info <- tc_resolve_dataset(
     dataset,
     year,
@@ -468,7 +521,13 @@ tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
     }))
   )
 
-  out[order(out$name), ]
+  out <- out[order(out$name), ]
+
+  if (!isTRUE(refresh)) {
+    tc_memory_set(memory_key, value = out)
+  }
+
+  out
 }
 
 tc_variable_metadata_url <- function(dataset, year, variable) {
@@ -498,6 +557,14 @@ tc_variable_metadata_url <- function(dataset, year, variable) {
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_groups("acs/acs5", 2024, refresh = TRUE)
 tc_groups <- function(dataset, year = NULL, refresh = FALSE) {
+  memory_key <- c("tc_groups", dataset, year %||% NA)
+  if (!isTRUE(refresh)) {
+    cached <- tc_memory_get(memory_key)
+    if (!is.null(cached)) {
+      return(cached)
+    }
+  }
+
   dataset_info <- tc_resolve_dataset(
     dataset,
     year,
@@ -514,7 +581,7 @@ tc_groups <- function(dataset, year = NULL, refresh = FALSE) {
   )
   groups <- json[["groups"]]
 
-  tibble::tibble(
+  out <- tibble::tibble(
     name = groups$name %||% NA_character_,
     description = groups$description %||% NA_character_,
     universe = groups[["universe "]] %||%
@@ -522,6 +589,12 @@ tc_groups <- function(dataset, year = NULL, refresh = FALSE) {
       NA_character_,
     variables_url = vapply(groups$variables, tc_normalize_link, character(1))
   )
+
+  if (!isTRUE(refresh)) {
+    tc_memory_set(memory_key, value = out)
+  }
+
+  out
 }
 
 #' Retrieve Census table metadata
@@ -617,6 +690,14 @@ tc_parse_geography_wildcard <- function(entry) {
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_geography("acs/acs5", 2024, refresh = TRUE)
 tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
+  memory_key <- c("tc_geography", dataset, year %||% NA)
+  if (!isTRUE(refresh)) {
+    cached <- tc_memory_get(memory_key)
+    if (!is.null(cached)) {
+      return(cached)
+    }
+  }
+
   dataset_info <- tc_resolve_dataset(
     dataset,
     year,
@@ -633,7 +714,7 @@ tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
   )
   geographies <- json[["fips"]]
 
-  tibble::tibble(
+  out <- tibble::tibble(
     geography = geographies$name %||% NA_character_,
     summary_level = geographies$geoLevelDisplay %||% NA_character_,
     requires = I(
@@ -649,6 +730,12 @@ tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
     example = geographies$exampleValue %||%
       rep(NA_character_, nrow(geographies))
   )
+
+  if (!isTRUE(refresh)) {
+    tc_memory_set(memory_key, value = out)
+  }
+
+  out
 }
 
 #' Retrieve Census example query metadata
@@ -660,6 +747,14 @@ tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_examples("acs/acs5", 2024, refresh = TRUE)
 tc_examples <- function(dataset, year = NULL, refresh = FALSE) {
+  memory_key <- c("tc_examples", dataset, year %||% NA)
+  if (!isTRUE(refresh)) {
+    cached <- tc_memory_get(memory_key)
+    if (!is.null(cached)) {
+      return(cached)
+    }
+  }
+
   dataset_info <- tc_resolve_dataset(
     dataset,
     year,
@@ -667,7 +762,13 @@ tc_examples <- function(dataset, year = NULL, refresh = FALSE) {
     cache = TRUE
   )
   year <- dataset_info$year[[1]]
-  tc_fetch_metadata(dataset, year, "examples", refresh = refresh, cache = TRUE)
+  out <- tc_fetch_metadata(dataset, year, "examples", refresh = refresh, cache = TRUE)
+
+  if (!isTRUE(refresh)) {
+    tc_memory_set(memory_key, value = out)
+  }
+
+  out
 }
 
 #' Search Census variable metadata
@@ -729,6 +830,14 @@ tc_values <- function(dataset, year = NULL, variable, refresh = FALSE) {
     cli::cli_abort("{.arg variable} must be a single non-empty string.")
   }
 
+  memory_key <- c("tc_values", dataset, year %||% NA, variable)
+  if (!isTRUE(refresh)) {
+    cached <- tc_memory_get(memory_key)
+    if (!is.null(cached)) {
+      return(cached)
+    }
+  }
+
   dataset_info <- tc_resolve_dataset(dataset, year, refresh = refresh, cache = TRUE)
   year <- dataset_info$year[[1]]
   url <- tc_variable_metadata_url(dataset, year, variable)
@@ -744,8 +853,14 @@ tc_values <- function(dataset, year = NULL, variable, refresh = FALSE) {
     )
   }
 
-  tibble::tibble(
+  out <- tibble::tibble(
     code = names(values),
     label = unname(unlist(values, use.names = FALSE))
   )
+
+  if (!isTRUE(refresh)) {
+    tc_memory_set(memory_key, value = out)
+  }
+
+  out
 }

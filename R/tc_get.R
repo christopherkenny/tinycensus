@@ -29,7 +29,8 @@ tc_prepare_special_variables <- function(
   year,
   variables = NULL,
   geography = NULL,
-  refresh = FALSE
+  refresh = FALSE,
+  meta = NULL
 ) {
   variables <- tc_null_if_empty(variables)
   if (is.null(variables)) {
@@ -65,7 +66,7 @@ tc_prepare_special_variables <- function(
     alias_map <- alias_map[alias_map$variable != "NAME", , drop = FALSE]
   }
 
-  meta <- tc_variables(dataset, year, refresh = refresh)
+  meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
   label_vars <- requested[grepl("_LABEL$", requested)]
   label_map <- vector("list", length(label_vars))
 
@@ -182,7 +183,10 @@ tc_query_params <- function(
   name = TRUE,
   ucgid = NULL,
   refresh = FALSE,
-  geography_vintage = NULL
+  geography_vintage = NULL,
+  meta = NULL,
+  groups = NULL,
+  geography_meta = NULL
 ) {
   if (is.null(group) && (is.null(variables) || !length(variables))) {
     cli::cli_abort("Supply either {.arg variables} or {.arg group}.")
@@ -194,7 +198,7 @@ tc_query_params <- function(
     )
   }
 
-  meta <- tc_variables(dataset, year, refresh = refresh)
+  meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
   allow_name <- !is.null(geography) && tc_dataset_supports_name(dataset)
 
   if (!is.null(variables)) {
@@ -205,7 +209,7 @@ tc_query_params <- function(
   }
 
   if (!is.null(group)) {
-    groups <- tc_groups(dataset, year, refresh = refresh)
+    groups <- groups %||% tc_groups(dataset, year, refresh = refresh)
     if (!group %in% groups$name) {
       cli::cli_abort(
         "Unknown group {.val {group}} for dataset {.val {dataset}}."
@@ -215,7 +219,17 @@ tc_query_params <- function(
 
   if (!is.null(geography)) {
     geography <- tc_normalize_geography_name(geography)
-    geo_row <- tc_geography_record(dataset, year, geography, refresh = refresh)
+    geo_row <- if (is.null(geography_meta)) {
+      tc_geography_record(dataset, year, geography, refresh = refresh)
+    } else {
+      idx <- geography_meta$geography == geography
+      if (!any(idx)) {
+        cli::cli_abort(
+          "Geography {.val {geography}} is not available for dataset {.val {dataset}} in {.val {year}}."
+        )
+      }
+      geography_meta[idx, , drop = FALSE][1, , drop = FALSE]
+    }
     within <- tc_normalize_within(within)
     geography_vintage <- tc_resolve_geography_vintage(
       dataset = dataset,
@@ -328,10 +342,11 @@ tc_parse_census_response <- function(
   dataset,
   year,
   geography = NULL,
-  refresh = FALSE
+  refresh = FALSE,
+  meta = NULL
 ) {
   out <- tc_json_matrix_to_tibble(resp)
-  meta <- tc_variables(dataset, year, refresh = refresh)
+  meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
   shared <- intersect(names(out), meta$name)
 
   for (column in shared) {
@@ -407,7 +422,8 @@ tc_execute_query <- function(
   params,
   geography = NULL,
   refresh = FALSE,
-  endpoint = NULL
+  endpoint = NULL,
+  meta = NULL
 ) {
   url <- tc_query_url(
     dataset = dataset,
@@ -424,7 +440,8 @@ tc_execute_query <- function(
     dataset = dataset,
     year = year,
     geography = geography,
-    refresh = refresh
+    refresh = refresh,
+    meta = meta
   )
 }
 
@@ -464,6 +481,9 @@ tc_dataset_query_raw <- function(
   cache = TRUE,
   ucgid = NULL,
   geography_vintage = NULL,
+  meta = NULL,
+  groups = NULL,
+  geography_meta = NULL,
   ...
 ) {
   dataset_info <- tc_resolve_dataset(
@@ -500,7 +520,10 @@ tc_dataset_query_raw <- function(
         name = if (i == 1L) name else FALSE,
         ucgid = ucgid,
         refresh = refresh,
-        geography_vintage = geography_vintage
+        geography_vintage = geography_vintage,
+        meta = meta,
+        groups = groups,
+        geography_meta = geography_meta
       )
 
       tc_execute_query(
@@ -509,7 +532,8 @@ tc_dataset_query_raw <- function(
         params = params,
         geography = geography,
         refresh = refresh,
-        endpoint = dataset_info$endpoint[[1]]
+        endpoint = dataset_info$endpoint[[1]],
+        meta = meta
       )
     })
     out <- tibble::as_tibble(tc_join_chunks(result))
@@ -527,7 +551,10 @@ tc_dataset_query_raw <- function(
       name = name,
       ucgid = ucgid,
       refresh = refresh,
-      geography_vintage = geography_vintage
+      geography_vintage = geography_vintage,
+      meta = meta,
+      groups = groups,
+      geography_meta = geography_meta
     )
 
     out <- tibble::as_tibble(
@@ -537,7 +564,8 @@ tc_dataset_query_raw <- function(
         params = params,
         geography = geography,
         refresh = refresh,
-        endpoint = dataset_info$endpoint[[1]]
+        endpoint = dataset_info$endpoint[[1]],
+        meta = meta
       )
     )
   }
@@ -591,8 +619,8 @@ tc_metric_map <- function(variables) {
   )
 }
 
-tc_companion_variables <- function(dataset, year, variables, refresh = FALSE) {
-  meta <- tc_variables(dataset, year, refresh = refresh)
+tc_companion_variables <- function(dataset, year, variables, refresh = FALSE, meta = NULL) {
+  meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
   expanded <- unique(as.character(variables))
 
   for (variable in variables) {
@@ -635,14 +663,15 @@ tc_validate_summary_var <- function(
   dataset,
   year,
   table = NULL,
-  refresh = FALSE
+  refresh = FALSE,
+  meta = NULL
 ) {
   summary_var <- tc_null_if_empty(summary_var)
   if (is.null(summary_var)) {
     return(invisible(NULL))
   }
 
-  meta <- tc_variables(dataset, year, refresh = refresh)
+  meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
   info <- tc_metric_info(summary_var)
   target <- if (info$role == "moe") {
     sub("M$", "E", summary_var)
@@ -693,12 +722,13 @@ tc_shape_product_wide <- function(
   dataset,
   year,
   summary_var = NULL,
-  refresh = FALSE
+  refresh = FALSE,
+  meta = NULL
 ) {
   map <- tc_metric_map(names(data))
   keep <- map$role != "annotation"
   out <- data[, map$raw_variable[keep], drop = FALSE]
-  meta <- tc_variables(dataset, year, refresh = refresh)
+  meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
   shared <- intersect(names(out), meta$name)
   measure_cols <- shared[
     meta$predicate_type[match(shared, meta$name)] %in%
@@ -759,12 +789,24 @@ tc_product_query <- function(
     within = within,
     dots = rlang::list2(...)
   )
+  meta <- tc_variables(dataset, year, refresh = refresh)
+  groups <- if (!is.null(table)) {
+    tc_groups(dataset, year = year, refresh = refresh)
+  } else {
+    NULL
+  }
+  geography_meta <- if (!is.null(geo_inputs$geography)) {
+    tc_geography(dataset, year = year, refresh = refresh)
+  } else {
+    NULL
+  }
   specials <- tc_prepare_special_variables(
     dataset = dataset,
     year = year,
     variables = variables,
     geography = geo_inputs$geography,
-    refresh = refresh
+    refresh = refresh,
+    meta = meta
   )
   variables <- tc_null_if_empty(specials$variables)
 
@@ -773,7 +815,8 @@ tc_product_query <- function(
     dataset = dataset,
     year = year,
     table = table,
-    refresh = refresh
+    refresh = refresh,
+    meta = meta
   )
 
   request_vars <- variables
@@ -782,14 +825,15 @@ tc_product_query <- function(
       dataset,
       year,
       request_vars,
-      refresh = refresh
+      refresh = refresh,
+      meta = meta
     )
   }
 
   if (!is.null(summary_var)) {
     request_vars <- unique(c(
       request_vars,
-      tc_companion_variables(dataset, year, summary_var, refresh = refresh)
+      tc_companion_variables(dataset, year, summary_var, refresh = refresh, meta = meta)
     ))
   }
 
@@ -807,6 +851,9 @@ tc_product_query <- function(
     cache = cache,
     ucgid = ucgid,
     geography_vintage = geography_vintage,
+    meta = meta,
+    groups = groups,
+    geography_meta = geography_meta,
     ...
   )
 
@@ -816,7 +863,8 @@ tc_product_query <- function(
     dataset = dataset,
     year = year,
     summary_var = summary_var,
-    refresh = refresh
+    refresh = refresh,
+    meta = meta
   )
   out <- tc_apply_value_labels(
     out,
