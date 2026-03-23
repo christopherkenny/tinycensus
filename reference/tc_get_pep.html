@@ -39,20 +39,20 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tc_get_pep</span><span class="op">(</span></span>
-<span>  <span class="va">year</span>,</span>
+<span>  geography <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  variables <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  table <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  geography <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  within <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  predicates <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">year</span>,</span>
 <span>  dataset <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  product <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  breakdown <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  within <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predicates <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  breakdown_labels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  summary_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  key <span class="op">=</span> <span class="fu"><a href="tc_get_key.html">tc_get_key</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  geometry <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  keep_geo_vars <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  key <span class="op">=</span> <span class="fu"><a href="tc_get_key.html">tc_get_key</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  refresh <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ucgid <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -65,8 +65,8 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-year">year<a class="anchor" aria-label="anchor" href="#arg-year"></a></dt>
-<dd><p>Dataset year.</p></dd>
+<dl><dt id="arg-geography">geography<a class="anchor" aria-label="anchor" href="#arg-geography"></a></dt>
+<dd><p>Census geography name.</p></dd>
 
 
 <dt id="arg-variables">variables<a class="anchor" aria-label="anchor" href="#arg-variables"></a></dt>
@@ -78,16 +78,8 @@
 <code>variables</code>.</p></dd>
 
 
-<dt id="arg-geography">geography<a class="anchor" aria-label="anchor" href="#arg-geography"></a></dt>
-<dd><p>Census geography name.</p></dd>
-
-
-<dt id="arg-within">within<a class="anchor" aria-label="anchor" href="#arg-within"></a></dt>
-<dd><p>Optional named list of parent geographies.</p></dd>
-
-
-<dt id="arg-predicates">predicates<a class="anchor" aria-label="anchor" href="#arg-predicates"></a></dt>
-<dd><p>Optional named list of additional predicates.</p></dd>
+<dt id="arg-year">year<a class="anchor" aria-label="anchor" href="#arg-year"></a></dt>
+<dd><p>Dataset year.</p></dd>
 
 
 <dt id="arg-dataset">dataset<a class="anchor" aria-label="anchor" href="#arg-dataset"></a></dt>
@@ -105,6 +97,14 @@
 values are <code>"AGE"</code>, <code>"AGEGROUP"</code>, <code>"SEX"</code>, <code>"HISP"</code>, and <code>"RACE"</code>.</p></dd>
 
 
+<dt id="arg-within">within<a class="anchor" aria-label="anchor" href="#arg-within"></a></dt>
+<dd><p>Optional named list of parent geographies.</p></dd>
+
+
+<dt id="arg-predicates">predicates<a class="anchor" aria-label="anchor" href="#arg-predicates"></a></dt>
+<dd><p>Optional named list of additional predicates.</p></dd>
+
+
 <dt id="arg-breakdown-labels">breakdown_labels<a class="anchor" aria-label="anchor" href="#arg-breakdown-labels"></a></dt>
 <dd><p>Should label variables for supported breakdowns be
 added automatically?</p></dd>
@@ -115,16 +115,16 @@ added automatically?</p></dd>
 <code>summary_estimate</code> / <code>summary_moe</code>.</p></dd>
 
 
-<dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
-<dd><p>Optional Census API key.</p></dd>
-
-
 <dt id="arg-geometry">geometry<a class="anchor" aria-label="anchor" href="#arg-geometry"></a></dt>
 <dd><p>Should geometry be joined after retrieval?</p></dd>
 
 
 <dt id="arg-keep-geo-vars">keep_geo_vars<a class="anchor" aria-label="anchor" href="#arg-keep-geo-vars"></a></dt>
 <dd><p>Should source geometry attributes be retained?</p></dd>
+
+
+<dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
+<dd><p>Optional Census API key.</p></dd>
 
 
 <dt id="arg-refresh">refresh<a class="anchor" aria-label="anchor" href="#arg-refresh"></a></dt>

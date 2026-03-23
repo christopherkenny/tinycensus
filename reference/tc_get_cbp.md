@@ -6,17 +6,17 @@ Retrieve County Business Patterns data
 
 ``` r
 tc_get_cbp(
-  year,
+  geography = NULL,
   variables = NULL,
   table = NULL,
-  geography = NULL,
+  year,
+  dataset = "cbp",
   within = NULL,
   predicates = NULL,
-  dataset = "cbp",
   summary_var = NULL,
-  key = tc_get_key(),
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
   ucgid = NULL,
@@ -27,9 +27,9 @@ tc_get_cbp(
 
 ## Arguments
 
-- year:
+- geography:
 
-  Dataset year.
+  Census geography name.
 
 - variables:
 
@@ -40,9 +40,13 @@ tc_get_cbp(
   Optional table or group identifier. Mutually exclusive with
   `variables`.
 
-- geography:
+- year:
 
-  Census geography name.
+  Dataset year.
+
+- dataset:
+
+  A `cbp` dataset identifier. Defaults to `"cbp"`.
 
 - within:
 
@@ -52,18 +56,10 @@ tc_get_cbp(
 
   Optional named list of additional predicates.
 
-- dataset:
-
-  A `cbp` dataset identifier. Defaults to `"cbp"`.
-
 - summary_var:
 
   Optional summary variable to append as `summary_estimate` /
   `summary_moe`.
-
-- key:
-
-  Optional Census API key.
 
 - geometry:
 
@@ -72,6 +68,10 @@ tc_get_cbp(
 - keep_geo_vars:
 
   Should source geometry attributes be retained?
+
+- key:
+
+  Optional Census API key.
 
 - refresh:
 

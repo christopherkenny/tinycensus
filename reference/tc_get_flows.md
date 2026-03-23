@@ -7,16 +7,16 @@ Retrieve ACS migration flows
 ``` r
 tc_get_flows(
   geography,
-  year = 2018,
-  variables = NULL,
-  breakdown = NULL,
   state = NULL,
   county = NULL,
   msa = NULL,
-  key = tc_get_key(),
+  year = 2018,
+  variables = NULL,
+  breakdown = NULL,
   breakdown_labels = FALSE,
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE
 )
 ```
@@ -26,18 +26,6 @@ tc_get_flows(
 - geography:
 
   Flows geography.
-
-- year:
-
-  ACS migration flows year.
-
-- variables:
-
-  Optional additional variables.
-
-- breakdown:
-
-  Optional breakdown variables.
 
 - state:
 
@@ -51,9 +39,17 @@ tc_get_flows(
 
   Optional metropolitan area codes.
 
-- key:
+- year:
 
-  Optional Census API key.
+  ACS migration flows year.
+
+- variables:
+
+  Optional additional variables.
+
+- breakdown:
+
+  Optional breakdown variables.
 
 - breakdown_labels:
 
@@ -68,6 +64,10 @@ tc_get_flows(
 
   Should source geometry attributes for the selected geometry role be
   retained?
+
+- key:
+
+  Optional Census API key.
 
 - refresh:
 

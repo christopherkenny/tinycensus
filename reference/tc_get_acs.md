@@ -6,18 +6,18 @@ Retrieve American Community Survey data
 
 ``` r
 tc_get_acs(
-  year,
+  geography = NULL,
   variables = NULL,
   table = NULL,
-  geography = NULL,
-  within = NULL,
-  predicates = NULL,
+  year,
   survey = c("acs5", "acs1", "acs3"),
   product = c("detailed", "profile", "subject", "comparison"),
+  within = NULL,
+  predicates = NULL,
   summary_var = NULL,
-  key = tc_get_key(),
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
   ucgid = NULL,
@@ -28,9 +28,9 @@ tc_get_acs(
 
 ## Arguments
 
-- year:
+- geography:
 
-  ACS year.
+  Census geography name.
 
 - variables:
 
@@ -40,17 +40,9 @@ tc_get_acs(
 
   Optional ACS table identifier. Mutually exclusive with `variables`.
 
-- geography:
+- year:
 
-  Census geography name.
-
-- within:
-
-  Optional named list of parent geographies.
-
-- predicates:
-
-  Optional named list of additional predicates.
+  ACS year.
 
 - survey:
 
@@ -61,14 +53,18 @@ tc_get_acs(
   ACS product, one of `"detailed"`, `"profile"`, `"subject"`, or
   `"comparison"`.
 
+- within:
+
+  Optional named list of parent geographies.
+
+- predicates:
+
+  Optional named list of additional predicates.
+
 - summary_var:
 
   Optional summary variable to append as `summary_estimate` /
   `summary_moe`.
-
-- key:
-
-  Optional Census API key.
 
 - geometry:
 
@@ -77,6 +73,10 @@ tc_get_acs(
 - keep_geo_vars:
 
   Should source geometry attributes be retained?
+
+- key:
+
+  Optional Census API key.
 
 - refresh:
 

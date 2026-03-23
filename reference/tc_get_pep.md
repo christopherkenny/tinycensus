@@ -6,20 +6,20 @@ Retrieve Population Estimates Program data
 
 ``` r
 tc_get_pep(
-  year,
+  geography = NULL,
   variables = NULL,
   table = NULL,
-  geography = NULL,
-  within = NULL,
-  predicates = NULL,
+  year,
   dataset = NULL,
   product = NULL,
   breakdown = NULL,
+  within = NULL,
+  predicates = NULL,
   breakdown_labels = FALSE,
   summary_var = NULL,
-  key = tc_get_key(),
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
   ucgid = NULL,
@@ -30,9 +30,9 @@ tc_get_pep(
 
 ## Arguments
 
-- year:
+- geography:
 
-  Dataset year.
+  Census geography name.
 
 - variables:
 
@@ -43,17 +43,9 @@ tc_get_pep(
   Optional table or group identifier. Mutually exclusive with
   `variables`.
 
-- geography:
+- year:
 
-  Census geography name.
-
-- within:
-
-  Optional named list of parent geographies.
-
-- predicates:
-
-  Optional named list of additional predicates.
+  Dataset year.
 
 - dataset:
 
@@ -70,6 +62,14 @@ tc_get_pep(
   Optional characteristics breakdown variables. Supported values are
   `"AGE"`, `"AGEGROUP"`, `"SEX"`, `"HISP"`, and `"RACE"`.
 
+- within:
+
+  Optional named list of parent geographies.
+
+- predicates:
+
+  Optional named list of additional predicates.
+
 - breakdown_labels:
 
   Should label variables for supported breakdowns be added
@@ -80,10 +80,6 @@ tc_get_pep(
   Optional summary variable to append as `summary_estimate` /
   `summary_moe`.
 
-- key:
-
-  Optional Census API key.
-
 - geometry:
 
   Should geometry be joined after retrieval?
@@ -91,6 +87,10 @@ tc_get_pep(
 - keep_geo_vars:
 
   Should source geometry attributes be retained?
+
+- key:
+
+  Optional Census API key.
 
 - refresh:
 

@@ -6,17 +6,17 @@ Retrieve Census Planning Database data
 
 ``` r
 tc_get_pdb(
-  year,
+  geography = NULL,
   variables = NULL,
   table = NULL,
-  geography = NULL,
+  year,
+  dataset = NULL,
   within = NULL,
   predicates = NULL,
-  dataset = NULL,
   summary_var = NULL,
-  key = tc_get_key(),
   geometry = FALSE,
   keep_geo_vars = FALSE,
+  key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
   ucgid = NULL,
@@ -27,9 +27,9 @@ tc_get_pdb(
 
 ## Arguments
 
-- year:
+- geography:
 
-  Dataset year.
+  Census geography name.
 
 - variables:
 
@@ -40,9 +40,14 @@ tc_get_pdb(
   Optional table or group identifier. Mutually exclusive with
   `variables`.
 
-- geography:
+- year:
 
-  Census geography name.
+  Dataset year.
+
+- dataset:
+
+  Optional `pdb/...` dataset path. When omitted, the dataset is inferred
+  from `geography`.
 
 - within:
 
@@ -52,19 +57,10 @@ tc_get_pdb(
 
   Optional named list of additional predicates.
 
-- dataset:
-
-  Optional `pdb/...` dataset path. When omitted, the dataset is inferred
-  from `geography`.
-
 - summary_var:
 
   Optional summary variable to append as `summary_estimate` /
   `summary_moe`.
-
-- key:
-
-  Optional Census API key.
 
 - geometry:
 
@@ -73,6 +69,10 @@ tc_get_pdb(
 - keep_geo_vars:
 
   Should source geometry attributes be retained?
+
+- key:
+
+  Optional Census API key.
 
 - refresh:
 

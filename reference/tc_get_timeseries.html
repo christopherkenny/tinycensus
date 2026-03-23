@@ -39,14 +39,14 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tc_get_timeseries</span><span class="op">(</span></span>
+<span>  geography <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">dataset</span>,</span>
 <span>  variables <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  table <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  geography <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  within <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  predicates <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  time <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  year <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  within <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predicates <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="tc_get_key.html">tc_get_key</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  refresh <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -59,7 +59,11 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-dataset">dataset<a class="anchor" aria-label="anchor" href="#arg-dataset"></a></dt>
+<dl><dt id="arg-geography">geography<a class="anchor" aria-label="anchor" href="#arg-geography"></a></dt>
+<dd><p>Optional Census geography name.</p></dd>
+
+
+<dt id="arg-dataset">dataset<a class="anchor" aria-label="anchor" href="#arg-dataset"></a></dt>
 <dd><p>A time-series dataset identifier.</p></dd>
 
 
@@ -72,8 +76,13 @@
 <code>variables</code>.</p></dd>
 
 
-<dt id="arg-geography">geography<a class="anchor" aria-label="anchor" href="#arg-geography"></a></dt>
-<dd><p>Optional Census geography name.</p></dd>
+<dt id="arg-time">time<a class="anchor" aria-label="anchor" href="#arg-time"></a></dt>
+<dd><p>Optional timeseries date value, such as <code>"2024-01"</code>.</p></dd>
+
+
+<dt id="arg-year">year<a class="anchor" aria-label="anchor" href="#arg-year"></a></dt>
+<dd><p>Optional dataset year. Most timeseries datasets ignore this and
+resolve through the discovery catalog.</p></dd>
 
 
 <dt id="arg-within">within<a class="anchor" aria-label="anchor" href="#arg-within"></a></dt>
@@ -82,15 +91,6 @@
 
 <dt id="arg-predicates">predicates<a class="anchor" aria-label="anchor" href="#arg-predicates"></a></dt>
 <dd><p>Optional named list of filter predicates other than <code>time</code>.</p></dd>
-
-
-<dt id="arg-time">time<a class="anchor" aria-label="anchor" href="#arg-time"></a></dt>
-<dd><p>Optional timeseries date value, such as <code>"2024-01"</code>.</p></dd>
-
-
-<dt id="arg-year">year<a class="anchor" aria-label="anchor" href="#arg-year"></a></dt>
-<dd><p>Optional dataset year. Most timeseries datasets ignore this and
-resolve through the discovery catalog.</p></dd>
 
 
 <dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
