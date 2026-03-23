@@ -26,6 +26,44 @@ tc_geometry_bind <- function(parts) {
   do.call(rbind, parts)
 }
 
+tc_geometry_field <- function(data, stem) {
+  exact <- names(data)[names(data) == stem]
+  if (length(exact)) {
+    return(exact[[1]])
+  }
+
+  suffixed <- grep(
+    paste0("^", gsub("([.\\^$|()*+?{}\\[\\]\\\\])", "\\\\\\1", stem), "[0-9]{2}$"),
+    names(data),
+    value = TRUE
+  )
+
+  if (length(suffixed)) {
+    return(suffixed[[1]])
+  }
+
+  NULL
+}
+
+tc_geometry_geoid <- function(data, stems = NULL) {
+  geoid_col <- tc_geometry_field(data, "GEOID")
+  if (!is.null(geoid_col)) {
+    return(data[[geoid_col]])
+  }
+
+  if (is.null(stems) || !length(stems)) {
+    return(NULL)
+  }
+
+  cols <- lapply(stems, function(stem) tc_geometry_field(data, stem))
+  if (any(vapply(cols, is.null, logical(1)))) {
+    return(NULL)
+  }
+  cols <- unlist(cols, use.names = FALSE)
+
+  do.call(paste0, unname(data[cols]))
+}
+
 tc_fetch_geometry <- function(data, geography, year) {
   tiger_year <- tc_geometry_year(year, geography = geography)
 
@@ -86,6 +124,28 @@ tc_fetch_geometry <- function(data, geography, year) {
         geom$TRACTCE,
         geom$BLKGRPCE
       )
+      geom
+    })
+    return(tc_geometry_bind(parts))
+  }
+
+  if (geography == "block") {
+    combos <- unique(data[c("state", "county")])
+    parts <- lapply(seq_len(nrow(combos)), function(i) {
+      geom <- tinytiger::tt_blocks(
+        state = combos$state[[i]],
+        county = combos$county[[i]],
+        year = tiger_year
+      )
+      geom$GEOID <- tc_geometry_geoid(
+        geom,
+        stems = c("STATEFP", "COUNTYFP", "TRACTCE", "BLOCKCE")
+      )
+      if (is.null(geom$GEOID)) {
+        cli::cli_abort(
+          "Unable to determine a block GEOID column from the geometry source."
+        )
+      }
       geom
     })
     return(tc_geometry_bind(parts))

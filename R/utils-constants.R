@@ -116,6 +116,7 @@ tc_geoid_map <- list(
   "county subdivision" = c("state", "county", "county subdivision"),
   "tract" = c("state", "county", "tract"),
   "block group" = c("state", "county", "tract", "block group"),
+  "block" = c("state", "county", "tract", "block"),
   "place" = c("state", "place"),
   "congressional district" = c("state", "congressional district"),
   "metropolitan statistical area/micropolitan statistical area" = c("metropolitan statistical area/micropolitan statistical area"),

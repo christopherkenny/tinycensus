@@ -66,6 +66,37 @@ test_that("tc_get_decennial fills wildcard parent geographies when supported", {
   expect_true(nrow(out) > 1)
 })
 
+test_that("tc_get_decennial supports block geometry with wildcard tract parents", {
+  skip_if_not_installed("vcr")
+  skip_if_not_installed("sf")
+  skip_if_offline()
+  vcr::local_cassette("decennial_block_geometry")
+
+  out <- tc_get_decennial(
+    geography = "block",
+    variables = c(
+      tot_male_youth = "P18_005N",
+      tot_male_adult = "P18_015N",
+      tot_male_senior = "P18_025N",
+      tot_female_youth = "P18_036N",
+      tot_female_adult = "P18_046N",
+      tot_female_senior = "P18_056N"
+    ),
+    year = 2020,
+    state = "FL",
+    county = "Gadsden",
+    dataset = "dhc",
+    geometry = TRUE
+  )
+
+  expect_true(inherits(out, "sf"))
+  expect_true(inherits(out, "tbl_df"))
+  expect_true(all(c("GEOID", "tract", "block", "tot_male_youth") %in% names(out)))
+  expect_true(all(out$state == "12"))
+  expect_true(all(out$county == "039"))
+  expect_true(nrow(out) > 1)
+})
+
 test_that("tc_get_decennial preserves named variable aliases", {
   skip_if_not_installed("vcr")
   skip_if_offline()
