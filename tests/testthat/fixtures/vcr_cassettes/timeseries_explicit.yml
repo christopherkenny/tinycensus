@@ -15,14 +15,14 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Sun, 22 Mar 2026 19:54:07 GMT
+      Date: Mon, 23 Mar 2026 13:31:50 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4908e5a736a2f0bae0c2455b4cd141a408cceb42ba403f4fe75c1765e021822b9374758bad70a91ecc576cab6fabc9861;
+      Set-Cookie: TS010383f0=01283c52a43dd5ecac11f8aa76a6eb31b80c3d7369e07bfbfa987ac5dd2fc1de2c16ed256cfb877ab710d6cc1cc2408b08975ed893;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
       string: |-
         [["ALL_VAL_MO","CTY_CODE","time"],
         ["26439153527","2010","2024-01"]]
-  recorded_at: 2026-03-22 19:54:07
+  recorded_at: 2026-03-23 13:31:46
 recorded_with: VCR-vcr/2.1.0

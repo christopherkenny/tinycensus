@@ -1,0 +1,59 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charagegroups?get=NAME%2CPOP%2CAGEGROUP&for=state%3A22&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 13:31:48 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a479ec526504434e519c758b4ca74e674076b45f25ac0991fec4010e2513689ddee2542fa72eaddcc88bf4308e20873c6e;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","POP","AGEGROUP","state"],
+        ["Louisiana","4648794","0","22"],
+        ["Louisiana","301469","1","22"],
+        ["Louisiana","301217","2","22"],
+        ["Louisiana","306719","3","22"],
+        ["Louisiana","293860","4","22"],
+        ["Louisiana","303408","5","22"],
+        ["Louisiana","335245","6","22"],
+        ["Louisiana","322982","7","22"],
+        ["Louisiana","315125","8","22"],
+        ["Louisiana","274729","9","22"],
+        ["Louisiana","269497","10","22"],
+        ["Louisiana","278851","11","22"],
+        ["Louisiana","308346","12","22"],
+        ["Louisiana","296324","13","22"],
+        ["Louisiana","248923","14","22"],
+        ["Louisiana","193611","15","22"],
+        ["Louisiana","131141","16","22"],
+        ["Louisiana","85290","17","22"],
+        ["Louisiana","82057","18","22"],
+        ["Louisiana","1087630","19","22"],
+        ["Louisiana","547589","20","22"],
+        ["Louisiana","238572","21","22"],
+        ["Louisiana","2820142","22","22"],
+        ["Louisiana","419043","23","22"],
+        ["Louisiana","1248081","24","22"],
+        ["Louisiana","1153018","25","22"],
+        ["Louisiana","741022","26","22"],
+        ["Louisiana","82057","27","22"],
+        ["Louisiana","3679746","28","22"],
+        ["Louisiana","3561164","29","22"],
+        ["Louisiana","1845349","30","22"],
+        ["Louisiana","37.5","31","22"]]
+  recorded_at: 2026-03-23 13:31:46
+recorded_with: VCR-vcr/2.1.0

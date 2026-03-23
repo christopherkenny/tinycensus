@@ -53,6 +53,7 @@ The main entry points are:
 - `tc_get_decennial()` for decennial census products
 - `tc_get_pep()` for population estimates
 - `tc_get_cbp()` for County Business Patterns
+- `tc_get_pdb()` for the Planning Database
 - `tc_get_flows()` for ACS migration flows
 - `tc_get_timeseries()` for discovery-catalog time-series endpoints
 
@@ -114,11 +115,11 @@ tc_get_acs(
   geography = "state",
   state = c("NY", "Delaware", "36")
 )
-#> # A tibble: 2 × 4
-#>   NAME     B01001_001E state GEOID
-#>   <chr>          <dbl> <chr> <chr>
-#> 1 Delaware     1021191 10    10   
-#> 2 New York    19852366 36    36
+#> # A tibble: 2 × 3
+#>   B01001_001E state GEOID
+#>         <dbl> <chr> <chr>
+#> 1     1021191 10    10   
+#> 2    19852366 36    36
 ```
 
 County normalization is geography-vintage aware. That means `tinycensus`
@@ -143,11 +144,11 @@ tc_get_acs(
   geography = "state",
   state = c("NY", "Delaware")
 )
-#> # A tibble: 2 × 4
-#>   NAME     B19013_001E state GEOID
-#>   <chr>          <dbl> <chr> <chr>
-#> 1 Delaware       84954 10    10   
-#> 2 New York       85974 36    36
+#> # A tibble: 2 × 3
+#>   B19013_001E state GEOID
+#>         <dbl> <chr> <chr>
+#> 1       84954 10    10   
+#> 2       85974 36    36
 ```
 
 You can do the same with a decennial dataset:
@@ -160,12 +161,12 @@ tc_get_decennial(
   geography = "county",
   state = "Delaware"
 )
-#> # A tibble: 3 × 5
-#>   NAME                        P1_001N state county GEOID
-#>   <chr>                         <dbl> <chr> <chr>  <chr>
-#> 1 Kent County, Delaware        181851 10    001    10001
-#> 2 New Castle County, Delaware  570719 10    003    10003
-#> 3 Sussex County, Delaware      237378 10    005    10005
+#> # A tibble: 3 × 4
+#>   P1_001N state county GEOID
+#>     <dbl> <chr> <chr>  <chr>
+#> 1  181851 10    001    10001
+#> 2  570719 10    003    10003
+#> 3  237378 10    005    10005
 ```
 
 You can also request a full ACS table directly:
@@ -178,10 +179,10 @@ tc_get_acs(
   state = "Delaware"
 )
 #> # A tibble: 1 × 102
-#>   NAME   B01001_001E B01001_001M B01001_002E B01001_002M B01001_003E B01001_003M
-#>   <chr>        <dbl> <chr>             <dbl> <chr>             <dbl> <chr>      
-#> 1 Delaw…     1021191 -555555555       494652 170               27816 143        
-#> # ℹ 95 more variables: B01001_004E <dbl>, B01001_004M <chr>, B01001_005E <dbl>,
+#>   B01001_001E B01001_001M B01001_002E B01001_002M B01001_003E B01001_003M
+#>         <dbl> <chr>             <dbl> <chr>             <dbl> <chr>      
+#> 1     1021191 -555555555       494652 170               27816 143        
+#> # ℹ 96 more variables: B01001_004E <dbl>, B01001_004M <chr>, B01001_005E <dbl>,
 #> #   B01001_005M <chr>, B01001_006E <dbl>, B01001_006M <chr>, B01001_007E <dbl>,
 #> #   B01001_007M <chr>, B01001_008E <dbl>, B01001_008M <chr>, B01001_009E <dbl>,
 #> #   B01001_009M <chr>, B01001_010E <dbl>, B01001_010M <chr>, B01001_011E <dbl>,
@@ -193,21 +194,35 @@ tc_get_acs(
 ## Inspect metadata
 
 Metadata helpers make it easier to explore unfamiliar datasets before
-you query them. For most workflows, `tc_tables()` is the best way to
-browse table-level metadata; `tc_groups()` remains available as a
-lower-level helper for the raw Census API concept.
+you query them. For most workflows, `tc_tables()` is the best place to
+start because it gives you a compact, table-oriented view of the API.
+`tc_variables()` is still useful when you want fields like `universe`,
+and `tc_search_variables()` is the quickest way to find likely
+candidates by label or concept.
+
+``` r
+tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
+#> # A tibble: 5 × 2
+#>   name   description                                                            
+#>   <chr>  <chr>                                                                  
+#> 1 B17015 Poverty Status in the Past 12 Months of Families by Family Type by Soc…
+#> 2 B18104 Sex by Age by Cognitive Difficulty                                     
+#> 3 B17016 Poverty Status in the Past 12 Months of Families by Family Type by Wor…
+#> 4 B18105 Sex by Age by Ambulatory Difficulty                                    
+#> 5 B17017 Poverty Status in the Past 12 Months by Household Type by Age of House…
+```
 
 ``` r
 vars <- tc_variables("acs/acs5", 2024)
 vars[
   vars$name %in% c("B01001_001E", "B19013_001E"),
-  c("name", "label", "concept")
+  c("name", "label", "concept", "universe")
 ]
-#> # A tibble: 2 × 3
-#>   name        label                                                      concept
-#>   <chr>       <chr>                                                      <chr>  
-#> 1 B01001_001E Estimate!!Total:                                           Sex by…
-#> 2 B19013_001E Estimate!!Median household income in the past 12 months (… Median…
+#> # A tibble: 2 × 4
+#>   name        label                                             concept universe
+#>   <chr>       <chr>                                             <chr>   <chr>   
+#> 1 B01001_001E Estimate!!Total:                                  Sex by… Total p…
+#> 2 B19013_001E Estimate!!Median household income in the past 12… Median… Househo…
 ```
 
 ``` r
@@ -227,31 +242,61 @@ tc_geography("acs/acs5", 2024)[1:10, c("geography", "summary_level")]
 #> 10 block group               150
 ```
 
+### Example metadata workflow
+
+This is a typical discovery path:
+
+1.  search for a concept
+2.  inspect the table it belongs to
+3.  retrieve the estimate
+
 ``` r
-tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
-#> # A tibble: 5 × 2
-#>   name   description                                                            
-#>   <chr>  <chr>                                                                  
-#> 1 B17015 Poverty Status in the Past 12 Months of Families by Family Type by Soc…
-#> 2 B18104 Sex by Age by Cognitive Difficulty                                     
-#> 3 B17016 Poverty Status in the Past 12 Months of Families by Family Type by Wor…
-#> 4 B18105 Sex by Age by Ambulatory Difficulty                                    
-#> 5 B17017 Poverty Status in the Past 12 Months by Household Type by Age of House…
+income_hits <- tc_search_variables(
+  "acs/acs5",
+  2024,
+  query = "median household income"
+)
+
+income_hits[
+  1:5,
+  c("name", "label", "concept", "universe")
+]
+#> # A tibble: 5 × 4
+#>   name         label                                            concept universe
+#>   <chr>        <chr>                                            <chr>   <chr>   
+#> 1 B19013_001E  Estimate!!Median household income in the past 1… Median… Househo…
+#> 2 B19013A_001E Estimate!!Median household income in the past 1… Median… Househo…
+#> 3 B19013B_001E Estimate!!Median household income in the past 1… Median… Househo…
+#> 4 B19013C_001E Estimate!!Median household income in the past 1… Median… Househo…
+#> 5 B19013D_001E Estimate!!Median household income in the past 1… Median… Househo…
 ```
 
 ``` r
-tc_search_variables("acs/acs5", 2024, query = "median household income")[
+tc_table_variables("acs/acs5", "B19013", 2024)[
   1:5,
-  c("name", "label", "concept")
+  c("name", "label", "universe")
 ]
 #> # A tibble: 5 × 3
-#>   name         label                                                     concept
-#>   <chr>        <chr>                                                     <chr>  
-#> 1 B19013_001E  Estimate!!Median household income in the past 12 months … Median…
-#> 2 B19013A_001E Estimate!!Median household income in the past 12 months … Median…
-#> 3 B19013B_001E Estimate!!Median household income in the past 12 months … Median…
-#> 4 B19013C_001E Estimate!!Median household income in the past 12 months … Median…
-#> 5 B19013D_001E Estimate!!Median household income in the past 12 months … Median…
+#>   name        label                                                     universe
+#>   <chr>       <chr>                                                     <chr>   
+#> 1 B19013_001E Estimate!!Median household income in the past 12 months … Househo…
+#> 2 <NA>        <NA>                                                      <NA>    
+#> 3 <NA>        <NA>                                                      <NA>    
+#> 4 <NA>        <NA>                                                      <NA>    
+#> 5 <NA>        <NA>                                                      <NA>
+```
+
+``` r
+tc_get_acs(
+  year = 2024,
+  variables = "B19013_001E",
+  geography = "state",
+  state = "Delaware"
+)
+#> # A tibble: 1 × 3
+#>   B19013_001E state GEOID
+#>         <dbl> <chr> <chr>
+#> 1       84954 10    10
 ```
 
 ## Migration flows
@@ -264,8 +309,6 @@ tc_get_flows(
   county = "001",
   geometry = "destination"
 )
-#> Warning in st_point_on_surface.sfc(geom$geometry): st_point_on_surface may not
-#> give correct results for longitude/latitude data
 #> Simple feature collection with 316 features and 10 fields (with 8 geometries empty)
 #> Geometry type: POINT
 #> Dimension:     XY
@@ -312,16 +355,46 @@ tc_get_flows(
 ``` r
 tc_get_pep(
   year = 2021,
-  dataset = "population",
-  variables = "POP_2021",
+  product = "population",
   geography = "state",
   state = c("NY", "Delaware")
 )
-#> # A tibble: 2 × 4
-#>   NAME     POP_2021 state GEOID
-#>   <chr>       <dbl> <chr> <chr>
-#> 1 Delaware  1003384 10    10   
-#> 2 New York 19835913 36    36
+#> # A tibble: 2 × 23
+#>   DENSITY_2020 DENSITY_2021 DENSITY_BASE2020 NPOPCHG_2020 NPOPCHG_2021
+#>          <dbl>        <dbl>            <dbl>        <dbl>        <dbl>
+#> 1         509.         515.             508.         1938        11498
+#> 2         428.         421.             429.       -46316      -319020
+#> # ℹ 18 more variables: NPOPCHG_CUM2021 <dbl>, POP_2020 <dbl>, POP_2021 <dbl>,
+#> #   POP_BASE2020 <dbl>, PPOPCHG_2020 <dbl>, PPOPCHG_2021 <dbl>,
+#> #   PPOPCHG_CUM2021 <dbl>, RANK_NPOPCHG_2020 <dbl>, RANK_NPOPCHG_2021 <dbl>,
+#> #   RANK_NPOPCHG_CUM2021 <dbl>, RANK_POP_2020 <dbl>, RANK_POP_2021 <dbl>,
+#> #   RANK_POP_BASE2020 <dbl>, RANK_PPOPCHG_2020 <dbl>, RANK_PPOPCHG_2021 <dbl>,
+#> #   RANK_PPOPCHG_CUM2021 <dbl>, state <chr>, GEOID <chr>
+```
+
+``` r
+tc_get_pep(
+  year = 2023,
+  product = "characteristics",
+  breakdown = "RACE",
+  breakdown_labels = TRUE,
+  geography = "state",
+  state = "NY"
+)
+#> # A tibble: 24 × 5
+#>         POP POPGROUP state GEOID POPGROUP_LABEL                                 
+#>       <dbl> <chr>    <chr> <chr> <chr>                                          
+#>  1 20202320 001      36    36    Total population                               
+#>  2 20104710 001      36    36    Total population                               
+#>  3 13943368 002      36    36    White alone                                    
+#>  4 13872582 002      36    36    White alone                                    
+#>  5 14391976 003      36    36    White alone or in combination with one or more…
+#>  6 14322340 003      36    36    White alone or in combination with one or more…
+#>  7  3598865 004      36    36    Black or African American alone                
+#>  8  3577768 004      36    36    Black or African American alone                
+#>  9  3941239 005      36    36    Black or African American alone or in combinat…
+#> 10  3920776 005      36    36    Black or African American alone or in combinat…
+#> # ℹ 14 more rows
 ```
 
 ``` r
@@ -331,11 +404,74 @@ tc_get_cbp(
   geography = "state",
   state = c("NY", "DE")
 )
-#> # A tibble: 2 × 4
-#>   NAME      ESTAB state GEOID
-#>   <chr>     <dbl> <chr> <chr>
-#> 1 Delaware  28553 10    10   
-#> 2 New York 535758 36    36
+#> # A tibble: 2 × 3
+#>    ESTAB state GEOID
+#>    <dbl> <chr> <chr>
+#> 1  28553 10    10   
+#> 2 535758 36    36
+```
+
+## Planning Database
+
+`tc_get_pdb()` brings the Planning Database into the same
+product-wrapper workflow. The dataset is inferred from geography:
+
+- `tract` -\> `pdb/tract`
+- `block group` -\> `pdb/blockgroup`
+- `state` / `county` -\> `pdb/statecounty`
+
+``` r
+tc_get_pdb(
+  year = 2024,
+  variables = "Tot_Population_CEN_2020",
+  geography = "tract",
+  state = "NY",
+  county = "061"
+)
+#> # A tibble: 310 × 5
+#>    Tot_Population_CEN_2020 state county tract  GEOID      
+#>                      <dbl> <chr> <chr>  <chr>  <chr>      
+#>  1                       0 36    061    000100 36061000100
+#>  2                    2012 36    061    000201 36061000201
+#>  3                    7266 36    061    000202 36061000202
+#>  4                       5 36    061    000500 36061000500
+#>  5                   11616 36    061    000600 36061000600
+#>  6                   10542 36    061    000700 36061000700
+#>  7                   10871 36    061    000800 36061000800
+#>  8                    2016 36    061    000900 36061000900
+#>  9                    1767 36    061    001001 36061001001
+#> 10                    6300 36    061    001002 36061001002
+#> # ℹ 300 more rows
+```
+
+``` r
+tc_get_pdb(
+  year = 2024,
+  variables = "Tot_Population_CEN_2020",
+  geography = "block group",
+  state = "NY",
+  county = "061",
+  tract = "000100"
+)
+#> # A tibble: 1 × 6
+#>   Tot_Population_CEN_2020 state county tract  `block group` GEOID       
+#>                     <dbl> <chr> <chr>  <chr>  <chr>         <chr>       
+#> 1                       0 36    061    000100 1             360610001001
+```
+
+``` r
+tc_get_pdb(
+  year = 2020,
+  variables = "Tot_Population_CEN_2010",
+  geography = "county",
+  state = "DE"
+)
+#> # A tibble: 3 × 4
+#>   Tot_Population_CEN_2010 state county GEOID
+#>   <chr>                   <chr> <chr>  <chr>
+#> 1 162310                  10    001    10001
+#> 2 538479                  10    003    10003
+#> 3 197145                  10    005    10005
 ```
 
 ## Time-series datasets
@@ -371,17 +507,17 @@ tc_get_acs(
   geometry = TRUE,
   keep_geo_vars = TRUE
 )
-#> Simple feature collection with 2 features and 18 fields
+#> Simple feature collection with 2 features and 17 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY
 #> Bounding box:  xmin: -79.76259 ymin: 38.45113 xmax: -71.77749 ymax: 45.01586
 #> Geodetic CRS:  NAD83
-#>   GEOID     NAME B01001_001E state REGION DIVISION STATEFP  STATENS     GEOIDFQ
-#> 1    10 Delaware     1021191    10      3        5      10 01779781 0400000US10
-#> 2    36 New York    19852366    36      1        2      36 01779796 0400000US36
-#>   STUSPS geo_NAME LSAD MTFCC FUNCSTAT        ALAND      AWATER    INTPTLAT
-#> 1     DE Delaware   00 G4000        A   5046692239  1399219008 +38.9985661
-#> 2     NY New York   00 G4000        A 122049155860 19256755462 +42.9133974
+#>   GEOID B01001_001E state REGION DIVISION STATEFP  STATENS     GEOIDFQ STUSPS
+#> 1    10     1021191    10      3        5      10 01779781 0400000US10     DE
+#> 2    36    19852366    36      1        2      36 01779796 0400000US36     NY
+#>       NAME LSAD MTFCC FUNCSTAT        ALAND      AWATER    INTPTLAT
+#> 1 Delaware   00 G4000        A   5046692239  1399219008 +38.9985661
+#> 2 New York   00 G4000        A 122049155860 19256755462 +42.9133974
 #>       INTPTLON                       geometry
 #> 1 -075.4416440 MULTIPOLYGON (((-75.50949 3...
 #> 2 -075.5962723 MULTIPOLYGON (((-74.72623 4...

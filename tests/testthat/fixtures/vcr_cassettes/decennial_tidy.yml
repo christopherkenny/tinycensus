@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Sun, 22 Mar 2026 19:23:18 GMT
+      Date: Mon, 23 Mar 2026 13:31:03 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a46b8a5dd3e8ddcca87d1198087e2cafbb69c4bfa2910e32c5f64bd608fa5b3ad01ac1f8bfe20f1fac4d32bdd68e7c0539;
+      Set-Cookie: TS010383f0=01283c52a4af120cbc65738969e5190be5f9be4edd3361c9a69fb5f462a868c02bc38e44d1fec53a2be50f8da62a4703aef5a52436;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -26,5 +26,5 @@ http_interactions:
         ["Kent County, Delaware","181851","10","001"],
         ["New Castle County, Delaware","570719","10","003"],
         ["Sussex County, Delaware","237378","10","005"]]
-  recorded_at: 2026-03-22 19:23:18
+  recorded_at: 2026-03-23 13:31:00
 recorded_with: VCR-vcr/2.1.0

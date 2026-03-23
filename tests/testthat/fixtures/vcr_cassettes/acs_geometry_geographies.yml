@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:11:55 GMT
+      Date: Mon, 23 Mar 2026 13:29:58 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a46a7255301b7d26c803d1abbf941b66117191a3d68c537008035ae4f931c6ba0cc2e7b6b21bae7fee8aa0b8c64d099df6;
+      Set-Cookie: TS010383f0=01283c52a41c03bbee55d51b7f0eb684d75b251610f44870a52f46f277ea111c4b43ed3e21ea8619430ee4ca449f47537652dd3093;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -333,7 +333,7 @@ http_interactions:
         ["Census Tract 317.03; New York County; New York","250001","36","061","031703"],
         ["Census Tract 317.04; New York County; New York","233346","36","061","031704"],
         ["Census Tract 319; New York County; New York","-666666666","36","061","031900"]]
-  recorded_at: 2026-03-23 12:11:52
+  recorded_at: 2026-03-23 13:29:55
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=tract%3A%2A&in=state%3A36+county%3A061&key=<CENSUS_API_KEY>
@@ -350,9 +350,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:01 GMT
+      Date: Mon, 23 Mar 2026 13:30:02 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4c6ab75c59c02b78f7a0dfccb61082693a70ea5d3d183d27f3e03bc68a6e56970265ea2d6a5a35fde2276e03e6e8147ff;
+      Set-Cookie: TS010383f0=01283c52a4eeb24cd5f63f7737264c3646ec49f94293fe2af7b3af93ffd929d8381cc121ccba4c6916c3d48ca4996eb3376af9710f;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -668,7 +668,7 @@ http_interactions:
         ["Census Tract 317.03; New York County; New York","250001","36","061","031703"],
         ["Census Tract 317.04; New York County; New York","233346","36","061","031704"],
         ["Census Tract 319; New York County; New York","-666666666","36","061","031900"]]
-  recorded_at: 2026-03-23 12:11:58
+  recorded_at: 2026-03-23 13:30:00
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=block+group%3A%2A&in=state%3A36+county%3A061+tract%3A000100&key=<CENSUS_API_KEY>
@@ -685,16 +685,16 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:07 GMT
+      Date: Mon, 23 Mar 2026 13:30:08 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4870a053e602f169541ae8ed2f5bb7860d417ed00371bd282a2fe03ebfa8f061a52b3872acdc5742c5c741b6bd738ce7c;
+      Set-Cookie: TS010383f0=01283c52a42a0bcf784a2753b1494fa3576c8b01409aac49d7eac10d2f51f0cc1315e8f8faba9ed85bb532176eb9e5512407862d08;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
       string: |-
         [["NAME","B19013_001E","state","county","tract","block group"],
         ["Block Group 1; Census Tract 1; New York County; New York","-666666666","36","061","000100","1"]]
-  recorded_at: 2026-03-23 12:12:04
+  recorded_at: 2026-03-23 13:30:05
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=block+group%3A%2A&in=state%3A36+county%3A061+tract%3A000100&key=<CENSUS_API_KEY>
@@ -711,16 +711,16 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:12 GMT
+      Date: Mon, 23 Mar 2026 13:30:13 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a46f86b53d16d5f44574d9bce31f67f4a779e1afbf1bb3c582e5ea6d2f56b8022084f53bb9992096e12886ff7eee356219;
+      Set-Cookie: TS010383f0=01283c52a4bd25c6a8310ee464376dba988a12bef44538d140c16075c597dfea9bbe13ce9ad8017c15149fbbaacea7ce53c4ed25b9;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
       string: |-
         [["NAME","B19013_001E","state","county","tract","block group"],
         ["Block Group 1; Census Tract 1; New York County; New York","-666666666","36","061","000100","1"]]
-  recorded_at: 2026-03-23 12:12:09
+  recorded_at: 2026-03-23 13:30:10
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=county+subdivision%3A%2A&in=state%3A36+county%3A119&key=<CENSUS_API_KEY>
@@ -737,9 +737,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:18 GMT
+      Date: Mon, 23 Mar 2026 13:30:19 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a48a8d57e8805d8dd67c6f9494bd5e8535af2572029bcf041939474e5dd77dd98fe18b80c959703dcde1c18fa4af36d97f;
+      Set-Cookie: TS010383f0=01283c52a449f8659d0f455a47cba7b6379e04e8303f0d1fab8ab6105f0011bd6cc7f083db139e64b4bdf15982e6ffd7222cdb8e64;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -770,7 +770,7 @@ http_interactions:
         ["White Plains city, Westchester County, New York","109551","36","119","81677"],
         ["Yonkers city, Westchester County, New York","78208","36","119","84000"],
         ["Yorktown town, Westchester County, New York","152917","36","119","84077"]]
-  recorded_at: 2026-03-23 12:12:15
+  recorded_at: 2026-03-23 13:30:16
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=county+subdivision%3A%2A&in=state%3A36+county%3A119&key=<CENSUS_API_KEY>
@@ -787,9 +787,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:22 GMT
+      Date: Mon, 23 Mar 2026 13:30:24 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4ba5fe51a9691fcec26c9e317c0d8b15c6cdf31aeae6f7f7f17f66fd04c6e2f17c2af85e2154609d9213b531d8403b8e4;
+      Set-Cookie: TS010383f0=01283c52a493fac704a1245db0f2feabf3560fd78daecb2e14b0a1fbd01895f53afa4e88c055509da59f0e3abb2185b8f50faabee4;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -820,7 +820,7 @@ http_interactions:
         ["White Plains city, Westchester County, New York","109551","36","119","81677"],
         ["Yonkers city, Westchester County, New York","78208","36","119","84000"],
         ["Yorktown town, Westchester County, New York","152917","36","119","84077"]]
-  recorded_at: 2026-03-23 12:12:20
+  recorded_at: 2026-03-23 13:30:21
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=congressional+district%3A01%2C02&in=state%3A36&key=<CENSUS_API_KEY>
@@ -837,9 +837,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:28 GMT
+      Date: Mon, 23 Mar 2026 13:30:30 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a45bf936aeaa84b27977397b337d906ceee06f3e6728b0922214d4fa3cf31b7fc0690b637dae4dcc2e86dab89f275f9681;
+      Set-Cookie: TS010383f0=01283c52a431183374bb44b4a0add6a86e607dd432ef687cb94d07e31f76a28b34761d4980513751f04b33930501ab68e934d3a247;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -847,7 +847,7 @@ http_interactions:
         [["NAME","B19013_001E","state","congressional district"],
         ["Congressional District 1 (118th Congress), New York","129170","36","01"],
         ["Congressional District 2 (118th Congress), New York","117404","36","02"]]
-  recorded_at: 2026-03-23 12:12:26
+  recorded_at: 2026-03-23 13:30:26
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=congressional+district%3A01%2C02&in=state%3A36&key=<CENSUS_API_KEY>
@@ -864,9 +864,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:33 GMT
+      Date: Mon, 23 Mar 2026 13:30:33 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a445019d635096f57b68131d74bdb27e3e37d376d270bdee7bbd48b252f76a0caac24466f75bcea37083e2b11e5e616424;
+      Set-Cookie: TS010383f0=01283c52a434738ada9b095b23cdaf6cfabbd480cb03b00b643413cada97e39f5811866c0bb6e51595091d7ea9f2ea0826e93f5d2a;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -874,7 +874,7 @@ http_interactions:
         [["NAME","B19013_001E","state","congressional district"],
         ["Congressional District 1 (118th Congress), New York","129170","36","01"],
         ["Congressional District 2 (118th Congress), New York","117404","36","02"]]
-  recorded_at: 2026-03-23 12:12:31
+  recorded_at: 2026-03-23 13:30:31
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=zip+code+tabulation+area%3A10001%2C10002&key=<CENSUS_API_KEY>
@@ -891,9 +891,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:39 GMT
+      Date: Mon, 23 Mar 2026 13:30:39 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a455084266565e1687777366768c868a3d1d59b33169017ac72dbfc3814ef98dd664bfc42f4e9b4456ae104a8ede30dde7;
+      Set-Cookie: TS010383f0=01283c52a428763333bd28e14c7db5bf14f14dbbc16ced29ec2749e99518d9ecfecdaf45087231bbf5740086c602aea9db58fd0012;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -901,7 +901,7 @@ http_interactions:
         [["NAME","B19013_001E","zip code tabulation area"],
         ["ZCTA5 10001","106509","10001"],
         ["ZCTA5 10002","43362","10002"]]
-  recorded_at: 2026-03-23 12:12:36
+  recorded_at: 2026-03-23 13:30:36
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=zip+code+tabulation+area%3A10001%2C10002&key=<CENSUS_API_KEY>
@@ -918,9 +918,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:45 GMT
+      Date: Mon, 23 Mar 2026 13:30:44 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4c6dd0ea1f1d2e3b2d11e2ad8e1bf902f192ca0cd2d81b066b597cad7a7861738548551d7dfbc4b318878368be969900c;
+      Set-Cookie: TS010383f0=01283c52a49c6ed6aa5acc9034321a21783ebe2146d28f75822aa91af6c9bdc1dd05263e3cfed21c119fa4d4db99cd9b6d06cb400b;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -928,7 +928,7 @@ http_interactions:
         [["NAME","B19013_001E","zip code tabulation area"],
         ["ZCTA5 10001","106509","10001"],
         ["ZCTA5 10002","43362","10002"]]
-  recorded_at: 2026-03-23 12:12:41
+  recorded_at: 2026-03-23 13:30:41
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=metropolitan+statistical+area%2Fmicropolitan+statistical+area%3A10580%2C35620&key=<CENSUS_API_KEY>
@@ -945,9 +945,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:54 GMT
+      Date: Mon, 23 Mar 2026 13:30:53 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a46f80d2a92d62cc88c431856b4dbfce2f9a1fcac510283667d2deebe1e3204c59b5813e68a8487f62d2ef8ee0ecc7340e;
+      Set-Cookie: TS010383f0=01283c52a49bc779432335494a5707153a1327654a7866030184f0be2348fa1cb174cfbe14c25acedb4707dcbf9e16e895a10d8c53;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -955,7 +955,7 @@ http_interactions:
         [["NAME","B19013_001E","metropolitan statistical area/micropolitan statistical area"],
         ["Albany-Schenectady-Troy, NY Metro Area","83360","10580"],
         ["New York-Newark-Jersey City, NY-NJ-PA Metro Area","93610","35620"]]
-  recorded_at: 2026-03-23 12:12:51
+  recorded_at: 2026-03-23 13:30:50
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=metropolitan+statistical+area%2Fmicropolitan+statistical+area%3A10580%2C35620&key=<CENSUS_API_KEY>
@@ -972,9 +972,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:12:59 GMT
+      Date: Mon, 23 Mar 2026 13:30:58 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a47e21104522057c01b2c3d563882caee02506d3dbaa6e7a613e482b067a149205445e522656ec4c6cc617083348f04c87;
+      Set-Cookie: TS010383f0=01283c52a4c8e7b2787118c7e3f5fe7f239a9e1f456b1a3ad55f7ee98aac6498bb293fc8a14d229c295b6e6ee1fe9af70562a98b4a;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -982,5 +982,5 @@ http_interactions:
         [["NAME","B19013_001E","metropolitan statistical area/micropolitan statistical area"],
         ["Albany-Schenectady-Troy, NY Metro Area","83360","10580"],
         ["New York-Newark-Jersey City, NY-NJ-PA Metro Area","93610","35620"]]
-  recorded_at: 2026-03-23 12:12:56
+  recorded_at: 2026-03-23 13:30:55
 recorded_with: VCR-vcr/2.1.0

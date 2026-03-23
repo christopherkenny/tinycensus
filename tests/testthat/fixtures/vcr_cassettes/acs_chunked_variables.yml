@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:11:42 GMT
+      Date: Mon, 23 Mar 2026 13:29:46 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4a4f3371c5142ae59285a036cdc85efef352bab6cd886dc5c585c552bbb5d413904d82a0b08147e7f2bad5e3ac100eb89;
+      Set-Cookie: TS010383f0=01283c52a455e8dfb3dc695d0652dead51c5d567066c9b1a3d44c6159edc9c09d38ea45ad8dbf172565992aeceb97ce9332e5a631c;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -25,7 +25,7 @@ http_interactions:
         [["NAME","B01001A_001E","B01001A_002E","B01001A_003E","B01001A_004E","B01001A_005E","B01001A_006E","B01001A_007E","B01001A_008E","B01001A_009E","B01001A_010E","B01001A_011E","B01001A_012E","B01001A_013E","B01001A_014E","B01001A_015E","B01001A_016E","B01001A_017E","B01001A_018E","B01001A_019E","B01001A_020E","B01001A_021E","B01001A_022E","B01001A_023E","B01001A_024E","B01001A_025E","B01001A_026E","B01001A_027E","B01001A_028E","B01001A_029E","B01001A_030E","B01001A_031E","B01001B_001E","B01001B_002E","B01001B_003E","B01001B_004E","B01001B_005E","B01001B_006E","B01001B_007E","B01001B_008E","B01001B_009E","B01001B_010E","B01001B_011E","B01001B_012E","B01001B_013E","B01001B_014E","B01001B_015E","B01001B_016E","B01001B_017E","B01001B_018E","state"],
         ["Delaware","634244","309683","13836","14701","16092","10471","7538","16948","18456","20267","35521","37456","48133","43203","21036","6025","324561","13538","14317","15597","9517","7612","16172","18354","19986","35232","38443","52238","48413","25363","9779","218266","102798","6715","7453","8100","4472","3537","7939","7472","7129","12822","12506","12985","7708","2928","1032","115468","6915","10"],
         ["New York","11749652","5798028","295175","298076","319183","201237","150400","366769","391511","399224","717366","744539","851925","640057","301894","120672","5951624","280048","284873","302929","188544","147198","360352","387983","387490","690897","731460","859937","704395","400040","225478","3011116","1410498","88214","86585","99806","59176","41807","105906","120343","114315","183092","177268","176066","100513","44249","13158","1600618","86864","36"]]
-  recorded_at: 2026-03-23 12:11:39
+  recorded_at: 2026-03-23 13:29:43
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=B01001B_019E%2CB01001B_020E%2CB01001B_021E%2CB01001B_022E%2CB01001B_023E%2CB01001B_024E&for=state%3A10%2C36&key=<CENSUS_API_KEY>
@@ -42,9 +42,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:11:44 GMT
+      Date: Mon, 23 Mar 2026 13:29:48 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4e7203c3faecf0d5cfce4f5d5997903e083db21cedd903bd79199fc1b7787d5084371135a7515bdb8ba4d8bf54adba151;
+      Set-Cookie: TS010383f0=01283c52a4f12579bfef043c45d8203ae02215f085d5c4cff9bda8a64b3d8061802dd98dfc9b80e23e49fe42bcfc0d828b6878df50;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -52,7 +52,7 @@ http_interactions:
         [["B01001B_019E","B01001B_020E","B01001B_021E","B01001B_022E","B01001B_023E","B01001B_024E","state"],
         ["6810","7950","4750","3193","7592","7527","10"],
         ["85385","95496","56671","40457","111613","124006","36"]]
-  recorded_at: 2026-03-23 12:11:41
+  recorded_at: 2026-03-23 13:29:45
 - request:
     method: GET
     uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB01001A_001E%2CB01001A_025E%2CB01001B_018E&for=state%3A10%2C36&key=<CENSUS_API_KEY>
@@ -69,9 +69,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:11:49 GMT
+      Date: Mon, 23 Mar 2026 13:29:52 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4fe323c6996d86ab53dfd04d45da6f02f75f28da48a8000417bf5b4b4e80220d78e8a9e9d8101ebe1beb631b54d2ec2f5;
+      Set-Cookie: TS010383f0=01283c52a4e3b48a13f5da350e7265155578ec65636599bcbc2f046847508de1a5ba5cdd48793c22363108a83d678691545127cce0;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -79,5 +79,5 @@ http_interactions:
         [["NAME","B01001A_001E","B01001A_025E","B01001B_018E","state"],
         ["Delaware","634244","19986","6915","10"],
         ["New York","11749652","387490","86864","36"]]
-  recorded_at: 2026-03-23 12:11:46
+  recorded_at: 2026-03-23 13:29:50
 recorded_with: VCR-vcr/2.1.0

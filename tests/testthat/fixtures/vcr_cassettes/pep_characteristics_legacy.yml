@@ -1,0 +1,192 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charage/variables/SEX.json
+  response:
+    status: 200
+    headers:
+      Cache-Control: private
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET,POST,OPTIONS
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Content-Length: '233'
+      Date: Mon, 23 Mar 2026 13:31:47 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a40d9bfe406ad1508f94db6cdb5d4bc30678c0e580b780d83ea8ee780704b80a520c079468a2973b1ee13dad437d6fd65e;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+    body:
+      string: |-
+        {
+          "name": "SEX",
+          "label": "Sex",
+          "required": "default displayed",
+          "predicateType": "int",
+          "group": "N/A",
+          "limit": 0,
+          "values": {
+            "item": {
+              "0": "Both Sexes",
+              "1": "Male",
+              "2": "Female"
+            }
+          }
+        }
+  recorded_at: 2026-03-23 13:31:43
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charage/variables/HISP.json
+  response:
+    status: 200
+    headers:
+      Cache-Control: private
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET,POST,OPTIONS
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Content-Length: '267'
+      Date: Mon, 23 Mar 2026 13:31:46 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a478d2c5f5103660a2a772c705f0f9140fc842fb4a55d37d0f4f14845f887c4d7b985fdca2dd0a078241c5f3d149b88af8;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+    body:
+      string: |-
+        {
+          "name": "HISP",
+          "label": "Hispanic Origin",
+          "required": "default displayed",
+          "predicateType": "int",
+          "group": "N/A",
+          "limit": 0,
+          "values": {
+            "item": {
+              "2": "Hispanic",
+              "1": "Non Hispanic",
+              "0": "Both Hispanic origins"
+            }
+          }
+        }
+  recorded_at: 2026-03-23 13:31:43
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charage?get=NAME%2CPOP%2CSEX%2CHISP&for=state%3A22&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 13:31:47 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a43d840c1b605d22c88b0c75e8c2db4e2737c2f52c59c3d9e39d7bb5d9127404f651987ede0fe0a7f2cbd639b63c85ef1c;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","POP","SEX","HISP","state"],
+        ["Louisiana","4648794","0","0","22"],
+        ["Louisiana","4401822","0","1","22"],
+        ["Louisiana","246972","0","2","22"],
+        ["Louisiana","2267050","1","0","22"],
+        ["Louisiana","2135979","1","1","22"],
+        ["Louisiana","131071","1","2","22"],
+        ["Louisiana","2381744","2","0","22"],
+        ["Louisiana","2265843","2","1","22"],
+        ["Louisiana","115901","2","2","22"]]
+  recorded_at: 2026-03-23 13:31:44
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charage/variables/SEX.json
+  response:
+    status: 200
+    headers:
+      Cache-Control: private
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET,POST,OPTIONS
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Content-Length: '233'
+      Date: Mon, 23 Mar 2026 13:31:47 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a426f13f8854076d1ed69d8b499a441a11a77af799951c57eb0fd4f3d95a499d0dd24f56cc12fdff985f8e5eb90958f3aa;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+    body:
+      string: |-
+        {
+          "name": "SEX",
+          "label": "Sex",
+          "required": "default displayed",
+          "predicateType": "int",
+          "group": "N/A",
+          "limit": 0,
+          "values": {
+            "item": {
+              "0": "Both Sexes",
+              "1": "Male",
+              "2": "Female"
+            }
+          }
+        }
+  recorded_at: 2026-03-23 13:31:44
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/charage/variables/HISP.json
+  response:
+    status: 200
+    headers:
+      Cache-Control: private
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET,POST,OPTIONS
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Content-Length: '267'
+      Date: Mon, 23 Mar 2026 13:31:47 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a468b11b5d3dd300122cc15464ed68bdf527295a1a6965bbe089f56441d5e53c5aa735dcc151aca9f93b8c7fd4d96529a2;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+    body:
+      string: |-
+        {
+          "name": "HISP",
+          "label": "Hispanic Origin",
+          "required": "default displayed",
+          "predicateType": "int",
+          "group": "N/A",
+          "limit": 0,
+          "values": {
+            "item": {
+              "2": "Hispanic",
+              "1": "Non Hispanic",
+              "0": "Both Hispanic origins"
+            }
+          }
+        }
+  recorded_at: 2026-03-23 13:31:44
+recorded_with: VCR-vcr/2.1.0

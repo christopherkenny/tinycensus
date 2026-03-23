@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:05:04 GMT
+      Date: Mon, 23 Mar 2026 13:31:04 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4589ba1d78ac3c21f1c0971649cc7766afa352e98b560ccf8217721aa3f77a16bef56b05b2e60eb05c3f252852e6d98d9;
+      Set-Cookie: TS010383f0=01283c52a4e13fbb3fd1089ec22d73e9f11ab587ad7e9545ff7910f2b36a4bcc84421ee1262cb8e3828bda29b494b37f91917ff120;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -27,5 +27,5 @@ http_interactions:
         ["Block Group 2; Census Tract 2203; Dutchess County; New York","1394","36","027","220300","2"],
         ["Block Group 3; Census Tract 2203; Dutchess County; New York","1192","36","027","220300","3"],
         ["Block Group 4; Census Tract 2203; Dutchess County; New York","885","36","027","220300","4"]]
-  recorded_at: 2026-03-23 12:05:01
+  recorded_at: 2026-03-23 13:31:01
 recorded_with: VCR-vcr/2.1.0

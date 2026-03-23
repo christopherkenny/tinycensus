@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Sun, 22 Mar 2026 19:23:23 GMT
+      Date: Mon, 23 Mar 2026 13:31:11 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a46ce979934fcf8f3eba5328df2892ba093bca86bd4453c7197167cc871d3e114559dfb47e3373705f77d8a7fe81d06249;
+      Set-Cookie: TS010383f0=01283c52a40b2ec4e9ebebf59dcb6f47b8b89b2c9e9acb24f462feb453895dbdbae43ecbb328e3cd90ecf42d2cca218350af91e593;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -339,5 +339,5 @@ http_interactions:
         ["36001","72027","Albany County, New York","Camuy Municipio, Puerto Rico","3","7","0","29","3","7","36","001"],
         ["36001","72041","Albany County, New York","Cidra Municipio, Puerto Rico","20","32","0","29","20","32","36","001"],
         ["36001","72069","Albany County, New York","Humacao Municipio, Puerto Rico","14","22","0","32","14","22","36","001"]]
-  recorded_at: 2026-03-22 19:23:23
+  recorded_at: 2026-03-23 13:31:08
 recorded_with: VCR-vcr/2.1.0

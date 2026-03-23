@@ -1,0 +1,52 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/timeseries/poverty/saipe?get=NAME%2CSAEPOVRT0_17_PT%2CSAEPOVRTALL_PT&for=state%3A01&time=from+2000&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 13:31:50 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4197a3c21f6911ceb659c28ca59b2807a9fc843c09d44d456a0d3bb381cc59800a2dfe642d62a480c961f97ceb6a7321f;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","SAEPOVRT0_17_PT","SAEPOVRTALL_PT","time","state"],
+        ["Alabama","20.5","14.6","2000","01"],
+        ["Alabama","22.1","15.7","2001","01"],
+        ["Alabama","21.6","15.4","2002","01"],
+        ["Alabama","22.3","15.3","2003","01"],
+        ["Alabama","22.6","16.1","2004","01"],
+        ["Alabama","24.3","16.9","2005","01"],
+        ["Alabama","23.1","16.6","2006","01"],
+        ["Alabama","23.6","16.6","2007","01"],
+        ["Alabama","22.1","15.9","2008","01"],
+        ["Alabama","24.6","17.5","2009","01"],
+        ["Alabama","27.4","18.9","2010","01"],
+        ["Alabama","27.6","19.1","2011","01"],
+        ["Alabama","27.6","19.0","2012","01"],
+        ["Alabama","27.4","18.9","2013","01"],
+        ["Alabama","27.4","19.2","2014","01"],
+        ["Alabama","26.5","18.5","2015","01"],
+        ["Alabama","24.7","17.2","2016","01"],
+        ["Alabama","24.4","16.9","2017","01"],
+        ["Alabama","23.9","16.8","2018","01"],
+        ["Alabama","21.9","15.6","2019","01"],
+        ["Alabama","20.9","14.9","2020","01"],
+        ["Alabama","22.7","16.3","2021","01"],
+        ["Alabama","21.8","16.2","2022","01"],
+        ["Alabama","21.3","15.7","2023","01"],
+        ["Alabama","20.4","15.2","2024","01"]]
+  recorded_at: 2026-03-23 13:31:47
+recorded_with: VCR-vcr/2.1.0

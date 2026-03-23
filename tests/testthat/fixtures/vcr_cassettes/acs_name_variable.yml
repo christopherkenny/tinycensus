@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:04:37 GMT
+      Date: Mon, 23 Mar 2026 13:29:35 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a47139f1ca7fa7d7ddd75e679944ff1223f5477e8cb9ae89d3bb3e5896b7ddf35194a16bb926918475d9420ea3397fd5da;
+      Set-Cookie: TS010383f0=01283c52a4b03a3123e9546e50af97e94469b0b4a4463749697b86f9d60e8f44441045e8bc0ad9654cadec70cb0c29904ed99a9ce8;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -616,5 +616,5 @@ http_interactions:
         ["Woodville town, Alabama","1053","53542","01","83664"],
         ["Yellow Bluff town, Alabama","140","12348","01","83976"],
         ["York city, Alabama","2423","33269","01","84096"]]
-  recorded_at: 2026-03-23 12:04:34
+  recorded_at: 2026-03-23 13:29:32
 recorded_with: VCR-vcr/2.1.0

@@ -72,6 +72,40 @@ test_that("tc_get_pep returns product defaults when variables are omitted", {
   expect_true(all(c("BIRTHS", "DEATHS", "NETMIG", "NATURALINC") %in% names(out)))
 })
 
+test_that("tc_get_pep supports national housing defaults", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("pep_housing_us_default")
+
+  out <- tc_get_pep(
+    year = 2019,
+    product = "housing",
+    geography = "us"
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c("DATE_CODE", "DATE_DESC", "HUEST") %in% names(out)))
+  expect_true(nrow(out) >= 1)
+})
+
+test_that("tc_get_pep supports legacy AGEGROUP characteristics", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("pep_characteristics_agegroup")
+
+  out <- tc_get_pep(
+    year = 2019,
+    product = "characteristics",
+    breakdown = "AGEGROUP",
+    geography = "state",
+    state = "LA"
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c("POP", "AGEGROUP") %in% names(out)))
+  expect_true(nrow(out) > 0)
+})
+
 test_that("tc_get_pep validates dataset and product inputs", {
   expect_error(
     tc_get_pep(

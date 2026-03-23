@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Sun, 22 Mar 2026 19:51:05 GMT
+      Date: Mon, 23 Mar 2026 13:31:01 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4d635f377d11ae8eb3c40a26eb05ffc27f7874bf04d48f966401d64a0dedac9d3330778fadcf4c7bb9e9b2491ee46dd8f;
+      Set-Cookie: TS010383f0=01283c52a4179675371c6ed4292c14a9f4399237c3f6aa71f488e72d245a16cc5da800f2db004f6ed9f9c3d0ba08447e57c6d03941;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -25,5 +25,5 @@ http_interactions:
         [["NAME","ESTAB","state"],
         ["Delaware","28553","10"],
         ["New York","535758","36"]]
-  recorded_at: 2026-03-22 19:51:05
+  recorded_at: 2026-03-23 13:30:58
 recorded_with: VCR-vcr/2.1.0

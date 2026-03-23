@@ -1,0 +1,39 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/housing?get=NAME%2CDATE_CODE%2CDATE_DESC%2CHUEST&for=us%3A%2A&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 13:31:49 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4f55a656d97dedf11a677cf649ea7c903b13802c1913d047ff55f923755f16a09601d7d64704b1396ff92649dc13bc002;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","DATE_CODE","DATE_DESC","HUEST","us"],
+        ["United States","1","4/1/2010 Census housing unit count","131704730","1"],
+        ["United States","2","4/1/2010 housing unit estimates base","131705135","1"],
+        ["United States","3","7/1/2010 housing unit estimate","131825383","1"],
+        ["United States","4","7/1/2011 housing unit estimate","132312816","1"],
+        ["United States","5","7/1/2012 housing unit estimate","132834047","1"],
+        ["United States","6","7/1/2013 housing unit estimate","133538615","1"],
+        ["United States","7","7/1/2014 housing unit estimate","134388318","1"],
+        ["United States","8","7/1/2015 housing unit estimate","135285123","1"],
+        ["United States","9","7/1/2016 housing unit estimate","136286436","1"],
+        ["United States","10","7/1/2017 housing unit estimate","137366902","1"],
+        ["United States","11","7/1/2018 housing unit estimate","138516439","1"],
+        ["United States","12","7/1/2019 housing unit estimate","139684244","1"]]
+  recorded_at: 2026-03-23 13:31:45
+recorded_with: VCR-vcr/2.1.0

@@ -25,7 +25,25 @@ test_that("tc_get_pdb retrieves tract-level Planning Database data", {
   )
 
   expect_s3_class(out, "tbl_df")
-  expect_true(all(c("NAME", "Tot_Population_CEN_2020", "tract", "GEOID") %in% names(out)))
+  expect_true(all(c("Tot_Population_CEN_2020", "tract", "GEOID") %in% names(out)))
+  expect_false("NAME" %in% names(out))
+})
+
+test_that("tc_get_pdb supports county queries for statecounty datasets without NAME", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("pdb_statecounty_county")
+
+  out <- tc_get_pdb(
+    year = 2020,
+    variables = "Tot_Population_CEN_2010",
+    geography = "county",
+    state = "DE"
+  )
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(c("Tot_Population_CEN_2010", "county", "GEOID") %in% names(out)))
+  expect_false("NAME" %in% names(out))
 })
 
 test_that("tc_get_pdb handles chunked variable requests with stable aliases and order", {
@@ -101,7 +119,7 @@ test_that("tc_get_pdb geometry preserves row order for tract and block group", {
   expect_geometry_roundtrip(
     tract_tab,
     tract_sf,
-    c("GEOID", "NAME", "state", "county", "tract", "Tot_Population_CEN_2020"),
+    c("GEOID", "state", "county", "tract", "Tot_Population_CEN_2020"),
     "TRACTCE"
   )
 
@@ -126,7 +144,7 @@ test_that("tc_get_pdb geometry preserves row order for tract and block group", {
   expect_geometry_roundtrip(
     block_group_tab,
     block_group_sf,
-    c("GEOID", "NAME", "state", "county", "tract", "block group", "Tot_Population_CEN_2020"),
+    c("GEOID", "state", "county", "tract", "block group", "Tot_Population_CEN_2020"),
     "BLKGRPCE"
   )
 })

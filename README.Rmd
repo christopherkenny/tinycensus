@@ -56,6 +56,7 @@ The main entry points are:
 - `tc_get_decennial()` for decennial census products
 - `tc_get_pep()` for population estimates
 - `tc_get_cbp()` for County Business Patterns
+- `tc_get_pdb()` for the Planning Database
 - `tc_get_flows()` for ACS migration flows
 - `tc_get_timeseries()` for discovery-catalog time-series endpoints
 
@@ -153,13 +154,18 @@ tc_get_acs(
 ## Inspect metadata
 
 Metadata helpers make it easier to explore unfamiliar datasets before you query them.
-For most workflows, `tc_tables()` is the best way to browse table-level metadata; `tc_groups()` remains available as a lower-level helper for the raw Census API concept.
+For most workflows, `tc_tables()` is the best place to start because it gives you a compact, table-oriented view of the API.
+`tc_variables()` is still useful when you want fields like `universe`, and `tc_search_variables()` is the quickest way to find likely candidates by label or concept.
+
+```{r tables}
+tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
+```
 
 ```{r metadata}
 vars <- tc_variables("acs/acs5", 2024)
 vars[
   vars$name %in% c("B01001_001E", "B19013_001E"),
-  c("name", "label", "concept")
+  c("name", "label", "concept", "universe")
 ]
 ```
 
@@ -167,15 +173,41 @@ vars[
 tc_geography("acs/acs5", 2024)[1:10, c("geography", "summary_level")]
 ```
 
-```{r tables}
-tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
-```
+### Example metadata workflow
+
+This is a typical discovery path:
+
+1. search for a concept
+2. inspect the table it belongs to
+3. retrieve the estimate
 
 ```{r search}
-tc_search_variables("acs/acs5", 2024, query = "median household income")[
+income_hits <- tc_search_variables(
+  "acs/acs5",
+  2024,
+  query = "median household income"
+)
+
+income_hits[
   1:5,
-  c("name", "label", "concept")
+  c("name", "label", "concept", "universe")
 ]
+```
+
+```{r table-vars}
+tc_table_variables("acs/acs5", "B19013", 2024)[
+  1:5,
+  c("name", "label", "universe")
+]
+```
+
+```{r metadata-to-data}
+tc_get_acs(
+  year = 2024,
+  variables = "B19013_001E",
+  geography = "state",
+  state = "Delaware"
+)
 ```
 
 ## Migration flows
@@ -195,10 +227,20 @@ tc_get_flows(
 ```{r pep}
 tc_get_pep(
   year = 2021,
-  dataset = "population",
-  variables = "POP_2021",
+  product = "population",
   geography = "state",
   state = c("NY", "Delaware")
+)
+```
+
+```{r pep-characteristics}
+tc_get_pep(
+  year = 2023,
+  product = "characteristics",
+  breakdown = "RACE",
+  breakdown_labels = TRUE,
+  geography = "state",
+  state = "NY"
 )
 ```
 
@@ -208,6 +250,45 @@ tc_get_cbp(
   variables = "ESTAB",
   geography = "state",
   state = c("NY", "DE")
+)
+```
+
+## Planning Database
+
+`tc_get_pdb()` brings the Planning Database into the same product-wrapper workflow.
+The dataset is inferred from geography:
+
+- `tract` -> `pdb/tract`
+- `block group` -> `pdb/blockgroup`
+- `state` / `county` -> `pdb/statecounty`
+
+```{r pdb-tract}
+tc_get_pdb(
+  year = 2024,
+  variables = "Tot_Population_CEN_2020",
+  geography = "tract",
+  state = "NY",
+  county = "061"
+)
+```
+
+```{r pdb-block-group}
+tc_get_pdb(
+  year = 2024,
+  variables = "Tot_Population_CEN_2020",
+  geography = "block group",
+  state = "NY",
+  county = "061",
+  tract = "000100"
+)
+```
+
+```{r pdb-county}
+tc_get_pdb(
+  year = 2020,
+  variables = "Tot_Population_CEN_2010",
+  geography = "county",
+  state = "DE"
 )
 ```
 

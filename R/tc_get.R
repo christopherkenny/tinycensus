@@ -118,6 +118,10 @@ tc_prepare_special_variables <- function(
   )
 }
 
+tc_dataset_supports_name <- function(dataset) {
+  !grepl("^pdb/", dataset)
+}
+
 tc_prepare_predicates <- function(predicates) {
   if (is.null(predicates)) {
     return(list())
@@ -191,9 +195,10 @@ tc_query_params <- function(
   }
 
   meta <- tc_variables(dataset, year, refresh = refresh)
+  allow_name <- !is.null(geography) && tc_dataset_supports_name(dataset)
 
   if (!is.null(variables)) {
-    missing_vars <- setdiff(variables, meta$name)
+    missing_vars <- setdiff(variables, c(meta$name, if (allow_name) "NAME"))
     if (length(missing_vars)) {
       cli::cli_abort("Unknown variable(s): {.val {missing_vars}}.")
     }
@@ -253,10 +258,12 @@ tc_query_params <- function(
     within <- within_values
   }
 
+  include_name <- isTRUE(name) && allow_name
+
   get_clause <- tc_build_get_clause(
     variables = variables,
     group = group,
-    include_name = isTRUE(name) && !is.null(geography)
+    include_name = include_name
   )
 
   params <- list(get = paste(get_clause, collapse = ","))

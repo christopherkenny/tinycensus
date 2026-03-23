@@ -15,14 +15,14 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:04:41 GMT
+      Date: Mon, 23 Mar 2026 13:29:40 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4f6214c962529f1563fa20d7f8e7efd648faf8969770305c305cdcebe58ecfdd3be5e190ff086377f821ebc06a51d1ce6;
+      Set-Cookie: TS010383f0=01283c52a489e70591a37b17363b26309fb7d29a55f3090842dcf1ebcf29b041e22da581f528a52d621260a2ca6e399b31e40b352d;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
       string: |-
         [["NAME","B01001_001E","B19013_001E","state"],
         ["Delaware","993635","79325","10"]]
-  recorded_at: 2026-03-23 12:04:39
+  recorded_at: 2026-03-23 13:29:37
 recorded_with: VCR-vcr/2.1.0

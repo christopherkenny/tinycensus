@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Sun, 22 Mar 2026 19:23:14 GMT
+      Date: Mon, 23 Mar 2026 13:29:07 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4d6f956f42505634a2b128c8b709c2f4776db6efaea214ceecdb7a9b26a512fda795f29b78ce4bd2427a2f28b27f11276;
+      Set-Cookie: TS010383f0=01283c52a4d3c913057d24bbe406a7260e1c795c1c3efacf83dad856c92c68fd79cb155a0ccf58e3f0e2e154dc087de058f2e32d05;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -25,7 +25,7 @@ http_interactions:
         [["NAME","B01001_001E","state"],
         ["Delaware","1021191","10"],
         ["New York","19852366","36"]]
-  recorded_at: 2026-03-22 19:23:15
+  recorded_at: 2026-03-23 13:29:04
 - request:
     method: GET
     uri: https://api.census.gov/data/2024/acs/acs5?get=NAME%2CB01001_001E&for=state%3A36%2C10&key=<CENSUS_API_KEY>
@@ -42,9 +42,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Sun, 22 Mar 2026 19:23:17 GMT
+      Date: Mon, 23 Mar 2026 13:29:12 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4033be53b1c9cb0ae75d09d0de6afc5a0a57b4b82bdd154470e44d984126f899c993673016abbb5afd8d72c341809f7c3;
+      Set-Cookie: TS010383f0=01283c52a4cf2db3d0704f3fda7842845c23580b08cfd75c4403705e0e864c723f3e57f2f781fcfa0cd33ca671e5df5ee49f2a9402;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -52,5 +52,5 @@ http_interactions:
         [["NAME","B01001_001E","state"],
         ["Delaware","1021191","10"],
         ["New York","19852366","36"]]
-  recorded_at: 2026-03-22 19:23:17
+  recorded_at: 2026-03-23 13:29:09
 recorded_with: VCR-vcr/2.1.0

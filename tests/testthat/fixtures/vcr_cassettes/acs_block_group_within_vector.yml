@@ -1,7 +1,7 @@
 http_interactions:
 - request:
     method: GET
-    uri: https://api.census.gov/data/timeseries/intltrade/exports/hs?get=ALL_VAL_MO&time=2024-01&CTY_CODE=2010&key=<CENSUS_API_KEY>
+    uri: https://api.census.gov/data/2020/acs/acs5?get=NAME%2CB19013_001E&for=block+group%3A%2A&in=state%3A26+county%3A161+tract%3A400100&key=<CENSUS_API_KEY>
   response:
     status: 200
     headers:
@@ -15,14 +15,15 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Sun, 22 Mar 2026 16:44:51 GMT
+      Date: Mon, 23 Mar 2026 13:28:51 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a4ba5368314b7530ad6be90b7ad120679828d41c7d52ad2282740597eb4cf147986eda9e46ade5c158ebbc6eb0ee071a27;
+      Set-Cookie: TS010383f0=01283c52a4614bca8461c5707fcc3e678a239e1c706c1ce67870a97da9fab92bc5e69f536a155c88d9ca293207888bfa45dddf9cbb;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
       string: |-
-        [["ALL_VAL_MO","time","CTY_CODE"],
-        ["26439153527","2024-01","2010"]]
-  recorded_at: 2026-03-22 16:44:51
+        [["NAME","B19013_001E","state","county","tract","block group"],
+        ["Block Group 1, Census Tract 4001, Washtenaw County, Michigan","47583","26","161","400100","1"],
+        ["Block Group 2, Census Tract 4001, Washtenaw County, Michigan","16033","26","161","400100","2"]]
+  recorded_at: 2026-03-23 13:28:49
 recorded_with: VCR-vcr/2.1.0

@@ -15,9 +15,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:04:27 GMT
+      Date: Mon, 23 Mar 2026 13:29:25 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a41cec5dfacea0b3f29d2aa00a0fb146108ba5679fd5b6a946dcc656425d39249bea96eccb60b549f90493483f1edb0a46;
+      Set-Cookie: TS010383f0=01283c52a41fb322fcc960bc8e4405622ccb911e4282d080b9d8b8e02a55ecee8962fd49e48b2d9d87ad9f80174cfa2854d43b989c;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -49,7 +49,7 @@ http_interactions:
         ["Congressional District 24 (119th Congress), New York","771272","36","24"],
         ["Congressional District 25 (119th Congress), New York","771484","36","25"],
         ["Congressional District 26 (119th Congress), New York","772895","36","26"]]
-  recorded_at: 2026-03-23 12:04:24
+  recorded_at: 2026-03-23 13:29:21
 - request:
     method: GET
     uri: https://api.census.gov/data/2024/acs/acs5?get=NAME%2CB01001_001E&for=place%3A%2A&in=state%3A10&key=<CENSUS_API_KEY>
@@ -66,9 +66,9 @@ http_interactions:
         frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
       X-Content-Type-Options: nosniff
       Content-Type: application/json;charset=utf-8
-      Date: Mon, 23 Mar 2026 12:04:32 GMT
+      Date: Mon, 23 Mar 2026 13:29:29 GMT
       Strict-Transport-Security: max-age=31536000
-      Set-Cookie: TS010383f0=01283c52a433cc1dbb5a52c4fbae3accec153fd4d30f5f5b0daf38e71184b2aaf5a258d78a8cb2b38bae8f8ee61c01b76e1a9cf3e7;
+      Set-Cookie: TS010383f0=01283c52a498c438257e013faf48dd0ab60f3c10f0ba78cc3e14b56d3e70772772bf006542cb3238eeef90734ec68e0ef7f04080c2;
         Path=/; Domain=.api.census.gov; Secure; HttpOnly
       Transfer-Encoding: chunked
     body:
@@ -153,5 +153,5 @@ http_interactions:
         ["Woodside town, Delaware","475","10","80830"],
         ["Woodside East CDP, Delaware","2274","10","80895"],
         ["Wyoming town, Delaware","2000","10","81350"]]
-  recorded_at: 2026-03-23 12:04:29
+  recorded_at: 2026-03-23 13:29:26
 recorded_with: VCR-vcr/2.1.0

@@ -44,7 +44,7 @@ tc_pep_dataset <- function(
   paste0("pep/", target)
 }
 
-tc_pep_breakdown_variables <- function(breakdown = NULL) {
+tc_pep_breakdown_variables <- function(breakdown = NULL, dataset = NULL) {
   breakdown <- tc_null_if_empty(breakdown)
   if (is.null(breakdown)) {
     return(character())
@@ -61,7 +61,7 @@ tc_pep_breakdown_variables <- function(breakdown = NULL) {
 
   mapped <- c(
     AGE = "AGE",
-    AGEGROUP = "AGE",
+    AGEGROUP = if (identical(dataset, "pep/charagegroups")) "AGEGROUP" else "AGE",
     SEX = "SEX",
     HISP = "HISP",
     RACE = "POPGROUP"
@@ -72,7 +72,10 @@ tc_pep_breakdown_variables <- function(breakdown = NULL) {
 
 tc_pep_default_variables <- function(dataset, year, breakdown = NULL, refresh = FALSE) {
   if (dataset %in% c("pep/charv", "pep/charage", "pep/charagegroups")) {
-    return(unique(c("POP", tc_pep_breakdown_variables(breakdown))))
+    return(unique(c(
+      "POP",
+      tc_pep_breakdown_variables(breakdown, dataset = dataset)
+    )))
   }
 
   meta <- tc_variables(dataset, year, refresh = refresh)
@@ -157,7 +160,6 @@ tc_pep_label_variables <- function(dataset, breakdown = NULL) {
 #' tc_get_pep(
 #'   year = 2021,
 #'   product = "population",
-#'   variables = "POP_2021",
 #'   geography = "state",
 #'   state = c("NY", "Delaware")
 #' )
@@ -188,7 +190,7 @@ tc_get_pep <- function(
     year = year,
     breakdown = breakdown
   )
-  pep_breakdown <- tc_pep_breakdown_variables(breakdown)
+  pep_breakdown <- tc_pep_breakdown_variables(breakdown, dataset = dataset)
   variables <- tc_null_if_empty(variables)
 
   if (is.null(variables) && is.null(table) && !is.null(product)) {

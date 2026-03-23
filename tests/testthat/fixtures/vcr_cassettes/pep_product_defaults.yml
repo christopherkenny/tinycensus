@@ -1,0 +1,37 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2019/pep/components?get=NAME%2CBIRTHS%2CDEATHS%2CDOMESTICMIG%2CINTERNATIONALMIG%2CNATURALINC%2CNETMIG%2CPERIOD_CODE%2CPERIOD_DESC%2CRBIRTH%2CRDEATH%2CRDOMESTICMIG%2CRESIDUAL%2CRINTERNATIONALMIG%2CRNATURALINC%2CRNETMIG&for=county%3A081&in=state%3A36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 13:31:48 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4b5f22848ba1dc6df876ac7763be22d1f75ca474090c1791a53baeb07b15f5517bb505fc7b8cbcb836dd986510bd159a7;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","BIRTHS","DEATHS","DOMESTICMIG","INTERNATIONALMIG","NATURALINC","NETMIG","PERIOD_CODE","PERIOD_DESC","RBIRTH","RDEATH","RDOMESTICMIG","RESIDUAL","RINTERNATIONALMIG","RNATURALINC","RNETMIG","state","county"],
+        ["Queens County, New York","7600","3339","-4555","4324","4261","-231","1","4/1/2010 to 6/30/2010",null,null,null,"52",null,null,null,"36","081"],
+        ["Queens County, New York","30802","13889","-15800","19636","16913","3836","2","7/1/2010 to 6/30/2011","13.71970808","6.18638483","-7.03757508","32","8.74619141","7.53332325","1.70861633","36","081"],
+        ["Queens County, New York","30123","13825","-19360","19745","16298","385","3","7/1/2011 to 6/30/2012","13.30608185","6.10684797","-8.55179579","57","8.72185991","7.19923387","0.17006412","36","081"],
+        ["Queens County, New York","30886","14451","-18184","16796","16435","-1388","4","7/1/2012 to 6/30/2013","13.5482531","6.33898224","-7.97647589","-84","7.36762478","7.20927085","-0.60885111","36","081"],
+        ["Queens County, New York","30296","14085","-22372","17692","16211","-4680","5","7/1/2013 to 6/30/2014","13.21261313","6.14271375","-9.75681875","20","7.71578926","7.06989937","-2.04102949","36","081"],
+        ["Queens County, New York","30568","14759","-26300","17494","15809","-8806","6","7/1/2014 to 6/30/2015","13.2772326","6.41058217","-11.42342375","99","7.59853137","6.86665042","-3.82489238","36","081"],
+        ["Queens County, New York","30506","14193","-33956","18549","16313","-15407","7","7/1/2015 to 6/30/2016","13.22705211","6.1539222","-14.72293258","86","8.04263389","7.07312991","-6.68029869","36","081"],
+        ["Queens County, New York","29651","14650","-39746","13628","15001","-26118","8","7/1/2016 to 6/30/2017","12.88435024","6.3659145","-17.27096504","95","5.92182136","6.51843573","-11.34914369","36","081"],
+        ["Queens County, New York","28445","15722","-44443","10411","12723","-34032","9","7/1/2017 to 6/30/2018","12.44745278","6.87990341","-19.44813302","106","4.5558246","5.56754937","-14.89230842","36","081"],
+        ["Queens County, New York","27453","16380","-41789","9883","11073","-31906","10","7/1/2018 to 6/30/2019","12.12464362","7.23424261","-18.45615168","86","4.36483637","4.890401","-14.09131531","36","081"]]
+  recorded_at: 2026-03-23 13:31:45
+recorded_with: VCR-vcr/2.1.0

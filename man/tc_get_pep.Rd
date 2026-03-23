@@ -83,7 +83,6 @@ Retrieve Population Estimates Program data
 tc_get_pep(
   year = 2021,
   product = "population",
-  variables = "POP_2021",
   geography = "state",
   state = c("NY", "Delaware")
 )
