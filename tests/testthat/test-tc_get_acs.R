@@ -199,3 +199,197 @@ test_that("tc_get_acs preserves named variable aliases", {
   expect_true(all(c("total_pop", "med_income") %in% names(out)))
   expect_false(any(c("B01001_001E", "B19013_001E") %in% names(out)))
 })
+
+test_that("tc_get_acs handles chunked variable requests with stable aliases and order", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("acs_chunked_variables")
+
+  vars <- tc_variables("acs/acs5", 2022)
+  vars <- vars$name[grepl("^[A-Z0-9]+_[0-9]+E$", vars$name)][1:55]
+  aliases <- stats::setNames(vars, paste0("metric_", seq_along(vars)))
+  control_aliases <- aliases[c(1, 25, 49)]
+
+  out <- tc_get_acs(
+    year = 2022,
+    variables = aliases,
+    geography = "state",
+    state = c("DE", "NY")
+  )
+
+  control <- tc_get_acs(
+    year = 2022,
+    variables = control_aliases,
+    geography = "state",
+    state = c("DE", "NY")
+  )
+
+  alias_names <- names(aliases)
+  control_names <- names(control_aliases)
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(alias_names %in% names(out)))
+  expect_identical(names(out)[names(out) %in% alias_names], alias_names)
+  expect_equal(out$GEOID, control$GEOID)
+  expect_equal(out[control_names], control[control_names])
+  expect_equal(anyDuplicated(out$GEOID), 0L)
+})
+
+test_that("tc_get_acs geometry preserves row order across supported geographies", {
+  skip_if_not_installed("vcr")
+  skip_if_not_installed("sf")
+  skip_if_offline()
+  vcr::local_cassette("acs_geometry_geographies")
+
+  expect_geometry_roundtrip <- function(tabular, spatial, geo_cols, geo_var) {
+    expect_true(inherits(spatial, "sf"))
+    expect_identical(spatial$GEOID, tabular$GEOID)
+    spatial_df <- sf::st_drop_geometry(spatial)
+    for (col in geo_cols) {
+      expect_equal(spatial_df[[col]], tabular[[col]])
+    }
+    expect_equal(anyDuplicated(names(spatial)), 0L)
+    expect_true(geo_var %in% names(spatial))
+  }
+
+  tract_tab <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "tract",
+    state = "NY",
+    county = "061"
+  )
+  tract_sf <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "tract",
+    state = "NY",
+    county = "061",
+    geometry = TRUE,
+    keep_geo_vars = TRUE
+  )
+  expect_geometry_roundtrip(
+    tract_tab,
+    tract_sf,
+    c("GEOID", "NAME", "state", "county", "tract", "B19013_001E"),
+    "TRACTCE"
+  )
+
+  block_group_tab <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "block group",
+    state = "NY",
+    county = "061",
+    tract = "000100"
+  )
+  block_group_sf <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "block group",
+    state = "NY",
+    county = "061",
+    tract = "000100",
+    geometry = TRUE,
+    keep_geo_vars = TRUE
+  )
+  expect_geometry_roundtrip(
+    block_group_tab,
+    block_group_sf,
+    c("GEOID", "NAME", "state", "county", "tract", "block group", "B19013_001E"),
+    "BLKGRPCE"
+  )
+
+  county_subdivision_tab <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "county subdivision",
+    state = "NY",
+    county = "119"
+  )
+  county_subdivision_sf <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "county subdivision",
+    state = "NY",
+    county = "119",
+    geometry = TRUE,
+    keep_geo_vars = TRUE
+  )
+  expect_geometry_roundtrip(
+    county_subdivision_tab,
+    county_subdivision_sf,
+    c("GEOID", "NAME", "state", "county", "county subdivision", "B19013_001E"),
+    "COUSUBFP"
+  )
+
+  congressional_district_tab <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "congressional district",
+    state = "NY",
+    `congressional district` = c("01", "02")
+  )
+  congressional_district_sf <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "congressional district",
+    state = "NY",
+    `congressional district` = c("01", "02"),
+    geometry = TRUE,
+    keep_geo_vars = TRUE
+  )
+  expect_geometry_roundtrip(
+    congressional_district_tab,
+    congressional_district_sf,
+    c("GEOID", "NAME", "state", "congressional district", "B19013_001E"),
+    "STATEFP"
+  )
+
+  zcta_tab <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "zcta",
+    zcta = c("10001", "10002")
+  )
+  zcta_sf <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "zcta",
+    zcta = c("10001", "10002"),
+    geometry = TRUE,
+    keep_geo_vars = TRUE
+  )
+  expect_geometry_roundtrip(
+    zcta_tab,
+    zcta_sf,
+    c("GEOID", "NAME", "zip code tabulation area", "B19013_001E"),
+    "GEOID20"
+  )
+
+  cbsa_tab <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "cbsa",
+    cbsa = c("10580", "35620")
+  )
+  cbsa_sf <- tc_get_acs(
+    year = 2022,
+    variables = "B19013_001E",
+    geography = "cbsa",
+    cbsa = c("10580", "35620"),
+    geometry = TRUE,
+    keep_geo_vars = TRUE
+  )
+  expect_geometry_roundtrip(
+    cbsa_tab,
+    cbsa_sf,
+    c(
+      "GEOID",
+      "NAME",
+      "metropolitan statistical area/micropolitan statistical area",
+      "B19013_001E"
+    ),
+    "CBSAFP"
+  )
+})

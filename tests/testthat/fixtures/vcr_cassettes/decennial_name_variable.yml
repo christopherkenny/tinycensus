@@ -1,0 +1,31 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2020/dec/dhc?get=NAME%2CP1_001N&for=block+group%3A%2A&in=state%3A36+county%3A027+tract%3A220300&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:05:04 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4589ba1d78ac3c21f1c0971649cc7766afa352e98b560ccf8217721aa3f77a16bef56b05b2e60eb05c3f252852e6d98d9;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","P1_001N","state","county","tract","block group"],
+        ["Block Group 1; Census Tract 2203; Dutchess County; New York","1467","36","027","220300","1"],
+        ["Block Group 2; Census Tract 2203; Dutchess County; New York","1394","36","027","220300","2"],
+        ["Block Group 3; Census Tract 2203; Dutchess County; New York","1192","36","027","220300","3"],
+        ["Block Group 4; Census Tract 2203; Dutchess County; New York","885","36","027","220300","4"]]
+  recorded_at: 2026-03-23 12:05:01
+recorded_with: VCR-vcr/2.1.0

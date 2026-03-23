@@ -1,0 +1,986 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=tract%3A%2A&in=state%3A36+county%3A061&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:11:55 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a46a7255301b7d26c803d1abbf941b66117191a3d68c537008035ae4f931c6ba0cc2e7b6b21bae7fee8aa0b8c64d099df6;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","state","county","tract"],
+        ["Census Tract 1; New York County; New York","-666666666","36","061","000100"],
+        ["Census Tract 2.01; New York County; New York","45582","36","061","000201"],
+        ["Census Tract 2.02; New York County; New York","34710","36","061","000202"],
+        ["Census Tract 5; New York County; New York","-666666666","36","061","000500"],
+        ["Census Tract 6; New York County; New York","25655","36","061","000600"],
+        ["Census Tract 7; New York County; New York","184730","36","061","000700"],
+        ["Census Tract 8; New York County; New York","28607","36","061","000800"],
+        ["Census Tract 9; New York County; New York","222167","36","061","000900"],
+        ["Census Tract 10.01; New York County; New York","109352","36","061","001001"],
+        ["Census Tract 10.02; New York County; New York","23658","36","061","001002"],
+        ["Census Tract 12; New York County; New York","91154","36","061","001200"],
+        ["Census Tract 13; New York County; New York","199576","36","061","001300"],
+        ["Census Tract 14.01; New York County; New York","89873","36","061","001401"],
+        ["Census Tract 14.02; New York County; New York","46615","36","061","001402"],
+        ["Census Tract 15.01; New York County; New York","119293","36","061","001501"],
+        ["Census Tract 15.02; New York County; New York","160466","36","061","001502"],
+        ["Census Tract 16; New York County; New York","46860","36","061","001600"],
+        ["Census Tract 18; New York County; New York","74485","36","061","001800"],
+        ["Census Tract 20; New York County; New York","26031","36","061","002000"],
+        ["Census Tract 21; New York County; New York","250001","36","061","002100"],
+        ["Census Tract 22.01; New York County; New York","35700","36","061","002201"],
+        ["Census Tract 22.02; New York County; New York","121389","36","061","002202"],
+        ["Census Tract 24; New York County; New York","17922","36","061","002400"],
+        ["Census Tract 25; New York County; New York","21949","36","061","002500"],
+        ["Census Tract 26.01; New York County; New York","35625","36","061","002601"],
+        ["Census Tract 26.02; New York County; New York","71907","36","061","002602"],
+        ["Census Tract 27; New York County; New York","134583","36","061","002700"],
+        ["Census Tract 28; New York County; New York","52305","36","061","002800"],
+        ["Census Tract 29.01; New York County; New York","11406","36","061","002901"],
+        ["Census Tract 29.02; New York County; New York","-666666666","36","061","002902"],
+        ["Census Tract 30.01; New York County; New York","90222","36","061","003001"],
+        ["Census Tract 30.02; New York County; New York","68382","36","061","003002"],
+        ["Census Tract 31; New York County; New York","190769","36","061","003100"],
+        ["Census Tract 32; New York County; New York","88070","36","061","003200"],
+        ["Census Tract 33; New York County; New York","250001","36","061","003300"],
+        ["Census Tract 34; New York County; New York","109148","36","061","003400"],
+        ["Census Tract 36.01; New York County; New York","55714","36","061","003601"],
+        ["Census Tract 36.02; New York County; New York","144464","36","061","003602"],
+        ["Census Tract 37; New York County; New York","246250","36","061","003700"],
+        ["Census Tract 38; New York County; New York","68647","36","061","003800"],
+        ["Census Tract 39; New York County; New York","190588","36","061","003900"],
+        ["Census Tract 40.01; New York County; New York","122383","36","061","004001"],
+        ["Census Tract 40.02; New York County; New York","153838","36","061","004002"],
+        ["Census Tract 41; New York County; New York","100096","36","061","004100"],
+        ["Census Tract 42; New York County; New York","163750","36","061","004200"],
+        ["Census Tract 43; New York County; New York","97133","36","061","004300"],
+        ["Census Tract 44; New York County; New York","142975","36","061","004400"],
+        ["Census Tract 45; New York County; New York","158393","36","061","004500"],
+        ["Census Tract 47; New York County; New York","148750","36","061","004700"],
+        ["Census Tract 48; New York County; New York","173239","36","061","004800"],
+        ["Census Tract 49; New York County; New York","141731","36","061","004900"],
+        ["Census Tract 50; New York County; New York","194750","36","061","005000"],
+        ["Census Tract 52; New York County; New York","193958","36","061","005200"],
+        ["Census Tract 54; New York County; New York","152018","36","061","005400"],
+        ["Census Tract 55.01; New York County; New York","190408","36","061","005501"],
+        ["Census Tract 55.02; New York County; New York","138854","36","061","005502"],
+        ["Census Tract 56; New York County; New York","186028","36","061","005600"],
+        ["Census Tract 57; New York County; New York","236250","36","061","005700"],
+        ["Census Tract 58; New York County; New York","186191","36","061","005800"],
+        ["Census Tract 59; New York County; New York","166250","36","061","005900"],
+        ["Census Tract 60; New York County; New York","202632","36","061","006000"],
+        ["Census Tract 61; New York County; New York","250001","36","061","006100"],
+        ["Census Tract 62; New York County; New York","96912","36","061","006200"],
+        ["Census Tract 63; New York County; New York","172687","36","061","006300"],
+        ["Census Tract 64; New York County; New York","118201","36","061","006400"],
+        ["Census Tract 65; New York County; New York","118698","36","061","006500"],
+        ["Census Tract 66; New York County; New York","126995","36","061","006600"],
+        ["Census Tract 67; New York County; New York","120964","36","061","006700"],
+        ["Census Tract 68; New York County; New York","146051","36","061","006800"],
+        ["Census Tract 69; New York County; New York","231136","36","061","006900"],
+        ["Census Tract 70.01; New York County; New York","153902","36","061","007001"],
+        ["Census Tract 70.02; New York County; New York","143183","36","061","007002"],
+        ["Census Tract 71; New York County; New York","173615","36","061","007100"],
+        ["Census Tract 72; New York County; New York","139577","36","061","007200"],
+        ["Census Tract 73; New York County; New York","146964","36","061","007300"],
+        ["Census Tract 74; New York County; New York","192897","36","061","007400"],
+        ["Census Tract 75; New York County; New York","119250","36","061","007500"],
+        ["Census Tract 76; New York County; New York","127308","36","061","007600"],
+        ["Census Tract 77; New York County; New York","161094","36","061","007700"],
+        ["Census Tract 78; New York County; New York","149915","36","061","007800"],
+        ["Census Tract 79; New York County; New York","127188","36","061","007900"],
+        ["Census Tract 80; New York County; New York","163454","36","061","008000"],
+        ["Census Tract 81; New York County; New York","156265","36","061","008100"],
+        ["Census Tract 82; New York County; New York","222273","36","061","008200"],
+        ["Census Tract 83; New York County; New York","70986","36","061","008300"],
+        ["Census Tract 84; New York County; New York","250001","36","061","008400"],
+        ["Census Tract 86.01; New York County; New York","161548","36","061","008601"],
+        ["Census Tract 86.02; New York County; New York","-666666666","36","061","008602"],
+        ["Census Tract 86.03; New York County; New York","215981","36","061","008603"],
+        ["Census Tract 87; New York County; New York","136620","36","061","008700"],
+        ["Census Tract 88; New York County; New York","117442","36","061","008800"],
+        ["Census Tract 89; New York County; New York","95355","36","061","008900"],
+        ["Census Tract 90; New York County; New York","149063","36","061","009000"],
+        ["Census Tract 91; New York County; New York","188867","36","061","009100"],
+        ["Census Tract 92; New York County; New York","166734","36","061","009200"],
+        ["Census Tract 93; New York County; New York","94441","36","061","009300"],
+        ["Census Tract 94; New York County; New York","171875","36","061","009400"],
+        ["Census Tract 95; New York County; New York","176944","36","061","009500"],
+        ["Census Tract 96; New York County; New York","-666666666","36","061","009600"],
+        ["Census Tract 97; New York County; New York","67218","36","061","009700"],
+        ["Census Tract 98; New York County; New York","124433","36","061","009800"],
+        ["Census Tract 99.01; New York County; New York","250001","36","061","009901"],
+        ["Census Tract 99.02; New York County; New York","148706","36","061","009902"],
+        ["Census Tract 99.03; New York County; New York","175333","36","061","009903"],
+        ["Census Tract 100; New York County; New York","103417","36","061","010000"],
+        ["Census Tract 101; New York County; New York","97242","36","061","010100"],
+        ["Census Tract 102; New York County; New York","91157","36","061","010200"],
+        ["Census Tract 103; New York County; New York","103838","36","061","010300"],
+        ["Census Tract 104; New York County; New York","181333","36","061","010400"],
+        ["Census Tract 106.01; New York County; New York","224898","36","061","010601"],
+        ["Census Tract 106.02; New York County; New York","190685","36","061","010602"],
+        ["Census Tract 108.01; New York County; New York","169293","36","061","010801"],
+        ["Census Tract 108.02; New York County; New York","131171","36","061","010802"],
+        ["Census Tract 108.03; New York County; New York","160111","36","061","010803"],
+        ["Census Tract 109; New York County; New York","146042","36","061","010900"],
+        ["Census Tract 110; New York County; New York","163371","36","061","011000"],
+        ["Census Tract 111; New York County; New York","102297","36","061","011100"],
+        ["Census Tract 112.01; New York County; New York","198750","36","061","011201"],
+        ["Census Tract 112.02; New York County; New York","198000","36","061","011202"],
+        ["Census Tract 112.03; New York County; New York","204375","36","061","011203"],
+        ["Census Tract 113; New York County; New York","82500","36","061","011300"],
+        ["Census Tract 114.01; New York County; New York","250001","36","061","011401"],
+        ["Census Tract 114.02; New York County; New York","176667","36","061","011402"],
+        ["Census Tract 115; New York County; New York","145521","36","061","011500"],
+        ["Census Tract 116; New York County; New York","90938","36","061","011600"],
+        ["Census Tract 117; New York County; New York","109740","36","061","011700"],
+        ["Census Tract 118; New York County; New York","159134","36","061","011800"],
+        ["Census Tract 119; New York County; New York","15971","36","061","011900"],
+        ["Census Tract 120; New York County; New York","153086","36","061","012000"],
+        ["Census Tract 121.01; New York County; New York","56935","36","061","012101"],
+        ["Census Tract 121.02; New York County; New York","54735","36","061","012102"],
+        ["Census Tract 122; New York County; New York","231016","36","061","012200"],
+        ["Census Tract 124; New York County; New York","140250","36","061","012400"],
+        ["Census Tract 125; New York County; New York","137772","36","061","012500"],
+        ["Census Tract 126.01; New York County; New York","104460","36","061","012601"],
+        ["Census Tract 126.02; New York County; New York","194650","36","061","012602"],
+        ["Census Tract 127; New York County; New York","145488","36","061","012700"],
+        ["Census Tract 128; New York County; New York","205685","36","061","012800"],
+        ["Census Tract 129.01; New York County; New York","117622","36","061","012901"],
+        ["Census Tract 129.02; New York County; New York","100991","36","061","012902"],
+        ["Census Tract 130; New York County; New York","191016","36","061","013000"],
+        ["Census Tract 131; New York County; New York","107018","36","061","013100"],
+        ["Census Tract 132.01; New York County; New York","157969","36","061","013201"],
+        ["Census Tract 132.02; New York County; New York","80132","36","061","013202"],
+        ["Census Tract 132.03; New York County; New York","114304","36","061","013203"],
+        ["Census Tract 133; New York County; New York","111223","36","061","013300"],
+        ["Census Tract 134; New York County; New York","140883","36","061","013400"],
+        ["Census Tract 135.01; New York County; New York","115574","36","061","013501"],
+        ["Census Tract 135.02; New York County; New York","67279","36","061","013502"],
+        ["Census Tract 136.01; New York County; New York","243496","36","061","013601"],
+        ["Census Tract 136.02; New York County; New York","161100","36","061","013602"],
+        ["Census Tract 136.03; New York County; New York","120194","36","061","013603"],
+        ["Census Tract 136.04; New York County; New York","159876","36","061","013604"],
+        ["Census Tract 137; New York County; New York","189541","36","061","013700"],
+        ["Census Tract 138; New York County; New York","134167","36","061","013800"],
+        ["Census Tract 139; New York County; New York","91045","36","061","013900"],
+        ["Census Tract 140; New York County; New York","158780","36","061","014000"],
+        ["Census Tract 142; New York County; New York","250001","36","061","014200"],
+        ["Census Tract 143; New York County; New York","-666666666","36","061","014300"],
+        ["Census Tract 144.01; New York County; New York","204073","36","061","014401"],
+        ["Census Tract 144.02; New York County; New York","141232","36","061","014402"],
+        ["Census Tract 145; New York County; New York","198766","36","061","014500"],
+        ["Census Tract 146.01; New York County; New York","140150","36","061","014601"],
+        ["Census Tract 146.02; New York County; New York","124125","36","061","014602"],
+        ["Census Tract 147; New York County; New York","221482","36","061","014700"],
+        ["Census Tract 148.01; New York County; New York","244250","36","061","014801"],
+        ["Census Tract 148.02; New York County; New York","161161","36","061","014802"],
+        ["Census Tract 149; New York County; New York","164779","36","061","014900"],
+        ["Census Tract 150.01; New York County; New York","191719","36","061","015001"],
+        ["Census Tract 150.02; New York County; New York","250001","36","061","015002"],
+        ["Census Tract 151.01; New York County; New York","28191","36","061","015101"],
+        ["Census Tract 151.02; New York County; New York","158593","36","061","015102"],
+        ["Census Tract 152; New York County; New York","124571","36","061","015200"],
+        ["Census Tract 153.01; New York County; New York","141363","36","061","015301"],
+        ["Census Tract 153.02; New York County; New York","170804","36","061","015302"],
+        ["Census Tract 154.01; New York County; New York","113340","36","061","015401"],
+        ["Census Tract 154.02; New York County; New York","138413","36","061","015402"],
+        ["Census Tract 154.03; New York County; New York","88890","36","061","015403"],
+        ["Census Tract 155.01; New York County; New York","186116","36","061","015501"],
+        ["Census Tract 155.02; New York County; New York","146563","36","061","015502"],
+        ["Census Tract 156.01; New York County; New York","114409","36","061","015601"],
+        ["Census Tract 156.02; New York County; New York","51404","36","061","015602"],
+        ["Census Tract 157; New York County; New York","154237","36","061","015700"],
+        ["Census Tract 158.01; New York County; New York","159712","36","061","015801"],
+        ["Census Tract 158.02; New York County; New York","92303","36","061","015802"],
+        ["Census Tract 159; New York County; New York","170496","36","061","015900"],
+        ["Census Tract 160.01; New York County; New York","250001","36","061","016001"],
+        ["Census Tract 160.02; New York County; New York","104146","36","061","016002"],
+        ["Census Tract 161; New York County; New York","132396","36","061","016100"],
+        ["Census Tract 162; New York County; New York","26520","36","061","016200"],
+        ["Census Tract 163; New York County; New York","125944","36","061","016300"],
+        ["Census Tract 164; New York County; New York","24789","36","061","016400"],
+        ["Census Tract 165; New York County; New York","211888","36","061","016500"],
+        ["Census Tract 166; New York County; New York","44643","36","061","016600"],
+        ["Census Tract 167; New York County; New York","223952","36","061","016700"],
+        ["Census Tract 168; New York County; New York","38281","36","061","016800"],
+        ["Census Tract 169; New York County; New York","163500","36","061","016900"],
+        ["Census Tract 170; New York County; New York","42261","36","061","017000"],
+        ["Census Tract 171; New York County; New York","173490","36","061","017100"],
+        ["Census Tract 172; New York County; New York","31068","36","061","017200"],
+        ["Census Tract 173; New York County; New York","122287","36","061","017300"],
+        ["Census Tract 174.01; New York County; New York","37990","36","061","017401"],
+        ["Census Tract 174.02; New York County; New York","65391","36","061","017402"],
+        ["Census Tract 175; New York County; New York","171250","36","061","017500"],
+        ["Census Tract 177; New York County; New York","103065","36","061","017700"],
+        ["Census Tract 178; New York County; New York","40978","36","061","017800"],
+        ["Census Tract 179; New York County; New York","158109","36","061","017900"],
+        ["Census Tract 180; New York County; New York","26321","36","061","018000"],
+        ["Census Tract 181; New York County; New York","108315","36","061","018100"],
+        ["Census Tract 182; New York County; New York","36696","36","061","018200"],
+        ["Census Tract 183; New York County; New York","146918","36","061","018300"],
+        ["Census Tract 184; New York County; New York","34279","36","061","018400"],
+        ["Census Tract 185; New York County; New York","146976","36","061","018500"],
+        ["Census Tract 186; New York County; New York","45221","36","061","018600"],
+        ["Census Tract 187; New York County; New York","135716","36","061","018700"],
+        ["Census Tract 188; New York County; New York","41288","36","061","018800"],
+        ["Census Tract 189; New York County; New York","37641","36","061","018900"],
+        ["Census Tract 190; New York County; New York","92991","36","061","019000"],
+        ["Census Tract 191; New York County; New York","135934","36","061","019100"],
+        ["Census Tract 192; New York County; New York","16911","36","061","019200"],
+        ["Census Tract 193; New York County; New York","72865","36","061","019300"],
+        ["Census Tract 194; New York County; New York","36458","36","061","019400"],
+        ["Census Tract 195; New York County; New York","113379","36","061","019500"],
+        ["Census Tract 196; New York County; New York","21967","36","061","019600"],
+        ["Census Tract 197.01; New York County; New York","49336","36","061","019701"],
+        ["Census Tract 197.02; New York County; New York","97981","36","061","019702"],
+        ["Census Tract 198; New York County; New York","96771","36","061","019800"],
+        ["Census Tract 199; New York County; New York","95313","36","061","019900"],
+        ["Census Tract 200; New York County; New York","70150","36","061","020000"],
+        ["Census Tract 201.01; New York County; New York","151667","36","061","020101"],
+        ["Census Tract 201.02; New York County; New York","75721","36","061","020102"],
+        ["Census Tract 203; New York County; New York","63819","36","061","020300"],
+        ["Census Tract 205; New York County; New York","209667","36","061","020500"],
+        ["Census Tract 206; New York County; New York","48161","36","061","020600"],
+        ["Census Tract 207.01; New York County; New York","69800","36","061","020701"],
+        ["Census Tract 208; New York County; New York","92132","36","061","020800"],
+        ["Census Tract 209.01; New York County; New York","22743","36","061","020901"],
+        ["Census Tract 210; New York County; New York","40164","36","061","021000"],
+        ["Census Tract 211; New York County; New York","75954","36","061","021100"],
+        ["Census Tract 212; New York County; New York","77230","36","061","021200"],
+        ["Census Tract 213.03; New York County; New York","59413","36","061","021303"],
+        ["Census Tract 214; New York County; New York","67083","36","061","021400"],
+        ["Census Tract 215; New York County; New York","67206","36","061","021500"],
+        ["Census Tract 216; New York County; New York","59784","36","061","021600"],
+        ["Census Tract 217.03; New York County; New York","-666666666","36","061","021703"],
+        ["Census Tract 218; New York County; New York","42500","36","061","021800"],
+        ["Census Tract 219; New York County; New York","22207","36","061","021900"],
+        ["Census Tract 220; New York County; New York","89756","36","061","022000"],
+        ["Census Tract 221.02; New York County; New York","92375","36","061","022102"],
+        ["Census Tract 222; New York County; New York","56705","36","061","022200"],
+        ["Census Tract 223.01; New York County; New York","53900","36","061","022301"],
+        ["Census Tract 223.02; New York County; New York","34167","36","061","022302"],
+        ["Census Tract 224; New York County; New York","30667","36","061","022400"],
+        ["Census Tract 225; New York County; New York","62782","36","061","022500"],
+        ["Census Tract 226; New York County; New York","58596","36","061","022600"],
+        ["Census Tract 227; New York County; New York","61570","36","061","022700"],
+        ["Census Tract 228; New York County; New York","85050","36","061","022800"],
+        ["Census Tract 229; New York County; New York","58924","36","061","022900"],
+        ["Census Tract 230; New York County; New York","34890","36","061","023000"],
+        ["Census Tract 231; New York County; New York","64594","36","061","023100"],
+        ["Census Tract 232; New York County; New York","35438","36","061","023200"],
+        ["Census Tract 233; New York County; New York","86769","36","061","023300"],
+        ["Census Tract 234; New York County; New York","71250","36","061","023400"],
+        ["Census Tract 235.01; New York County; New York","77222","36","061","023501"],
+        ["Census Tract 235.02; New York County; New York","42267","36","061","023502"],
+        ["Census Tract 236; New York County; New York","41941","36","061","023600"],
+        ["Census Tract 237; New York County; New York","47333","36","061","023700"],
+        ["Census Tract 238.02; New York County; New York","103068","36","061","023802"],
+        ["Census Tract 238.03; New York County; New York","77070","36","061","023803"],
+        ["Census Tract 238.04; New York County; New York","180677","36","061","023804"],
+        ["Census Tract 239; New York County; New York","45036","36","061","023900"],
+        ["Census Tract 240; New York County; New York","-666666666","36","061","024000"],
+        ["Census Tract 241; New York County; New York","59054","36","061","024100"],
+        ["Census Tract 242; New York County; New York","31691","36","061","024200"],
+        ["Census Tract 243.01; New York County; New York","72576","36","061","024301"],
+        ["Census Tract 243.02; New York County; New York","26301","36","061","024302"],
+        ["Census Tract 245; New York County; New York","51190","36","061","024500"],
+        ["Census Tract 247; New York County; New York","42446","36","061","024700"],
+        ["Census Tract 249; New York County; New York","87917","36","061","024900"],
+        ["Census Tract 251; New York County; New York","35647","36","061","025100"],
+        ["Census Tract 253; New York County; New York","67045","36","061","025300"],
+        ["Census Tract 255; New York County; New York","64761","36","061","025500"],
+        ["Census Tract 257; New York County; New York","85952","36","061","025700"],
+        ["Census Tract 259; New York County; New York","76047","36","061","025900"],
+        ["Census Tract 261; New York County; New York","49248","36","061","026100"],
+        ["Census Tract 263; New York County; New York","56754","36","061","026300"],
+        ["Census Tract 265; New York County; New York","98086","36","061","026500"],
+        ["Census Tract 267; New York County; New York","61667","36","061","026700"],
+        ["Census Tract 269; New York County; New York","65743","36","061","026900"],
+        ["Census Tract 271; New York County; New York","81890","36","061","027100"],
+        ["Census Tract 273; New York County; New York","118346","36","061","027300"],
+        ["Census Tract 275; New York County; New York","165000","36","061","027500"],
+        ["Census Tract 277; New York County; New York","37681","36","061","027700"],
+        ["Census Tract 279; New York County; New York","57671","36","061","027900"],
+        ["Census Tract 281; New York County; New York","112969","36","061","028100"],
+        ["Census Tract 283; New York County; New York","67417","36","061","028300"],
+        ["Census Tract 285; New York County; New York","47148","36","061","028500"],
+        ["Census Tract 287; New York County; New York","77648","36","061","028700"],
+        ["Census Tract 291; New York County; New York","55231","36","061","029100"],
+        ["Census Tract 293; New York County; New York","43866","36","061","029300"],
+        ["Census Tract 295; New York County; New York","78209","36","061","029500"],
+        ["Census Tract 297; New York County; New York","-666666666","36","061","029700"],
+        ["Census Tract 299; New York County; New York","29038","36","061","029900"],
+        ["Census Tract 303; New York County; New York","85114","36","061","030300"],
+        ["Census Tract 307; New York County; New York","113510","36","061","030700"],
+        ["Census Tract 309; New York County; New York","44498","36","061","030900"],
+        ["Census Tract 311; New York County; New York","-666666666","36","061","031100"],
+        ["Census Tract 317.03; New York County; New York","250001","36","061","031703"],
+        ["Census Tract 317.04; New York County; New York","233346","36","061","031704"],
+        ["Census Tract 319; New York County; New York","-666666666","36","061","031900"]]
+  recorded_at: 2026-03-23 12:11:52
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=tract%3A%2A&in=state%3A36+county%3A061&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:01 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4c6ab75c59c02b78f7a0dfccb61082693a70ea5d3d183d27f3e03bc68a6e56970265ea2d6a5a35fde2276e03e6e8147ff;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","state","county","tract"],
+        ["Census Tract 1; New York County; New York","-666666666","36","061","000100"],
+        ["Census Tract 2.01; New York County; New York","45582","36","061","000201"],
+        ["Census Tract 2.02; New York County; New York","34710","36","061","000202"],
+        ["Census Tract 5; New York County; New York","-666666666","36","061","000500"],
+        ["Census Tract 6; New York County; New York","25655","36","061","000600"],
+        ["Census Tract 7; New York County; New York","184730","36","061","000700"],
+        ["Census Tract 8; New York County; New York","28607","36","061","000800"],
+        ["Census Tract 9; New York County; New York","222167","36","061","000900"],
+        ["Census Tract 10.01; New York County; New York","109352","36","061","001001"],
+        ["Census Tract 10.02; New York County; New York","23658","36","061","001002"],
+        ["Census Tract 12; New York County; New York","91154","36","061","001200"],
+        ["Census Tract 13; New York County; New York","199576","36","061","001300"],
+        ["Census Tract 14.01; New York County; New York","89873","36","061","001401"],
+        ["Census Tract 14.02; New York County; New York","46615","36","061","001402"],
+        ["Census Tract 15.01; New York County; New York","119293","36","061","001501"],
+        ["Census Tract 15.02; New York County; New York","160466","36","061","001502"],
+        ["Census Tract 16; New York County; New York","46860","36","061","001600"],
+        ["Census Tract 18; New York County; New York","74485","36","061","001800"],
+        ["Census Tract 20; New York County; New York","26031","36","061","002000"],
+        ["Census Tract 21; New York County; New York","250001","36","061","002100"],
+        ["Census Tract 22.01; New York County; New York","35700","36","061","002201"],
+        ["Census Tract 22.02; New York County; New York","121389","36","061","002202"],
+        ["Census Tract 24; New York County; New York","17922","36","061","002400"],
+        ["Census Tract 25; New York County; New York","21949","36","061","002500"],
+        ["Census Tract 26.01; New York County; New York","35625","36","061","002601"],
+        ["Census Tract 26.02; New York County; New York","71907","36","061","002602"],
+        ["Census Tract 27; New York County; New York","134583","36","061","002700"],
+        ["Census Tract 28; New York County; New York","52305","36","061","002800"],
+        ["Census Tract 29.01; New York County; New York","11406","36","061","002901"],
+        ["Census Tract 29.02; New York County; New York","-666666666","36","061","002902"],
+        ["Census Tract 30.01; New York County; New York","90222","36","061","003001"],
+        ["Census Tract 30.02; New York County; New York","68382","36","061","003002"],
+        ["Census Tract 31; New York County; New York","190769","36","061","003100"],
+        ["Census Tract 32; New York County; New York","88070","36","061","003200"],
+        ["Census Tract 33; New York County; New York","250001","36","061","003300"],
+        ["Census Tract 34; New York County; New York","109148","36","061","003400"],
+        ["Census Tract 36.01; New York County; New York","55714","36","061","003601"],
+        ["Census Tract 36.02; New York County; New York","144464","36","061","003602"],
+        ["Census Tract 37; New York County; New York","246250","36","061","003700"],
+        ["Census Tract 38; New York County; New York","68647","36","061","003800"],
+        ["Census Tract 39; New York County; New York","190588","36","061","003900"],
+        ["Census Tract 40.01; New York County; New York","122383","36","061","004001"],
+        ["Census Tract 40.02; New York County; New York","153838","36","061","004002"],
+        ["Census Tract 41; New York County; New York","100096","36","061","004100"],
+        ["Census Tract 42; New York County; New York","163750","36","061","004200"],
+        ["Census Tract 43; New York County; New York","97133","36","061","004300"],
+        ["Census Tract 44; New York County; New York","142975","36","061","004400"],
+        ["Census Tract 45; New York County; New York","158393","36","061","004500"],
+        ["Census Tract 47; New York County; New York","148750","36","061","004700"],
+        ["Census Tract 48; New York County; New York","173239","36","061","004800"],
+        ["Census Tract 49; New York County; New York","141731","36","061","004900"],
+        ["Census Tract 50; New York County; New York","194750","36","061","005000"],
+        ["Census Tract 52; New York County; New York","193958","36","061","005200"],
+        ["Census Tract 54; New York County; New York","152018","36","061","005400"],
+        ["Census Tract 55.01; New York County; New York","190408","36","061","005501"],
+        ["Census Tract 55.02; New York County; New York","138854","36","061","005502"],
+        ["Census Tract 56; New York County; New York","186028","36","061","005600"],
+        ["Census Tract 57; New York County; New York","236250","36","061","005700"],
+        ["Census Tract 58; New York County; New York","186191","36","061","005800"],
+        ["Census Tract 59; New York County; New York","166250","36","061","005900"],
+        ["Census Tract 60; New York County; New York","202632","36","061","006000"],
+        ["Census Tract 61; New York County; New York","250001","36","061","006100"],
+        ["Census Tract 62; New York County; New York","96912","36","061","006200"],
+        ["Census Tract 63; New York County; New York","172687","36","061","006300"],
+        ["Census Tract 64; New York County; New York","118201","36","061","006400"],
+        ["Census Tract 65; New York County; New York","118698","36","061","006500"],
+        ["Census Tract 66; New York County; New York","126995","36","061","006600"],
+        ["Census Tract 67; New York County; New York","120964","36","061","006700"],
+        ["Census Tract 68; New York County; New York","146051","36","061","006800"],
+        ["Census Tract 69; New York County; New York","231136","36","061","006900"],
+        ["Census Tract 70.01; New York County; New York","153902","36","061","007001"],
+        ["Census Tract 70.02; New York County; New York","143183","36","061","007002"],
+        ["Census Tract 71; New York County; New York","173615","36","061","007100"],
+        ["Census Tract 72; New York County; New York","139577","36","061","007200"],
+        ["Census Tract 73; New York County; New York","146964","36","061","007300"],
+        ["Census Tract 74; New York County; New York","192897","36","061","007400"],
+        ["Census Tract 75; New York County; New York","119250","36","061","007500"],
+        ["Census Tract 76; New York County; New York","127308","36","061","007600"],
+        ["Census Tract 77; New York County; New York","161094","36","061","007700"],
+        ["Census Tract 78; New York County; New York","149915","36","061","007800"],
+        ["Census Tract 79; New York County; New York","127188","36","061","007900"],
+        ["Census Tract 80; New York County; New York","163454","36","061","008000"],
+        ["Census Tract 81; New York County; New York","156265","36","061","008100"],
+        ["Census Tract 82; New York County; New York","222273","36","061","008200"],
+        ["Census Tract 83; New York County; New York","70986","36","061","008300"],
+        ["Census Tract 84; New York County; New York","250001","36","061","008400"],
+        ["Census Tract 86.01; New York County; New York","161548","36","061","008601"],
+        ["Census Tract 86.02; New York County; New York","-666666666","36","061","008602"],
+        ["Census Tract 86.03; New York County; New York","215981","36","061","008603"],
+        ["Census Tract 87; New York County; New York","136620","36","061","008700"],
+        ["Census Tract 88; New York County; New York","117442","36","061","008800"],
+        ["Census Tract 89; New York County; New York","95355","36","061","008900"],
+        ["Census Tract 90; New York County; New York","149063","36","061","009000"],
+        ["Census Tract 91; New York County; New York","188867","36","061","009100"],
+        ["Census Tract 92; New York County; New York","166734","36","061","009200"],
+        ["Census Tract 93; New York County; New York","94441","36","061","009300"],
+        ["Census Tract 94; New York County; New York","171875","36","061","009400"],
+        ["Census Tract 95; New York County; New York","176944","36","061","009500"],
+        ["Census Tract 96; New York County; New York","-666666666","36","061","009600"],
+        ["Census Tract 97; New York County; New York","67218","36","061","009700"],
+        ["Census Tract 98; New York County; New York","124433","36","061","009800"],
+        ["Census Tract 99.01; New York County; New York","250001","36","061","009901"],
+        ["Census Tract 99.02; New York County; New York","148706","36","061","009902"],
+        ["Census Tract 99.03; New York County; New York","175333","36","061","009903"],
+        ["Census Tract 100; New York County; New York","103417","36","061","010000"],
+        ["Census Tract 101; New York County; New York","97242","36","061","010100"],
+        ["Census Tract 102; New York County; New York","91157","36","061","010200"],
+        ["Census Tract 103; New York County; New York","103838","36","061","010300"],
+        ["Census Tract 104; New York County; New York","181333","36","061","010400"],
+        ["Census Tract 106.01; New York County; New York","224898","36","061","010601"],
+        ["Census Tract 106.02; New York County; New York","190685","36","061","010602"],
+        ["Census Tract 108.01; New York County; New York","169293","36","061","010801"],
+        ["Census Tract 108.02; New York County; New York","131171","36","061","010802"],
+        ["Census Tract 108.03; New York County; New York","160111","36","061","010803"],
+        ["Census Tract 109; New York County; New York","146042","36","061","010900"],
+        ["Census Tract 110; New York County; New York","163371","36","061","011000"],
+        ["Census Tract 111; New York County; New York","102297","36","061","011100"],
+        ["Census Tract 112.01; New York County; New York","198750","36","061","011201"],
+        ["Census Tract 112.02; New York County; New York","198000","36","061","011202"],
+        ["Census Tract 112.03; New York County; New York","204375","36","061","011203"],
+        ["Census Tract 113; New York County; New York","82500","36","061","011300"],
+        ["Census Tract 114.01; New York County; New York","250001","36","061","011401"],
+        ["Census Tract 114.02; New York County; New York","176667","36","061","011402"],
+        ["Census Tract 115; New York County; New York","145521","36","061","011500"],
+        ["Census Tract 116; New York County; New York","90938","36","061","011600"],
+        ["Census Tract 117; New York County; New York","109740","36","061","011700"],
+        ["Census Tract 118; New York County; New York","159134","36","061","011800"],
+        ["Census Tract 119; New York County; New York","15971","36","061","011900"],
+        ["Census Tract 120; New York County; New York","153086","36","061","012000"],
+        ["Census Tract 121.01; New York County; New York","56935","36","061","012101"],
+        ["Census Tract 121.02; New York County; New York","54735","36","061","012102"],
+        ["Census Tract 122; New York County; New York","231016","36","061","012200"],
+        ["Census Tract 124; New York County; New York","140250","36","061","012400"],
+        ["Census Tract 125; New York County; New York","137772","36","061","012500"],
+        ["Census Tract 126.01; New York County; New York","104460","36","061","012601"],
+        ["Census Tract 126.02; New York County; New York","194650","36","061","012602"],
+        ["Census Tract 127; New York County; New York","145488","36","061","012700"],
+        ["Census Tract 128; New York County; New York","205685","36","061","012800"],
+        ["Census Tract 129.01; New York County; New York","117622","36","061","012901"],
+        ["Census Tract 129.02; New York County; New York","100991","36","061","012902"],
+        ["Census Tract 130; New York County; New York","191016","36","061","013000"],
+        ["Census Tract 131; New York County; New York","107018","36","061","013100"],
+        ["Census Tract 132.01; New York County; New York","157969","36","061","013201"],
+        ["Census Tract 132.02; New York County; New York","80132","36","061","013202"],
+        ["Census Tract 132.03; New York County; New York","114304","36","061","013203"],
+        ["Census Tract 133; New York County; New York","111223","36","061","013300"],
+        ["Census Tract 134; New York County; New York","140883","36","061","013400"],
+        ["Census Tract 135.01; New York County; New York","115574","36","061","013501"],
+        ["Census Tract 135.02; New York County; New York","67279","36","061","013502"],
+        ["Census Tract 136.01; New York County; New York","243496","36","061","013601"],
+        ["Census Tract 136.02; New York County; New York","161100","36","061","013602"],
+        ["Census Tract 136.03; New York County; New York","120194","36","061","013603"],
+        ["Census Tract 136.04; New York County; New York","159876","36","061","013604"],
+        ["Census Tract 137; New York County; New York","189541","36","061","013700"],
+        ["Census Tract 138; New York County; New York","134167","36","061","013800"],
+        ["Census Tract 139; New York County; New York","91045","36","061","013900"],
+        ["Census Tract 140; New York County; New York","158780","36","061","014000"],
+        ["Census Tract 142; New York County; New York","250001","36","061","014200"],
+        ["Census Tract 143; New York County; New York","-666666666","36","061","014300"],
+        ["Census Tract 144.01; New York County; New York","204073","36","061","014401"],
+        ["Census Tract 144.02; New York County; New York","141232","36","061","014402"],
+        ["Census Tract 145; New York County; New York","198766","36","061","014500"],
+        ["Census Tract 146.01; New York County; New York","140150","36","061","014601"],
+        ["Census Tract 146.02; New York County; New York","124125","36","061","014602"],
+        ["Census Tract 147; New York County; New York","221482","36","061","014700"],
+        ["Census Tract 148.01; New York County; New York","244250","36","061","014801"],
+        ["Census Tract 148.02; New York County; New York","161161","36","061","014802"],
+        ["Census Tract 149; New York County; New York","164779","36","061","014900"],
+        ["Census Tract 150.01; New York County; New York","191719","36","061","015001"],
+        ["Census Tract 150.02; New York County; New York","250001","36","061","015002"],
+        ["Census Tract 151.01; New York County; New York","28191","36","061","015101"],
+        ["Census Tract 151.02; New York County; New York","158593","36","061","015102"],
+        ["Census Tract 152; New York County; New York","124571","36","061","015200"],
+        ["Census Tract 153.01; New York County; New York","141363","36","061","015301"],
+        ["Census Tract 153.02; New York County; New York","170804","36","061","015302"],
+        ["Census Tract 154.01; New York County; New York","113340","36","061","015401"],
+        ["Census Tract 154.02; New York County; New York","138413","36","061","015402"],
+        ["Census Tract 154.03; New York County; New York","88890","36","061","015403"],
+        ["Census Tract 155.01; New York County; New York","186116","36","061","015501"],
+        ["Census Tract 155.02; New York County; New York","146563","36","061","015502"],
+        ["Census Tract 156.01; New York County; New York","114409","36","061","015601"],
+        ["Census Tract 156.02; New York County; New York","51404","36","061","015602"],
+        ["Census Tract 157; New York County; New York","154237","36","061","015700"],
+        ["Census Tract 158.01; New York County; New York","159712","36","061","015801"],
+        ["Census Tract 158.02; New York County; New York","92303","36","061","015802"],
+        ["Census Tract 159; New York County; New York","170496","36","061","015900"],
+        ["Census Tract 160.01; New York County; New York","250001","36","061","016001"],
+        ["Census Tract 160.02; New York County; New York","104146","36","061","016002"],
+        ["Census Tract 161; New York County; New York","132396","36","061","016100"],
+        ["Census Tract 162; New York County; New York","26520","36","061","016200"],
+        ["Census Tract 163; New York County; New York","125944","36","061","016300"],
+        ["Census Tract 164; New York County; New York","24789","36","061","016400"],
+        ["Census Tract 165; New York County; New York","211888","36","061","016500"],
+        ["Census Tract 166; New York County; New York","44643","36","061","016600"],
+        ["Census Tract 167; New York County; New York","223952","36","061","016700"],
+        ["Census Tract 168; New York County; New York","38281","36","061","016800"],
+        ["Census Tract 169; New York County; New York","163500","36","061","016900"],
+        ["Census Tract 170; New York County; New York","42261","36","061","017000"],
+        ["Census Tract 171; New York County; New York","173490","36","061","017100"],
+        ["Census Tract 172; New York County; New York","31068","36","061","017200"],
+        ["Census Tract 173; New York County; New York","122287","36","061","017300"],
+        ["Census Tract 174.01; New York County; New York","37990","36","061","017401"],
+        ["Census Tract 174.02; New York County; New York","65391","36","061","017402"],
+        ["Census Tract 175; New York County; New York","171250","36","061","017500"],
+        ["Census Tract 177; New York County; New York","103065","36","061","017700"],
+        ["Census Tract 178; New York County; New York","40978","36","061","017800"],
+        ["Census Tract 179; New York County; New York","158109","36","061","017900"],
+        ["Census Tract 180; New York County; New York","26321","36","061","018000"],
+        ["Census Tract 181; New York County; New York","108315","36","061","018100"],
+        ["Census Tract 182; New York County; New York","36696","36","061","018200"],
+        ["Census Tract 183; New York County; New York","146918","36","061","018300"],
+        ["Census Tract 184; New York County; New York","34279","36","061","018400"],
+        ["Census Tract 185; New York County; New York","146976","36","061","018500"],
+        ["Census Tract 186; New York County; New York","45221","36","061","018600"],
+        ["Census Tract 187; New York County; New York","135716","36","061","018700"],
+        ["Census Tract 188; New York County; New York","41288","36","061","018800"],
+        ["Census Tract 189; New York County; New York","37641","36","061","018900"],
+        ["Census Tract 190; New York County; New York","92991","36","061","019000"],
+        ["Census Tract 191; New York County; New York","135934","36","061","019100"],
+        ["Census Tract 192; New York County; New York","16911","36","061","019200"],
+        ["Census Tract 193; New York County; New York","72865","36","061","019300"],
+        ["Census Tract 194; New York County; New York","36458","36","061","019400"],
+        ["Census Tract 195; New York County; New York","113379","36","061","019500"],
+        ["Census Tract 196; New York County; New York","21967","36","061","019600"],
+        ["Census Tract 197.01; New York County; New York","49336","36","061","019701"],
+        ["Census Tract 197.02; New York County; New York","97981","36","061","019702"],
+        ["Census Tract 198; New York County; New York","96771","36","061","019800"],
+        ["Census Tract 199; New York County; New York","95313","36","061","019900"],
+        ["Census Tract 200; New York County; New York","70150","36","061","020000"],
+        ["Census Tract 201.01; New York County; New York","151667","36","061","020101"],
+        ["Census Tract 201.02; New York County; New York","75721","36","061","020102"],
+        ["Census Tract 203; New York County; New York","63819","36","061","020300"],
+        ["Census Tract 205; New York County; New York","209667","36","061","020500"],
+        ["Census Tract 206; New York County; New York","48161","36","061","020600"],
+        ["Census Tract 207.01; New York County; New York","69800","36","061","020701"],
+        ["Census Tract 208; New York County; New York","92132","36","061","020800"],
+        ["Census Tract 209.01; New York County; New York","22743","36","061","020901"],
+        ["Census Tract 210; New York County; New York","40164","36","061","021000"],
+        ["Census Tract 211; New York County; New York","75954","36","061","021100"],
+        ["Census Tract 212; New York County; New York","77230","36","061","021200"],
+        ["Census Tract 213.03; New York County; New York","59413","36","061","021303"],
+        ["Census Tract 214; New York County; New York","67083","36","061","021400"],
+        ["Census Tract 215; New York County; New York","67206","36","061","021500"],
+        ["Census Tract 216; New York County; New York","59784","36","061","021600"],
+        ["Census Tract 217.03; New York County; New York","-666666666","36","061","021703"],
+        ["Census Tract 218; New York County; New York","42500","36","061","021800"],
+        ["Census Tract 219; New York County; New York","22207","36","061","021900"],
+        ["Census Tract 220; New York County; New York","89756","36","061","022000"],
+        ["Census Tract 221.02; New York County; New York","92375","36","061","022102"],
+        ["Census Tract 222; New York County; New York","56705","36","061","022200"],
+        ["Census Tract 223.01; New York County; New York","53900","36","061","022301"],
+        ["Census Tract 223.02; New York County; New York","34167","36","061","022302"],
+        ["Census Tract 224; New York County; New York","30667","36","061","022400"],
+        ["Census Tract 225; New York County; New York","62782","36","061","022500"],
+        ["Census Tract 226; New York County; New York","58596","36","061","022600"],
+        ["Census Tract 227; New York County; New York","61570","36","061","022700"],
+        ["Census Tract 228; New York County; New York","85050","36","061","022800"],
+        ["Census Tract 229; New York County; New York","58924","36","061","022900"],
+        ["Census Tract 230; New York County; New York","34890","36","061","023000"],
+        ["Census Tract 231; New York County; New York","64594","36","061","023100"],
+        ["Census Tract 232; New York County; New York","35438","36","061","023200"],
+        ["Census Tract 233; New York County; New York","86769","36","061","023300"],
+        ["Census Tract 234; New York County; New York","71250","36","061","023400"],
+        ["Census Tract 235.01; New York County; New York","77222","36","061","023501"],
+        ["Census Tract 235.02; New York County; New York","42267","36","061","023502"],
+        ["Census Tract 236; New York County; New York","41941","36","061","023600"],
+        ["Census Tract 237; New York County; New York","47333","36","061","023700"],
+        ["Census Tract 238.02; New York County; New York","103068","36","061","023802"],
+        ["Census Tract 238.03; New York County; New York","77070","36","061","023803"],
+        ["Census Tract 238.04; New York County; New York","180677","36","061","023804"],
+        ["Census Tract 239; New York County; New York","45036","36","061","023900"],
+        ["Census Tract 240; New York County; New York","-666666666","36","061","024000"],
+        ["Census Tract 241; New York County; New York","59054","36","061","024100"],
+        ["Census Tract 242; New York County; New York","31691","36","061","024200"],
+        ["Census Tract 243.01; New York County; New York","72576","36","061","024301"],
+        ["Census Tract 243.02; New York County; New York","26301","36","061","024302"],
+        ["Census Tract 245; New York County; New York","51190","36","061","024500"],
+        ["Census Tract 247; New York County; New York","42446","36","061","024700"],
+        ["Census Tract 249; New York County; New York","87917","36","061","024900"],
+        ["Census Tract 251; New York County; New York","35647","36","061","025100"],
+        ["Census Tract 253; New York County; New York","67045","36","061","025300"],
+        ["Census Tract 255; New York County; New York","64761","36","061","025500"],
+        ["Census Tract 257; New York County; New York","85952","36","061","025700"],
+        ["Census Tract 259; New York County; New York","76047","36","061","025900"],
+        ["Census Tract 261; New York County; New York","49248","36","061","026100"],
+        ["Census Tract 263; New York County; New York","56754","36","061","026300"],
+        ["Census Tract 265; New York County; New York","98086","36","061","026500"],
+        ["Census Tract 267; New York County; New York","61667","36","061","026700"],
+        ["Census Tract 269; New York County; New York","65743","36","061","026900"],
+        ["Census Tract 271; New York County; New York","81890","36","061","027100"],
+        ["Census Tract 273; New York County; New York","118346","36","061","027300"],
+        ["Census Tract 275; New York County; New York","165000","36","061","027500"],
+        ["Census Tract 277; New York County; New York","37681","36","061","027700"],
+        ["Census Tract 279; New York County; New York","57671","36","061","027900"],
+        ["Census Tract 281; New York County; New York","112969","36","061","028100"],
+        ["Census Tract 283; New York County; New York","67417","36","061","028300"],
+        ["Census Tract 285; New York County; New York","47148","36","061","028500"],
+        ["Census Tract 287; New York County; New York","77648","36","061","028700"],
+        ["Census Tract 291; New York County; New York","55231","36","061","029100"],
+        ["Census Tract 293; New York County; New York","43866","36","061","029300"],
+        ["Census Tract 295; New York County; New York","78209","36","061","029500"],
+        ["Census Tract 297; New York County; New York","-666666666","36","061","029700"],
+        ["Census Tract 299; New York County; New York","29038","36","061","029900"],
+        ["Census Tract 303; New York County; New York","85114","36","061","030300"],
+        ["Census Tract 307; New York County; New York","113510","36","061","030700"],
+        ["Census Tract 309; New York County; New York","44498","36","061","030900"],
+        ["Census Tract 311; New York County; New York","-666666666","36","061","031100"],
+        ["Census Tract 317.03; New York County; New York","250001","36","061","031703"],
+        ["Census Tract 317.04; New York County; New York","233346","36","061","031704"],
+        ["Census Tract 319; New York County; New York","-666666666","36","061","031900"]]
+  recorded_at: 2026-03-23 12:11:58
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=block+group%3A%2A&in=state%3A36+county%3A061+tract%3A000100&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:07 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4870a053e602f169541ae8ed2f5bb7860d417ed00371bd282a2fe03ebfa8f061a52b3872acdc5742c5c741b6bd738ce7c;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","state","county","tract","block group"],
+        ["Block Group 1; Census Tract 1; New York County; New York","-666666666","36","061","000100","1"]]
+  recorded_at: 2026-03-23 12:12:04
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=block+group%3A%2A&in=state%3A36+county%3A061+tract%3A000100&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:12 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a46f86b53d16d5f44574d9bce31f67f4a779e1afbf1bb3c582e5ea6d2f56b8022084f53bb9992096e12886ff7eee356219;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","state","county","tract","block group"],
+        ["Block Group 1; Census Tract 1; New York County; New York","-666666666","36","061","000100","1"]]
+  recorded_at: 2026-03-23 12:12:09
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=county+subdivision%3A%2A&in=state%3A36+county%3A119&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:18 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a48a8d57e8805d8dd67c6f9494bd5e8535af2572029bcf041939474e5dd77dd98fe18b80c959703dcde1c18fa4af36d97f;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","state","county","county subdivision"],
+        ["Bedford town, Westchester County, New York","175478","36","119","05320"],
+        ["Cortlandt town, Westchester County, New York","136234","36","119","18410"],
+        ["Eastchester town, Westchester County, New York","146289","36","119","21820"],
+        ["Greenburgh town, Westchester County, New York","145468","36","119","30367"],
+        ["Harrison town, Westchester County, New York","151038","36","119","32413"],
+        ["Lewisboro town, Westchester County, New York","198412","36","119","42136"],
+        ["Mamaroneck town, Westchester County, New York","168045","36","119","44842"],
+        ["Mount Kisco town, Westchester County, New York","99444","36","119","48895"],
+        ["Mount Pleasant town, Westchester County, New York","134456","36","119","49011"],
+        ["Mount Vernon city, Westchester County, New York","75511","36","119","49121"],
+        ["New Castle town, Westchester County, New York","245571","36","119","50078"],
+        ["New Rochelle city, Westchester County, New York","100542","36","119","50617"],
+        ["North Castle town, Westchester County, New York","193750","36","119","51693"],
+        ["North Salem town, Westchester County, New York","173682","36","119","53517"],
+        ["Ossining town, Westchester County, New York","120632","36","119","55541"],
+        ["Peekskill city, Westchester County, New York","86695","36","119","56979"],
+        ["Pelham town, Westchester County, New York","211758","36","119","57012"],
+        ["Pound Ridge town, Westchester County, New York","229821","36","119","59685"],
+        ["Rye city, Westchester County, New York","227565","36","119","64309"],
+        ["Rye town, Westchester County, New York","108791","36","119","64320"],
+        ["Scarsdale town, Westchester County, New York","250001","36","119","65442"],
+        ["Somers town, Westchester County, New York","152490","36","119","68308"],
+        ["White Plains city, Westchester County, New York","109551","36","119","81677"],
+        ["Yonkers city, Westchester County, New York","78208","36","119","84000"],
+        ["Yorktown town, Westchester County, New York","152917","36","119","84077"]]
+  recorded_at: 2026-03-23 12:12:15
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=county+subdivision%3A%2A&in=state%3A36+county%3A119&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:22 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4ba5fe51a9691fcec26c9e317c0d8b15c6cdf31aeae6f7f7f17f66fd04c6e2f17c2af85e2154609d9213b531d8403b8e4;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","state","county","county subdivision"],
+        ["Bedford town, Westchester County, New York","175478","36","119","05320"],
+        ["Cortlandt town, Westchester County, New York","136234","36","119","18410"],
+        ["Eastchester town, Westchester County, New York","146289","36","119","21820"],
+        ["Greenburgh town, Westchester County, New York","145468","36","119","30367"],
+        ["Harrison town, Westchester County, New York","151038","36","119","32413"],
+        ["Lewisboro town, Westchester County, New York","198412","36","119","42136"],
+        ["Mamaroneck town, Westchester County, New York","168045","36","119","44842"],
+        ["Mount Kisco town, Westchester County, New York","99444","36","119","48895"],
+        ["Mount Pleasant town, Westchester County, New York","134456","36","119","49011"],
+        ["Mount Vernon city, Westchester County, New York","75511","36","119","49121"],
+        ["New Castle town, Westchester County, New York","245571","36","119","50078"],
+        ["New Rochelle city, Westchester County, New York","100542","36","119","50617"],
+        ["North Castle town, Westchester County, New York","193750","36","119","51693"],
+        ["North Salem town, Westchester County, New York","173682","36","119","53517"],
+        ["Ossining town, Westchester County, New York","120632","36","119","55541"],
+        ["Peekskill city, Westchester County, New York","86695","36","119","56979"],
+        ["Pelham town, Westchester County, New York","211758","36","119","57012"],
+        ["Pound Ridge town, Westchester County, New York","229821","36","119","59685"],
+        ["Rye city, Westchester County, New York","227565","36","119","64309"],
+        ["Rye town, Westchester County, New York","108791","36","119","64320"],
+        ["Scarsdale town, Westchester County, New York","250001","36","119","65442"],
+        ["Somers town, Westchester County, New York","152490","36","119","68308"],
+        ["White Plains city, Westchester County, New York","109551","36","119","81677"],
+        ["Yonkers city, Westchester County, New York","78208","36","119","84000"],
+        ["Yorktown town, Westchester County, New York","152917","36","119","84077"]]
+  recorded_at: 2026-03-23 12:12:20
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=congressional+district%3A01%2C02&in=state%3A36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:28 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a45bf936aeaa84b27977397b337d906ceee06f3e6728b0922214d4fa3cf31b7fc0690b637dae4dcc2e86dab89f275f9681;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","state","congressional district"],
+        ["Congressional District 1 (118th Congress), New York","129170","36","01"],
+        ["Congressional District 2 (118th Congress), New York","117404","36","02"]]
+  recorded_at: 2026-03-23 12:12:26
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=congressional+district%3A01%2C02&in=state%3A36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:33 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a445019d635096f57b68131d74bdb27e3e37d376d270bdee7bbd48b252f76a0caac24466f75bcea37083e2b11e5e616424;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","state","congressional district"],
+        ["Congressional District 1 (118th Congress), New York","129170","36","01"],
+        ["Congressional District 2 (118th Congress), New York","117404","36","02"]]
+  recorded_at: 2026-03-23 12:12:31
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=zip+code+tabulation+area%3A10001%2C10002&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:39 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a455084266565e1687777366768c868a3d1d59b33169017ac72dbfc3814ef98dd664bfc42f4e9b4456ae104a8ede30dde7;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","zip code tabulation area"],
+        ["ZCTA5 10001","106509","10001"],
+        ["ZCTA5 10002","43362","10002"]]
+  recorded_at: 2026-03-23 12:12:36
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=zip+code+tabulation+area%3A10001%2C10002&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:45 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4c6dd0ea1f1d2e3b2d11e2ad8e1bf902f192ca0cd2d81b066b597cad7a7861738548551d7dfbc4b318878368be969900c;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","zip code tabulation area"],
+        ["ZCTA5 10001","106509","10001"],
+        ["ZCTA5 10002","43362","10002"]]
+  recorded_at: 2026-03-23 12:12:41
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=metropolitan+statistical+area%2Fmicropolitan+statistical+area%3A10580%2C35620&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:54 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a46f80d2a92d62cc88c431856b4dbfce2f9a1fcac510283667d2deebe1e3204c59b5813e68a8487f62d2ef8ee0ecc7340e;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","metropolitan statistical area/micropolitan statistical area"],
+        ["Albany-Schenectady-Troy, NY Metro Area","83360","10580"],
+        ["New York-Newark-Jersey City, NY-NJ-PA Metro Area","93610","35620"]]
+  recorded_at: 2026-03-23 12:12:51
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB19013_001E&for=metropolitan+statistical+area%2Fmicropolitan+statistical+area%3A10580%2C35620&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:12:59 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a47e21104522057c01b2c3d563882caee02506d3dbaa6e7a613e482b067a149205445e522656ec4c6cc617083348f04c87;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B19013_001E","metropolitan statistical area/micropolitan statistical area"],
+        ["Albany-Schenectady-Troy, NY Metro Area","83360","10580"],
+        ["New York-Newark-Jersey City, NY-NJ-PA Metro Area","93610","35620"]]
+  recorded_at: 2026-03-23 12:12:56
+recorded_with: VCR-vcr/2.1.0

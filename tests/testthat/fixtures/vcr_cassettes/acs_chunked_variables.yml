@@ -1,0 +1,83 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB01001A_001E%2CB01001A_002E%2CB01001A_003E%2CB01001A_004E%2CB01001A_005E%2CB01001A_006E%2CB01001A_007E%2CB01001A_008E%2CB01001A_009E%2CB01001A_010E%2CB01001A_011E%2CB01001A_012E%2CB01001A_013E%2CB01001A_014E%2CB01001A_015E%2CB01001A_016E%2CB01001A_017E%2CB01001A_018E%2CB01001A_019E%2CB01001A_020E%2CB01001A_021E%2CB01001A_022E%2CB01001A_023E%2CB01001A_024E%2CB01001A_025E%2CB01001A_026E%2CB01001A_027E%2CB01001A_028E%2CB01001A_029E%2CB01001A_030E%2CB01001A_031E%2CB01001B_001E%2CB01001B_002E%2CB01001B_003E%2CB01001B_004E%2CB01001B_005E%2CB01001B_006E%2CB01001B_007E%2CB01001B_008E%2CB01001B_009E%2CB01001B_010E%2CB01001B_011E%2CB01001B_012E%2CB01001B_013E%2CB01001B_014E%2CB01001B_015E%2CB01001B_016E%2CB01001B_017E%2CB01001B_018E&for=state%3A10%2C36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:11:42 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4a4f3371c5142ae59285a036cdc85efef352bab6cd886dc5c585c552bbb5d413904d82a0b08147e7f2bad5e3ac100eb89;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B01001A_001E","B01001A_002E","B01001A_003E","B01001A_004E","B01001A_005E","B01001A_006E","B01001A_007E","B01001A_008E","B01001A_009E","B01001A_010E","B01001A_011E","B01001A_012E","B01001A_013E","B01001A_014E","B01001A_015E","B01001A_016E","B01001A_017E","B01001A_018E","B01001A_019E","B01001A_020E","B01001A_021E","B01001A_022E","B01001A_023E","B01001A_024E","B01001A_025E","B01001A_026E","B01001A_027E","B01001A_028E","B01001A_029E","B01001A_030E","B01001A_031E","B01001B_001E","B01001B_002E","B01001B_003E","B01001B_004E","B01001B_005E","B01001B_006E","B01001B_007E","B01001B_008E","B01001B_009E","B01001B_010E","B01001B_011E","B01001B_012E","B01001B_013E","B01001B_014E","B01001B_015E","B01001B_016E","B01001B_017E","B01001B_018E","state"],
+        ["Delaware","634244","309683","13836","14701","16092","10471","7538","16948","18456","20267","35521","37456","48133","43203","21036","6025","324561","13538","14317","15597","9517","7612","16172","18354","19986","35232","38443","52238","48413","25363","9779","218266","102798","6715","7453","8100","4472","3537","7939","7472","7129","12822","12506","12985","7708","2928","1032","115468","6915","10"],
+        ["New York","11749652","5798028","295175","298076","319183","201237","150400","366769","391511","399224","717366","744539","851925","640057","301894","120672","5951624","280048","284873","302929","188544","147198","360352","387983","387490","690897","731460","859937","704395","400040","225478","3011116","1410498","88214","86585","99806","59176","41807","105906","120343","114315","183092","177268","176066","100513","44249","13158","1600618","86864","36"]]
+  recorded_at: 2026-03-23 12:11:39
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=B01001B_019E%2CB01001B_020E%2CB01001B_021E%2CB01001B_022E%2CB01001B_023E%2CB01001B_024E&for=state%3A10%2C36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:11:44 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4e7203c3faecf0d5cfce4f5d5997903e083db21cedd903bd79199fc1b7787d5084371135a7515bdb8ba4d8bf54adba151;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["B01001B_019E","B01001B_020E","B01001B_021E","B01001B_022E","B01001B_023E","B01001B_024E","state"],
+        ["6810","7950","4750","3193","7592","7527","10"],
+        ["85385","95496","56671","40457","111613","124006","36"]]
+  recorded_at: 2026-03-23 12:11:41
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2022/acs/acs5?get=NAME%2CB01001A_001E%2CB01001A_025E%2CB01001B_018E&for=state%3A10%2C36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:11:49 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4fe323c6996d86ab53dfd04d45da6f02f75f28da48a8000417bf5b4b4e80220d78e8a9e9d8101ebe1beb631b54d2ec2f5;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B01001A_001E","B01001A_025E","B01001B_018E","state"],
+        ["Delaware","634244","19986","6915","10"],
+        ["New York","11749652","387490","86864","36"]]
+  recorded_at: 2026-03-23 12:11:46
+recorded_with: VCR-vcr/2.1.0

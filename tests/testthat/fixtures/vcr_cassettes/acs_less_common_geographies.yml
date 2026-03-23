@@ -1,0 +1,157 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2024/acs/acs5?get=NAME%2CB01001_001E&for=congressional+district%3A%2A&in=state%3A36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:04:27 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a41cec5dfacea0b3f29d2aa00a0fb146108ba5679fd5b6a946dcc656425d39249bea96eccb60b549f90493483f1edb0a46;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B01001_001E","state","congressional district"],
+        ["Congressional District 1 (119th Congress), New York","778092","36","01"],
+        ["Congressional District 2 (119th Congress), New York","782282","36","02"],
+        ["Congressional District 3 (119th Congress), New York","770395","36","03"],
+        ["Congressional District 4 (119th Congress), New York","773177","36","04"],
+        ["Congressional District 5 (119th Congress), New York","789687","36","05"],
+        ["Congressional District 6 (119th Congress), New York","733304","36","06"],
+        ["Congressional District 7 (119th Congress), New York","753548","36","07"],
+        ["Congressional District 8 (119th Congress), New York","759088","36","08"],
+        ["Congressional District 9 (119th Congress), New York","737304","36","09"],
+        ["Congressional District 10 (119th Congress), New York","733272","36","10"],
+        ["Congressional District 11 (119th Congress), New York","752901","36","11"],
+        ["Congressional District 12 (119th Congress), New York","719940","36","12"],
+        ["Congressional District 13 (119th Congress), New York","778141","36","13"],
+        ["Congressional District 14 (119th Congress), New York","718731","36","14"],
+        ["Congressional District 15 (119th Congress), New York","751695","36","15"],
+        ["Congressional District 16 (119th Congress), New York","775704","36","16"],
+        ["Congressional District 17 (119th Congress), New York","777627","36","17"],
+        ["Congressional District 18 (119th Congress), New York","786484","36","18"],
+        ["Congressional District 19 (119th Congress), New York","774788","36","19"],
+        ["Congressional District 20 (119th Congress), New York","782695","36","20"],
+        ["Congressional District 21 (119th Congress), New York","770419","36","21"],
+        ["Congressional District 22 (119th Congress), New York","767369","36","22"],
+        ["Congressional District 23 (119th Congress), New York","770072","36","23"],
+        ["Congressional District 24 (119th Congress), New York","771272","36","24"],
+        ["Congressional District 25 (119th Congress), New York","771484","36","25"],
+        ["Congressional District 26 (119th Congress), New York","772895","36","26"]]
+  recorded_at: 2026-03-23 12:04:24
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2024/acs/acs5?get=NAME%2CB01001_001E&for=place%3A%2A&in=state%3A10&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:04:32 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a433cc1dbb5a52c4fbae3accec153fd4d30f5f5b0daf38e71184b2aaf5a258d78a8cb2b38bae8f8ee61c01b76e1a9cf3e7;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","B01001_001E","state","place"],
+        ["Arden village, Delaware","627","10","01400"],
+        ["Ardencroft village, Delaware","213","10","01530"],
+        ["Ardentown village, Delaware","233","10","01660"],
+        ["Bear CDP, Delaware","22370","10","04130"],
+        ["Bellefonte town, Delaware","1388","10","04650"],
+        ["Bethany Beach town, Delaware","905","10","05690"],
+        ["Bethel town, Delaware","375","10","05820"],
+        ["Blades town, Delaware","1071","10","06730"],
+        ["Bowers town, Delaware","270","10","07250"],
+        ["Bridgeville town, Delaware","2745","10","08680"],
+        ["Brookside CDP, Delaware","15115","10","09850"],
+        ["Camden town, Delaware","4106","10","10760"],
+        ["Cheswold town, Delaware","2143","10","14660"],
+        ["Claymont CDP, Delaware","8786","10","15310"],
+        ["Clayton town, Delaware","4222","10","15440"],
+        ["Dagsboro town, Delaware","1376","10","18950"],
+        ["Delaware City city, Delaware","1950","10","19730"],
+        ["Delmar town, Delaware","2412","10","20380"],
+        ["Dewey Beach town, Delaware","351","10","20900"],
+        ["Dover city, Delaware","39837","10","21200"],
+        ["Dover Base Housing CDP, Delaware","2962","10","21387"],
+        ["Edgemoor CDP, Delaware","6349","10","23240"],
+        ["Ellendale town, Delaware","760","10","24020"],
+        ["Elsmere town, Delaware","6203","10","24540"],
+        ["Farmington town, Delaware","201","10","25840"],
+        ["Felton town, Delaware","1294","10","26620"],
+        ["Fenwick Island town, Delaware","401","10","26880"],
+        ["Frankford town, Delaware","1215","10","28310"],
+        ["Frederica town, Delaware","1062","10","28440"],
+        ["Georgetown town, Delaware","7660","10","29090"],
+        ["Glasgow CDP, Delaware","15546","10","29350"],
+        ["Greenville CDP, Delaware","3713","10","31430"],
+        ["Greenwood town, Delaware","1564","10","31560"],
+        ["Harrington city, Delaware","3838","10","33120"],
+        ["Hartly town, Delaware","199","10","33250"],
+        ["Henlopen Acres town, Delaware","176","10","33900"],
+        ["Highland Acres CDP, Delaware","3752","10","34810"],
+        ["Hockessin CDP, Delaware","13439","10","35850"],
+        ["Houston town, Delaware","456","10","36760"],
+        ["Kent Acres CDP, Delaware","2388","10","38710"],
+        ["Kenton town, Delaware","355","10","39100"],
+        ["Laurel town, Delaware","4152","10","41310"],
+        ["Leipsic town, Delaware","191","10","41700"],
+        ["Lewes city, Delaware","3505","10","41830"],
+        ["Lincoln CDP, Delaware","1873","10","42480"],
+        ["Little Creek town, Delaware","141","10","42870"],
+        ["Long Neck CDP, Delaware","2161","10","43245"],
+        ["Magnolia town, Delaware","274","10","44430"],
+        ["Middletown town, Delaware","24661","10","47030"],
+        ["Milford city, Delaware","12803","10","47420"],
+        ["Millsboro town, Delaware","7424","10","47940"],
+        ["Millville town, Delaware","2430","10","48200"],
+        ["Milton town, Delaware","3567","10","48330"],
+        ["Newark city, Delaware","30330","10","50670"],
+        ["New Castle city, Delaware","5579","10","50800"],
+        ["Newport town, Delaware","900","10","51190"],
+        ["North Star CDP, Delaware","7834","10","52490"],
+        ["Ocean View town, Delaware","2851","10","53920"],
+        ["Odessa town, Delaware","409","10","54050"],
+        ["Pike Creek CDP, Delaware","7129","10","56490"],
+        ["Pike Creek Valley CDP, Delaware","12431","10","56500"],
+        ["Port Penn CDP, Delaware","592","10","58600"],
+        ["Rehoboth Beach city, Delaware","1370","10","60290"],
+        ["Rising Sun-Lebanon CDP, Delaware","4163","10","61265"],
+        ["Riverview CDP, Delaware","2596","10","61480"],
+        ["Rodney Village CDP, Delaware","1331","10","61720"],
+        ["St. Georges CDP, Delaware","1530","10","63800"],
+        ["Seaford city, Delaware","8485","10","64320"],
+        ["Selbyville town, Delaware","3097","10","64840"],
+        ["Slaughter Beach town, Delaware","408","10","67050"],
+        ["Smyrna town, Delaware","13165","10","67310"],
+        ["South Bethany town, Delaware","545","10","67700"],
+        ["Townsend town, Delaware","2832","10","72510"],
+        ["Viola town, Delaware","178","10","74330"],
+        ["Wilmington city, Delaware","71727","10","77580"],
+        ["Wilmington Manor CDP, Delaware","8214","10","77840"],
+        ["Woodside town, Delaware","475","10","80830"],
+        ["Woodside East CDP, Delaware","2274","10","80895"],
+        ["Wyoming town, Delaware","2000","10","81350"]]
+  recorded_at: 2026-03-23 12:04:29
+recorded_with: VCR-vcr/2.1.0

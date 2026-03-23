@@ -427,6 +427,14 @@ tc_join_chunks <- function(chunks) {
   )
 }
 
+tc_stabilize_geography_order <- function(data, geography = NULL) {
+  if (is.null(geography) || !"GEOID" %in% names(data)) {
+    return(data)
+  }
+
+  data[order(data$GEOID), , drop = FALSE]
+}
+
 tc_dataset_query_raw <- function(
   dataset,
   year,
@@ -518,6 +526,8 @@ tc_dataset_query_raw <- function(
       )
     )
   }
+
+  out <- tc_stabilize_geography_order(out, geography = geography)
 
   attr(out, "dataset") <- dataset
   attr(out, "year") <- year

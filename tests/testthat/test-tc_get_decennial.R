@@ -50,3 +50,40 @@ test_that("tc_get_decennial preserves named variable aliases", {
   expect_true(all(c("pop", "pop_hisp") %in% names(out)))
   expect_false(any(c("P1_001N", "P2_002N") %in% names(out)))
 })
+
+test_that("tc_get_decennial handles chunked variable requests with stable aliases and order", {
+  skip_if_not_installed("vcr")
+  skip_if_offline()
+  vcr::local_cassette("decennial_chunked_variables")
+
+  vars <- tc_variables("dec/dhc", 2020)
+  vars <- vars$name[grepl("^[A-Z0-9]+_[0-9]+N$", vars$name)][1:55]
+  aliases <- stats::setNames(vars, paste0("metric_", seq_along(vars)))
+  control_aliases <- aliases[c(1, 25, 49)]
+
+  out <- tc_get_decennial(
+    year = 2020,
+    dataset = "dhc",
+    variables = aliases,
+    geography = "state",
+    state = c("DE", "NY")
+  )
+
+  control <- tc_get_decennial(
+    year = 2020,
+    dataset = "dhc",
+    variables = control_aliases,
+    geography = "state",
+    state = c("DE", "NY")
+  )
+
+  alias_names <- names(aliases)
+  control_names <- names(control_aliases)
+
+  expect_s3_class(out, "tbl_df")
+  expect_true(all(alias_names %in% names(out)))
+  expect_identical(names(out)[names(out) %in% alias_names], alias_names)
+  expect_equal(out$GEOID, control$GEOID)
+  expect_equal(out[control_names], control[control_names])
+  expect_equal(anyDuplicated(out$GEOID), 0L)
+})

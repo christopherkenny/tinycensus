@@ -1,0 +1,83 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2020/dec/dhc?get=NAME%2CH10_001N%2CH10_002N%2CH10_003N%2CH10_004N%2CH10_005N%2CH10_006N%2CH10_007N%2CH10_008N%2CH10_009N%2CH10_010N%2CH10_011N%2CH10_012N%2CH10_013N%2CH10_014N%2CH10_015N%2CH10_016N%2CH10_017N%2CH11_001N%2CH11_002N%2CH11_003N%2CH11_004N%2CH11_005N%2CH11_006N%2CH11_007N%2CH12A_001N%2CH12A_002N%2CH12A_003N%2CH12A_004N%2CH12A_005N%2CH12A_006N%2CH12A_007N%2CH12A_008N%2CH12A_009N%2CH12A_010N%2CH12A_011N%2CH12A_012N%2CH12A_013N%2CH12A_014N%2CH12A_015N%2CH12A_016N%2CH12A_017N%2CH12B_001N%2CH12B_002N%2CH12B_003N%2CH12B_004N%2CH12B_005N%2CH12B_006N%2CH12B_007N%2CH12B_008N&for=state%3A10%2C36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:15:26 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4d4257ecea10148419bf1e8b8719160dc92ce3d93cf65dbbe447b3bdde639dc7b9873cbf2ad02f3d242327eca6aa5c6e1;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","H10_001N","H10_002N","H10_003N","H10_004N","H10_005N","H10_006N","H10_007N","H10_008N","H10_009N","H10_010N","H10_011N","H10_012N","H10_013N","H10_014N","H10_015N","H10_016N","H10_017N","H11_001N","H11_002N","H11_003N","H11_004N","H11_005N","H11_006N","H11_007N","H12A_001N","H12A_002N","H12A_003N","H12A_004N","H12A_005N","H12A_006N","H12A_007N","H12A_008N","H12A_009N","H12A_010N","H12A_011N","H12A_012N","H12A_013N","H12A_014N","H12A_015N","H12A_016N","H12A_017N","H12B_001N","H12B_002N","H12B_003N","H12B_004N","H12B_005N","H12B_006N","H12B_007N","H12B_008N","state"],
+        ["Delaware","386375","273723","204189","40591","1113","8736","82","6389","12623","112652","51763","39122","749","5771","90","6799","8358","386375","273723","259472","14251","112652","98868","13784","255952","204189","49739","85211","30285","23775","9859","3499","1821","51763","21313","15045","6911","4822","2126","993","553","79713","40591","8976","12319","7725","5965","3205","1411","10"],
+        ["New York","7715172","3954978","2987230","318819","14424","282943","869","142047","208646","3760194","1735538","757195","32853","351835","2579","515885","364309","7715172","3954978","3656500","298478","3760194","2843588","916606","4722768","2987230","749593","1086976","467229","416865","170899","60305","35363","1735538","774342","520117","211392","129406","54498","24638","21145","1076014","318819","74894","78260","58482","48592","28757","15746","36"]]
+  recorded_at: 2026-03-23 12:15:23
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2020/dec/dhc?get=H12B_009N%2CH12B_010N%2CH12B_011N%2CH12B_012N%2CH12B_013N%2CH12B_014N&for=state%3A10%2C36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:15:27 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4fe1b2c0a75c93069de8724f71030285a8543de8d77e764085f6c32788346ced6fd6330c2584c6f30b8fde7bc87ca5e9b;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["H12B_009N","H12B_010N","H12B_011N","H12B_012N","H12B_013N","H12B_014N","state"],
+        ["990","39122","13506","10176","6518","4601","10"],
+        ["14088","757195","275562","193506","127181","82528","36"]]
+  recorded_at: 2026-03-23 12:15:24
+- request:
+    method: GET
+    uri: https://api.census.gov/data/2020/dec/dhc?get=NAME%2CH10_001N%2CH12A_001N%2CH12B_008N&for=state%3A10%2C36&key=<CENSUS_API_KEY>
+  response:
+    status: 200
+    headers:
+      Cache-Control: max-age=60, must-revalidate
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Allow-Methods: GET
+      Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
+      Referrer-Policy: same-origin
+      Content-Security-Policy: default-src 'self'; img-src 'self' data:; object-src
+        'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+        frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content
+      X-Content-Type-Options: nosniff
+      Content-Type: application/json;charset=utf-8
+      Date: Mon, 23 Mar 2026 12:15:28 GMT
+      Strict-Transport-Security: max-age=31536000
+      Set-Cookie: TS010383f0=01283c52a4f95ab39f50f82b40630ebd3d43a4544087ea39f4eb544e908e7a2438d32f9c15a56f0282f89decc6556bc58331ec7095;
+        Path=/; Domain=.api.census.gov; Secure; HttpOnly
+      Transfer-Encoding: chunked
+    body:
+      string: |-
+        [["NAME","H10_001N","H12A_001N","H12B_008N","state"],
+        ["Delaware","386375","255952","1411","10"],
+        ["New York","7715172","4722768","15746","36"]]
+  recorded_at: 2026-03-23 12:15:25
+recorded_with: VCR-vcr/2.1.0

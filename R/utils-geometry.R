@@ -1,6 +1,17 @@
-tc_geometry_year <- function(year) {
+tc_geometry_year <- function(year, geography = NULL) {
   current <- as.integer(format(Sys.Date(), "%Y"))
-  max(min(as.integer(year), current), 2011L)
+  tiger_year <- max(min(as.integer(year), current), 2011L)
+
+  if (geography %in% c(
+    "metropolitan statistical area/micropolitan statistical area",
+    "cbsa",
+    "metropolitan division",
+    "combined statistical area"
+  )) {
+    tiger_year <- min(tiger_year, 2021L)
+  }
+
+  tiger_year
 }
 
 tc_geometry_bind <- function(parts) {
@@ -16,7 +27,7 @@ tc_geometry_bind <- function(parts) {
 }
 
 tc_fetch_geometry <- function(data, geography, year) {
-  tiger_year <- tc_geometry_year(year)
+  tiger_year <- tc_geometry_year(year, geography = geography)
 
   if (geography == "state") {
     geom <- tinytiger::tt_states(year = tiger_year)
@@ -38,9 +49,9 @@ tc_fetch_geometry <- function(data, geography, year) {
     parts <- lapply(seq_len(nrow(combos)), function(i) {
       geom <- tinytiger::tt_county_subdivisions(
         state = combos$state[[i]],
-        county = combos$county[[i]],
         year = tiger_year
       )
+      geom <- geom[geom$COUNTYFP == combos$county[[i]], , drop = FALSE]
       geom$GEOID <- paste0(geom$STATEFP, geom$COUNTYFP, geom$COUSUBFP)
       geom
     })
