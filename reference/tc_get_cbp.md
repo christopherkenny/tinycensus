@@ -100,7 +100,7 @@ A tibble or `sf` object.
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_get_cbp(
   year = 2021,
   variables = "ESTAB",

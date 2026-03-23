@@ -29,7 +29,7 @@ A tibble of geography metadata.
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_geography("acs/acs5", 2024, refresh = TRUE)
 }
 ```

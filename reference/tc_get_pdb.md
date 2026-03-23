@@ -1,11 +1,11 @@
-# Retrieve Population Estimates Program data
+# Retrieve Census Planning Database data
 
-Retrieve Population Estimates Program data
+Retrieve Census Planning Database data
 
 ## Usage
 
 ``` r
-tc_get_pep(
+tc_get_pdb(
   year,
   variables = NULL,
   table = NULL,
@@ -13,9 +13,6 @@ tc_get_pep(
   within = NULL,
   predicates = NULL,
   dataset = NULL,
-  product = NULL,
-  breakdown = NULL,
-  breakdown_labels = FALSE,
   summary_var = NULL,
   key = tc_get_key(),
   geometry = FALSE,
@@ -57,23 +54,8 @@ tc_get_pep(
 
 - dataset:
 
-  PEP dataset path, such as `"population"` or `"components"`. A leading
-  `"pep/"` is optional.
-
-- product:
-
-  Optional PEP product alias. Supported values are `"population"`,
-  `"components"`, `"housing"`, and `"characteristics"`.
-
-- breakdown:
-
-  Optional characteristics breakdown variables. Supported values are
-  `"AGE"`, `"AGEGROUP"`, `"SEX"`, `"HISP"`, and `"RACE"`.
-
-- breakdown_labels:
-
-  Should label variables for supported breakdowns be added
-  automatically?
+  Optional `pdb/...` dataset path. When omitted, the dataset is inferred
+  from `geography`.
 
 - summary_var:
 
@@ -120,11 +102,12 @@ A tibble or `sf` object.
 
 ``` r
 if (FALSE) { # tinycensus::tc_has_key()
-tc_get_pep(
-  year = 2021,
-  product = "population",
-  geography = "state",
-  state = c("NY", "Delaware")
+tc_get_pdb(
+  year = 2024,
+  variables = "Tot_Population_CEN_2020",
+  geography = "tract",
+  state = "NY",
+  county = "061"
 )
 }
 ```

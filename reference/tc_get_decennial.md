@@ -99,7 +99,7 @@ A tibble or `sf` object.
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_get_decennial(
   year = 2020,
   dataset = "pl",

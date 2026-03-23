@@ -30,14 +30,14 @@ A tibble of group metadata from the Census API.
 
 This is a lower-level metadata helper. For most ACS and decennial
 workflows,
-[`tc_tables()`](https://christopherkenny.github.io/tinycensus/reference/tc_tables.md)
+[`tc_tables()`](https://christophertkenny.com/tinycensus/reference/tc_tables.md)
 is the more natural entry point because Census "groups" usually
 correspond to user-facing tables.
 
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_groups("acs/acs5", 2024, refresh = TRUE)
 }
 ```

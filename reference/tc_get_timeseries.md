@@ -9,13 +9,16 @@ tc_get_timeseries(
   dataset,
   variables = NULL,
   table = NULL,
+  geography = NULL,
+  within = NULL,
   predicates = NULL,
   time = NULL,
   year = NULL,
   key = tc_get_key(),
   refresh = FALSE,
   cache = TRUE,
-  ucgid = NULL
+  ucgid = NULL,
+  ...
 )
 ```
 
@@ -33,6 +36,14 @@ tc_get_timeseries(
 
   Optional group or table identifier. Mutually exclusive with
   `variables`.
+
+- geography:
+
+  Optional Census geography name.
+
+- within:
+
+  Optional named list of parent geographies.
 
 - predicates:
 
@@ -63,6 +74,10 @@ tc_get_timeseries(
 
   Optional `ucgid` predicate.
 
+- ...:
+
+  Geography values such as `state = "NY"` or `county = "001"`.
+
 ## Value
 
 A tibble.
@@ -70,7 +85,7 @@ A tibble.
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_get_timeseries(
   dataset = "intltrade/exports/hs",
   variables = "ALL_VAL_MO",

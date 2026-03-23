@@ -13,6 +13,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Lightweight Interface to the US Census Bureau API">
 <meta name="description" content="Download data from the United States Census Bureau API &lt;https://www.census.gov/data/developers/data-sets.html&gt;. The package provides lightweight, product-specific interfaces for ACS, decennial census data, PEP, CBP, migration flows, and time-series datasets. It also uses Census metadata endpoints to discover datasets, variables, tables, and supported geographies, with optional spatial output joined through tinytiger.">
 <meta property="og:description" content="Download data from the United States Census Bureau API &lt;https://www.census.gov/data/developers/data-sets.html&gt;. The package provides lightweight, product-specific interfaces for ACS, decennial census data, PEP, CBP, migration flows, and time-series datasets. It also uses Census metadata endpoints to discover datasets, variables, tables, and supported geographies, with optional spatial output joined through tinytiger.">
+<meta property="og:image" content="https://christophertkenny.com/tinycensus/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -47,8 +48,11 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="tinycensus">tinycensus<a class="anchor" aria-label="anchor" href="#tinycensus"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="tinycensus-">tinycensus 
+<a class="anchor" aria-label="anchor" href="#tinycensus-"></a>
+</h1>
+</div>
 <!-- badges: start -->
 <!-- badges: end -->
 <p><code>tinycensus</code> is a lightweight, metadata-driven interface to the <a href="https://www.census.gov/data/developers.html" class="external-link">US Census Bureau API</a>. It is designed to stay small while still covering a broad set of aggregate datasets, with first-class support for ACS, decennial census products, PEP, CBP, migration flows, time-series endpoints, and related discovery metadata.</p>
@@ -96,6 +100,8 @@
 <li>
 <code><a href="reference/tc_get_cbp.html">tc_get_cbp()</a></code> for County Business Patterns</li>
 <li>
+<code><a href="reference/tc_get_pdb.html">tc_get_pdb()</a></code> for the Planning Database</li>
+<li>
 <code><a href="reference/tc_get_flows.html">tc_get_flows()</a></code> for ACS migration flows</li>
 <li>
 <code><a href="reference/tc_get_timeseries.html">tc_get_timeseries()</a></code> for discovery-catalog time-series endpoints</li>
@@ -117,7 +123,7 @@
 <span><span class="op">)</span></span></code></pre></div>
 <p>You can also check whether a key is available:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://christophertkenny.com/tinycensus/" class="external-link">tinycensus</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://christophertkenny.com/tinycensus/">tinycensus</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/tc_has_key.html">tc_has_key</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
@@ -209,19 +215,29 @@
 <div class="section level2">
 <h2 id="inspect-metadata">Inspect metadata<a class="anchor" aria-label="anchor" href="#inspect-metadata"></a>
 </h2>
-<p>Metadata helpers make it easier to explore unfamiliar datasets before you query them. For most workflows, <code><a href="reference/tc_tables.html">tc_tables()</a></code> is the best way to browse table-level metadata; <code><a href="reference/tc_groups.html">tc_groups()</a></code> remains available as a lower-level helper for the raw Census API concept.</p>
+<p>Metadata helpers make it easier to explore unfamiliar datasets before you query them. For most workflows, <code><a href="reference/tc_tables.html">tc_tables()</a></code> is the best place to start because it gives you a compact, table-oriented view of the API. <code><a href="reference/tc_variables.html">tc_variables()</a></code> is still useful when you want fields like <code>universe</code>, and <code><a href="reference/tc_search_variables.html">tc_search_variables()</a></code> is the quickest way to find likely candidates by label or concept.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_tables.html">tc_tables</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"description"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt; # A tibble: 5 × 2</span></span>
+<span><span class="co">#&gt;   name   description                                                            </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></span>
+<span><span class="co">#&gt; 1 B17015 Poverty Status in the Past 12 Months of Families by Family Type by Soc…</span></span>
+<span><span class="co">#&gt; 2 B18104 Sex by Age by Cognitive Difficulty                                     </span></span>
+<span><span class="co">#&gt; 3 B17016 Poverty Status in the Past 12 Months of Families by Family Type by Wor…</span></span>
+<span><span class="co">#&gt; 4 B18105 Sex by Age by Ambulatory Difficulty                                    </span></span>
+<span><span class="co">#&gt; 5 B17017 Poverty Status in the Past 12 Months by Household Type by Age of House…</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tc_variables.html">tc_variables</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="fl">2024</span><span class="op">)</span></span>
 <span><span class="va">vars</span><span class="op">[</span></span>
 <span>  <span class="va">vars</span><span class="op">$</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B01001_001E"</span>, <span class="st">"B19013_001E"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"label"</span>, <span class="st">"concept"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"label"</span>, <span class="st">"concept"</span>, <span class="st">"universe"</span><span class="op">)</span></span>
 <span><span class="op">]</span></span>
-<span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
-<span><span class="co">#&gt;   name        label                                                      concept</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;                                                      &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt; 1 B01001_001E Estimate!!Total:                                           Sex by…</span></span>
-<span><span class="co">#&gt; 2 B19013_001E Estimate!!Median household income in the past 12 months (… Median…</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span><span class="co">#&gt;   name        label                                             concept universe</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;                                             &lt;chr&gt;   &lt;chr&gt;   </span></span>
+<span><span class="co">#&gt; 1 B01001_001E Estimate!!Total:                                  Sex by… Total p…</span></span>
+<span><span class="co">#&gt; 2 B19013_001E Estimate!!Median household income in the past 12… Median… Househo…</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_geography.html">tc_geography</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"geography"</span>, <span class="st">"summary_level"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 10 × 2</span></span>
 <span><span class="co">#&gt;    geography                 summary_level</span></span>
@@ -236,34 +252,64 @@
 <span><span class="co">#&gt;  8 place/remainder (or part) 070          </span></span>
 <span><span class="co">#&gt;  9 tract                     140          </span></span>
 <span><span class="co">#&gt; 10 block group               150</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_tables.html">tc_tables</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"description"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt; # A tibble: 5 × 2</span></span>
-<span><span class="co">#&gt;   name   description                                                            </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></span>
-<span><span class="co">#&gt; 1 B17015 Poverty Status in the Past 12 Months of Families by Family Type by Soc…</span></span>
-<span><span class="co">#&gt; 2 B18104 Sex by Age by Cognitive Difficulty                                     </span></span>
-<span><span class="co">#&gt; 3 B17016 Poverty Status in the Past 12 Months of Families by Family Type by Wor…</span></span>
-<span><span class="co">#&gt; 4 B18105 Sex by Age by Ambulatory Difficulty                                    </span></span>
-<span><span class="co">#&gt; 5 B17017 Poverty Status in the Past 12 Months by Household Type by Age of House…</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="example-metadata-workflow">Example metadata workflow<a class="anchor" aria-label="anchor" href="#example-metadata-workflow"></a>
+</h3>
+<p>This is a typical discovery path:</p>
+<ol style="list-style-type: decimal">
+<li>search for a concept</li>
+<li>inspect the table it belongs to</li>
+<li>retrieve the estimate</li>
+</ol>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_search_variables.html">tc_search_variables</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="fl">2024</span>, query <span class="op">=</span> <span class="st">"median household income"</span><span class="op">)</span><span class="op">[</span></span>
+<code class="sourceCode R"><span><span class="va">income_hits</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tc_search_variables.html">tc_search_variables</a></span><span class="op">(</span></span>
+<span>  <span class="st">"acs/acs5"</span>,</span>
+<span>  <span class="fl">2024</span>,</span>
+<span>  query <span class="op">=</span> <span class="st">"median household income"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">income_hits</span><span class="op">[</span></span>
 <span>  <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"label"</span>, <span class="st">"concept"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"label"</span>, <span class="st">"concept"</span>, <span class="st">"universe"</span><span class="op">)</span></span>
+<span><span class="op">]</span></span>
+<span><span class="co">#&gt; # A tibble: 5 × 4</span></span>
+<span><span class="co">#&gt;   name         label                                            concept universe</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;                                            &lt;chr&gt;   &lt;chr&gt;   </span></span>
+<span><span class="co">#&gt; 1 B19013_001E  Estimate!!Median household income in the past 1… Median… Househo…</span></span>
+<span><span class="co">#&gt; 2 B19013A_001E Estimate!!Median household income in the past 1… Median… Househo…</span></span>
+<span><span class="co">#&gt; 3 B19013B_001E Estimate!!Median household income in the past 1… Median… Househo…</span></span>
+<span><span class="co">#&gt; 4 B19013C_001E Estimate!!Median household income in the past 1… Median… Househo…</span></span>
+<span><span class="co">#&gt; 5 B19013D_001E Estimate!!Median household income in the past 1… Median… Househo…</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_table_variables.html">tc_table_variables</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="st">"B19013"</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span></span>
+<span>  <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"label"</span>, <span class="st">"universe"</span><span class="op">)</span></span>
 <span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 5 × 3</span></span>
-<span><span class="co">#&gt;   name         label                                                     concept</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;                                                     &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt; 1 B19013_001E  Estimate!!Median household income in the past 12 months … Median…</span></span>
-<span><span class="co">#&gt; 2 B19013A_001E Estimate!!Median household income in the past 12 months … Median…</span></span>
-<span><span class="co">#&gt; 3 B19013B_001E Estimate!!Median household income in the past 12 months … Median…</span></span>
-<span><span class="co">#&gt; 4 B19013C_001E Estimate!!Median household income in the past 12 months … Median…</span></span>
-<span><span class="co">#&gt; 5 B19013D_001E Estimate!!Median household income in the past 12 months … Median…</span></span></code></pre></div>
+<span><span class="co">#&gt;   name        label                                                     universe</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;                                                     &lt;chr&gt;   </span></span>
+<span><span class="co">#&gt; 1 B19013_001E Estimate!!Median household income in the past 12 months … Househo…</span></span>
+<span><span class="co">#&gt; 2 &lt;NA&gt;        &lt;NA&gt;                                                      &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt; 3 &lt;NA&gt;        &lt;NA&gt;                                                      &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt; 4 &lt;NA&gt;        &lt;NA&gt;                                                      &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt; 5 &lt;NA&gt;        &lt;NA&gt;                                                      &lt;NA&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_acs.html">tc_get_acs</a></span><span class="op">(</span></span>
+<span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
+<span>  variables <span class="op">=</span> <span class="st">"B19013_001E"</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">"Delaware"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 4</span></span>
+<span><span class="co">#&gt;   NAME     B19013_001E state GEOID</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 Delaware       84954 10    10</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="migration-flows">Migration flows<a class="anchor" aria-label="anchor" href="#migration-flows"></a>
 </h2>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_flows.html">tc_get_flows</a></span><span class="op">(</span></span>
 <span>  geography <span class="op">=</span> <span class="st">"county"</span>,</span>
 <span>  year <span class="op">=</span> <span class="fl">2018</span>,</span>
@@ -271,8 +317,6 @@
 <span>  county <span class="op">=</span> <span class="st">"001"</span>,</span>
 <span>  geometry <span class="op">=</span> <span class="st">"destination"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in st_point_on_surface.sfc(geom$geometry): st_point_on_surface may not</span></span>
-<span><span class="co">#&gt; give correct results for longitude/latitude data</span></span>
 <span><span class="co">#&gt; Simple feature collection with 316 features and 10 fields (with 8 geometries empty)</span></span>
 <span><span class="co">#&gt; Geometry type: POINT</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -316,20 +360,48 @@
 <div class="section level2">
 <h2 id="other-products">Other products<a class="anchor" aria-label="anchor" href="#other-products"></a>
 </h2>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pep.html">tc_get_pep</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2021</span>,</span>
-<span>  dataset <span class="op">=</span> <span class="st">"population"</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"POP_2021"</span>,</span>
+<span>  product <span class="op">=</span> <span class="st">"population"</span>,</span>
 <span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
 <span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NY"</span>, <span class="st">"Delaware"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
-<span><span class="co">#&gt;   NAME     POP_2021 state GEOID</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt; 1 Delaware  1003384 10    10   </span></span>
-<span><span class="co">#&gt; 2 New York 19835913 36    36</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; # A tibble: 2 × 24</span></span>
+<span><span class="co">#&gt;   NAME     DENSITY_2020 DENSITY_2021 DENSITY_BASE2020 NPOPCHG_2020 NPOPCHG_2021</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;        &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Delaware         509.         515.             508.         1938        11498</span></span>
+<span><span class="co">#&gt; 2 New York         428.         421.             429.       -46316      -319020</span></span>
+<span><span class="co">#&gt; # ℹ 18 more variables: NPOPCHG_CUM2021 &lt;dbl&gt;, POP_2020 &lt;dbl&gt;, POP_2021 &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   POP_BASE2020 &lt;dbl&gt;, PPOPCHG_2020 &lt;dbl&gt;, PPOPCHG_2021 &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   PPOPCHG_CUM2021 &lt;dbl&gt;, RANK_NPOPCHG_2020 &lt;dbl&gt;, RANK_NPOPCHG_2021 &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   RANK_NPOPCHG_CUM2021 &lt;dbl&gt;, RANK_POP_2020 &lt;dbl&gt;, RANK_POP_2021 &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   RANK_POP_BASE2020 &lt;dbl&gt;, RANK_PPOPCHG_2020 &lt;dbl&gt;, RANK_PPOPCHG_2021 &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   RANK_PPOPCHG_CUM2021 &lt;dbl&gt;, state &lt;chr&gt;, GEOID &lt;chr&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pep.html">tc_get_pep</a></span><span class="op">(</span></span>
+<span>  year <span class="op">=</span> <span class="fl">2023</span>,</span>
+<span>  product <span class="op">=</span> <span class="st">"characteristics"</span>,</span>
+<span>  breakdown <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  breakdown_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">"NY"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 24 × 6</span></span>
+<span><span class="co">#&gt;    NAME          POP POPGROUP state GEOID POPGROUP_LABEL                        </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                                 </span></span>
+<span><span class="co">#&gt;  1 New York 20202320 001      36    36    Total population                      </span></span>
+<span><span class="co">#&gt;  2 New York 20104710 001      36    36    Total population                      </span></span>
+<span><span class="co">#&gt;  3 New York 13943368 002      36    36    White alone                           </span></span>
+<span><span class="co">#&gt;  4 New York 13872582 002      36    36    White alone                           </span></span>
+<span><span class="co">#&gt;  5 New York 14391976 003      36    36    White alone or in combination with on…</span></span>
+<span><span class="co">#&gt;  6 New York 14322340 003      36    36    White alone or in combination with on…</span></span>
+<span><span class="co">#&gt;  7 New York  3598865 004      36    36    Black or African American alone       </span></span>
+<span><span class="co">#&gt;  8 New York  3577768 004      36    36    Black or African American alone       </span></span>
+<span><span class="co">#&gt;  9 New York  3941239 005      36    36    Black or African American alone or in…</span></span>
+<span><span class="co">#&gt; 10 New York  3920776 005      36    36    Black or African American alone or in…</span></span>
+<span><span class="co">#&gt; # ℹ 14 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_cbp.html">tc_get_cbp</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2021</span>,</span>
 <span>  variables <span class="op">=</span> <span class="st">"ESTAB"</span>,</span>
@@ -343,10 +415,74 @@
 <span><span class="co">#&gt; 2 New York 535758 36    36</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="planning-database">Planning Database<a class="anchor" aria-label="anchor" href="#planning-database"></a>
+</h2>
+<p><code><a href="reference/tc_get_pdb.html">tc_get_pdb()</a></code> brings the Planning Database into the same product-wrapper workflow. The dataset is inferred from geography:</p>
+<ul>
+<li>
+<code>tract</code> -&gt; <code>pdb/tract</code>
+</li>
+<li>
+<code>block group</code> -&gt; <code>pdb/blockgroup</code>
+</li>
+<li>
+<code>state</code> / <code>county</code> -&gt; <code>pdb/statecounty</code>
+</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pdb.html">tc_get_pdb</a></span><span class="op">(</span></span>
+<span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
+<span>  variables <span class="op">=</span> <span class="st">"Tot_Population_CEN_2020"</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">"tract"</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">"NY"</span>,</span>
+<span>  county <span class="op">=</span> <span class="st">"061"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 310 × 5</span></span>
+<span><span class="co">#&gt;    Tot_Population_CEN_2020 state county tract  GEOID      </span></span>
+<span><span class="co">#&gt;                      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      </span></span>
+<span><span class="co">#&gt;  1                       0 36    061    000100 36061000100</span></span>
+<span><span class="co">#&gt;  2                    2012 36    061    000201 36061000201</span></span>
+<span><span class="co">#&gt;  3                    7266 36    061    000202 36061000202</span></span>
+<span><span class="co">#&gt;  4                       5 36    061    000500 36061000500</span></span>
+<span><span class="co">#&gt;  5                   11616 36    061    000600 36061000600</span></span>
+<span><span class="co">#&gt;  6                   10542 36    061    000700 36061000700</span></span>
+<span><span class="co">#&gt;  7                   10871 36    061    000800 36061000800</span></span>
+<span><span class="co">#&gt;  8                    2016 36    061    000900 36061000900</span></span>
+<span><span class="co">#&gt;  9                    1767 36    061    001001 36061001001</span></span>
+<span><span class="co">#&gt; 10                    6300 36    061    001002 36061001002</span></span>
+<span><span class="co">#&gt; # ℹ 300 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pdb.html">tc_get_pdb</a></span><span class="op">(</span></span>
+<span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
+<span>  variables <span class="op">=</span> <span class="st">"Tot_Population_CEN_2020"</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">"block group"</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">"NY"</span>,</span>
+<span>  county <span class="op">=</span> <span class="st">"061"</span>,</span>
+<span>  tract <span class="op">=</span> <span class="st">"000100"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 6</span></span>
+<span><span class="co">#&gt;   Tot_Population_CEN_2020 state county tract  `block group` GEOID       </span></span>
+<span><span class="co">#&gt;                     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;       </span></span>
+<span><span class="co">#&gt; 1                       0 36    061    000100 1             360610001001</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pdb.html">tc_get_pdb</a></span><span class="op">(</span></span>
+<span>  year <span class="op">=</span> <span class="fl">2020</span>,</span>
+<span>  variables <span class="op">=</span> <span class="st">"Tot_Population_CEN_2010"</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">"county"</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">"DE"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
+<span><span class="co">#&gt;   Tot_Population_CEN_2010 state county GEOID</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 162310                  10    001    10001</span></span>
+<span><span class="co">#&gt; 2 538479                  10    003    10003</span></span>
+<span><span class="co">#&gt; 3 197145                  10    005    10005</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="time-series-datasets">Time-series datasets<a class="anchor" aria-label="anchor" href="#time-series-datasets"></a>
 </h2>
 <p>The package also supports discovery-catalog time-series endpoints:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_timeseries.html">tc_get_timeseries</a></span><span class="op">(</span></span>
 <span>  dataset <span class="op">=</span> <span class="st">"intltrade/exports/hs"</span>,</span>
 <span>  variables <span class="op">=</span> <span class="st">"ALL_VAL_MO"</span>,</span>
@@ -362,7 +498,7 @@
 <h2 id="optional-geometry-with-tinytiger">Optional geometry with tinytiger<a class="anchor" aria-label="anchor" href="#optional-geometry-with-tinytiger"></a>
 </h2>
 <p>When <code>geometry = TRUE</code>, <code>tinycensus</code> fetches the tabular result first and then joins matching geometry from <code>tinytiger</code>. Set <code>keep_geo_vars = TRUE</code> if you want the original geometry attributes as well.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_acs.html">tc_get_acs</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
 <span>  variables <span class="op">=</span> <span class="st">"B01001_001E"</span>,</span>
@@ -376,15 +512,14 @@
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -79.76259 ymin: 38.45113 xmax: -71.77749 ymax: 45.01586</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  NAD83</span></span>
-<span><span class="co">#&gt;   GEOID     NAME B01001_001E state REGION DIVISION STATEFP  STATENS     GEOIDFQ</span></span>
-<span><span class="co">#&gt; 1    10 Delaware     1021191    10      3        5      10 01779781 0400000US10</span></span>
-<span><span class="co">#&gt; 2    36 New York    19852366    36      1        2      36 01779796 0400000US36</span></span>
-<span><span class="co">#&gt;   STUSPS geo_NAME LSAD MTFCC FUNCSTAT        ALAND      AWATER    INTPTLAT</span></span>
-<span><span class="co">#&gt; 1     DE Delaware   00 G4000        A   5046692239  1399219008 +38.9985661</span></span>
-<span><span class="co">#&gt; 2     NY New York   00 G4000        A 122049155860 19256755462 +42.9133974</span></span>
-<span><span class="co">#&gt;       INTPTLON                       geometry</span></span>
-<span><span class="co">#&gt; 1 -075.4416440 MULTIPOLYGON (((-75.50949 3...</span></span>
-<span><span class="co">#&gt; 2 -075.5962723 MULTIPOLYGON (((-74.72623 4...</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 2 × 19</span></span>
+<span><span class="co">#&gt;   GEOID NAME    B01001_001E state REGION DIVISION STATEFP STATENS GEOIDFQ STUSPS</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; </span></span>
+<span><span class="co">#&gt; 1 10    Delawa…     1021191 10    3      5        10      017797… 040000… DE    </span></span>
+<span><span class="co">#&gt; 2 36    New Yo…    19852366 36    1      2        36      017797… 040000… NY    </span></span>
+<span><span class="co">#&gt; # ℹ 9 more variables: geo_NAME &lt;chr&gt;, LSAD &lt;chr&gt;, MTFCC &lt;chr&gt;, FUNCSTAT &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   ALAND &lt;dbl&gt;, AWATER &lt;dbl&gt;, INTPTLAT &lt;chr&gt;, INTPTLON &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   geometry &lt;MULTIPOLYGON [°]&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="current-scope">Current scope<a class="anchor" aria-label="anchor" href="#current-scope"></a>

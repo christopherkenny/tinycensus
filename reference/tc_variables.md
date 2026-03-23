@@ -29,7 +29,7 @@ A tibble of variable metadata.
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_variables("acs/acs5", 2024, refresh = TRUE)
 }
 ```

@@ -29,7 +29,7 @@ A list of example query metadata.
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_examples("acs/acs5", 2024, refresh = TRUE)
 }
 ```

@@ -33,7 +33,7 @@ A tibble of Census API datasets.
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_datasets(year = 2024, family = "acs", refresh = TRUE)
 }
 ```

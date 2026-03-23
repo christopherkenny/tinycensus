@@ -105,7 +105,7 @@ A tibble or `sf` object.
 ## Examples
 
 ``` r
-if (FALSE) { # tc_has_key()
+if (FALSE) { # tinycensus::tc_has_key()
 tc_get_acs(
   year = 2024,
   variables = "B01001_001E",

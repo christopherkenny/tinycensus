@@ -14,8 +14,10 @@ tc_get_flows(
   county = NULL,
   msa = NULL,
   key = tc_get_key(),
+  breakdown_labels = FALSE,
   geometry = FALSE,
-  keep_geo_vars = FALSE
+  keep_geo_vars = FALSE,
+  refresh = FALSE
 )
 ```
 
@@ -53,6 +55,10 @@ tc_get_flows(
 
   Optional Census API key.
 
+- breakdown_labels:
+
+  Should label columns be added for supported coded breakdown variables?
+
 - geometry:
 
   Should centroid geometry be joined? Use `TRUE` or `"destination"` for
@@ -62,6 +68,11 @@ tc_get_flows(
 
   Should source geometry attributes for the selected geometry role be
   retained?
+
+- refresh:
+
+  Included for consistency with other retrieval helpers. Flows data are
+  requested directly and do not currently use cached metadata.
 
 ## Value
 
