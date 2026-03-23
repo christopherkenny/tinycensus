@@ -1,4 +1,4 @@
-url: http://christophertkenny.com/tinycensus/
+url: https://christophertkenny.com/tinycensus/
 template:
   bootstrap: 5
 
@@ -9,6 +9,7 @@ reference:
   - tc_get_acs
   - tc_get_decennial
   - tc_get_pep
+  - tc_get_pdb
   - tc_get_cbp
   - tc_get_flows
   - tc_get_timeseries

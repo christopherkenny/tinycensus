@@ -156,7 +156,7 @@ tc_pep_label_variables <- function(dataset, breakdown = NULL) {
 #'
 #' @return A tibble or `sf` object.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_get_pep(
 #'   year = 2021,
 #'   product = "population",

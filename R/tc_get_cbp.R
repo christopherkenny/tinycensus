@@ -34,7 +34,7 @@ tc_cbp_dataset <- function(dataset = "cbp") {
 #'
 #' @return A tibble or `sf` object.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_get_cbp(
 #'   year = 2021,
 #'   variables = "ESTAB",

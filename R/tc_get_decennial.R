@@ -21,7 +21,7 @@
 #'
 #' @return A tibble or `sf` object.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_get_decennial(
 #'   year = 2020,
 #'   dataset = "pl",

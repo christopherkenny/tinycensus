@@ -65,7 +65,7 @@ A tibble or \code{sf} object.
 Retrieve Decennial Census data
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_get_decennial(
   year = 2020,
   dataset = "pl",

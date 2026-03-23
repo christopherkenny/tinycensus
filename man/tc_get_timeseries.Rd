@@ -56,7 +56,7 @@ A tibble.
 Retrieve Census time-series data
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_get_timeseries(
   dataset = "intltrade/exports/hs",
   variables = "ALL_VAL_MO",

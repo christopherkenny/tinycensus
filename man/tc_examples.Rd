@@ -20,7 +20,7 @@ A list of example query metadata.
 Retrieve Census example query metadata
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_examples("acs/acs5", 2024, refresh = TRUE)
 \dontshow{\}) # examplesIf}
 }

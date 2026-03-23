@@ -6,3 +6,4 @@
 .quarto
 inst/*.md
 docs
+/pkgdown

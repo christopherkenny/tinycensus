@@ -66,7 +66,7 @@ A tibble or \code{sf} object.
 Retrieve County Business Patterns data
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_get_cbp(
   year = 2021,
   variables = "ESTAB",

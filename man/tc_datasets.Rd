@@ -22,7 +22,7 @@ A tibble of Census API datasets.
 List Census datasets from the discovery catalog
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_datasets(year = 2024, family = "acs", refresh = TRUE)
 \dontshow{\}) # examplesIf}
 }

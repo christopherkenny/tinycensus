@@ -20,7 +20,7 @@ A tibble of geography metadata.
 Retrieve Census geography metadata
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_geography("acs/acs5", 2024, refresh = TRUE)
 \dontshow{\}) # examplesIf}
 }

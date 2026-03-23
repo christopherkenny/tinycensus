@@ -70,7 +70,7 @@ A tibble or \code{sf} object.
 Retrieve American Community Survey data
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_get_acs(
   year = 2024,
   variables = "B01001_001E",

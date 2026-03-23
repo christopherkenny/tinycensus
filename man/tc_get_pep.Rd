@@ -79,7 +79,7 @@ A tibble or \code{sf} object.
 Retrieve Population Estimates Program data
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_get_pep(
   year = 2021,
   product = "population",

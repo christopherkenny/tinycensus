@@ -344,7 +344,7 @@ tc_fetch_metadata <- function(
 #'
 #' @return A tibble of Census API datasets.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_datasets(year = 2024, family = "acs", refresh = TRUE)
 tc_datasets <- function(
   year = NULL,
@@ -378,7 +378,7 @@ tc_datasets <- function(
 #'
 #' @return A tibble with one row.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_dataset("acs/acs5", 2024, refresh = TRUE)
 tc_dataset <- function(dataset, year = NULL, refresh = FALSE) {
   tibble::as_tibble(tc_resolve_dataset(
@@ -397,7 +397,7 @@ tc_dataset <- function(dataset, year = NULL, refresh = FALSE) {
 #'
 #' @return A tibble of variable metadata.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_variables("acs/acs5", 2024, refresh = TRUE)
 tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
   dataset_info <- tc_resolve_dataset(
@@ -495,7 +495,7 @@ tc_variable_metadata_url <- function(dataset, year, variable) {
 #' [tc_tables()] is the more natural entry point because Census "groups" usually
 #' correspond to user-facing tables.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_groups("acs/acs5", 2024, refresh = TRUE)
 tc_groups <- function(dataset, year = NULL, refresh = FALSE) {
   dataset_info <- tc_resolve_dataset(
@@ -614,7 +614,7 @@ tc_parse_geography_wildcard <- function(entry) {
 #'
 #' @return A tibble of geography metadata.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_geography("acs/acs5", 2024, refresh = TRUE)
 tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
   dataset_info <- tc_resolve_dataset(
@@ -657,7 +657,7 @@ tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
 #'
 #' @return A list of example query metadata.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_examples("acs/acs5", 2024, refresh = TRUE)
 tc_examples <- function(dataset, year = NULL, refresh = FALSE) {
   dataset_info <- tc_resolve_dataset(

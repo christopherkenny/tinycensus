@@ -42,7 +42,7 @@ tc_acs_dataset <- function(survey = "acs5", product = "detailed") {
 #'
 #' @return A tibble or `sf` object.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_get_acs(
 #'   year = 2024,
 #'   variables = "B01001_001E",

@@ -48,7 +48,7 @@ tc_timeseries_predicates <- function(predicates = NULL, time = NULL) {
 #'
 #' @return A tibble.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_get_timeseries(
 #'   dataset = "intltrade/exports/hs",
 #'   variables = "ALL_VAL_MO",

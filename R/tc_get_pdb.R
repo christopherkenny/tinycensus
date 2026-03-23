@@ -60,7 +60,7 @@ tc_pdb_dataset <- function(dataset = NULL, geography = NULL) {
 #'
 #' @return A tibble or `sf` object.
 #' @export
-#' @examplesIf tc_has_key()
+#' @examplesIf tinycensus::tc_has_key()
 #' tc_get_pdb(
 #'   year = 2024,
 #'   variables = "Tot_Population_CEN_2020",

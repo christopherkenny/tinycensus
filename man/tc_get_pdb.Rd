@@ -67,7 +67,7 @@ A tibble or \code{sf} object.
 Retrieve Census Planning Database data
 }
 \examples{
-\dontshow{if (tc_has_key()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinycensus::tc_has_key()) withAutoprint(\{ # examplesIf}
 tc_get_pdb(
   year = 2024,
   variables = "Tot_Population_CEN_2020",
