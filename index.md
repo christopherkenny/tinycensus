@@ -22,6 +22,7 @@ The basic pattern is:
 You can install the development version of tinycensus from GitHub with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("christopherkenny/tinycensus")
 ```
@@ -70,6 +71,7 @@ You can use many endpoints without a key for light exploration, but a
 Census API key is recommended for regular usage.
 
 ``` r
+
 tinycensus::tc_set_key("YOUR-KEY")
 ```
 
@@ -77,6 +79,7 @@ To write the key to a `.Renviron` file for future sessions, set
 `install = TRUE` and supply the target path explicitly:
 
 ``` r
+
 tinycensus::tc_set_key(
   "YOUR-KEY",
   install = TRUE,
@@ -87,6 +90,7 @@ tinycensus::tc_set_key(
 You can also check whether a key is available:
 
 ``` r
+
 library(tinycensus)
 
 tc_has_key()
@@ -96,6 +100,7 @@ tc_has_key()
 ## Discover datasets
 
 ``` r
+
 tc_datasets(year = 2024, family = "acs")[1:5, c("year", "dataset", "title")]
 #> # A tibble: 5 × 3
 #>    year dataset           title                                                 
@@ -113,6 +118,7 @@ State inputs can be abbreviations, names, or FIPS codes directly in the
 query interface:
 
 ``` r
+
 tc_get_acs(
   year = 2024,
   variables = "B01001_001E",
@@ -142,6 +148,7 @@ metropolitan areas, and school districts.
 The ACS wrapper makes common requests compact:
 
 ``` r
+
 tc_get_acs(
   year = 2024,
   variables = "B19013_001E",
@@ -158,6 +165,7 @@ tc_get_acs(
 You can do the same with a decennial dataset:
 
 ``` r
+
 tc_get_decennial(
   year = 2020,
   dataset = "pl",
@@ -176,6 +184,7 @@ tc_get_decennial(
 You can also request a full ACS table directly:
 
 ``` r
+
 tc_get_acs(
   year = 2024,
   table = "B01001",
@@ -208,6 +217,7 @@ is still useful when you want fields like `universe`, and
 is the quickest way to find likely candidates by label or concept.
 
 ``` r
+
 tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
 #> # A tibble: 5 × 2
 #>   name   description                                                            
@@ -220,6 +230,7 @@ tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
 ```
 
 ``` r
+
 vars <- tc_variables("acs/acs5", 2024)
 vars[
   vars$name %in% c("B01001_001E", "B19013_001E"),
@@ -233,6 +244,7 @@ vars[
 ```
 
 ``` r
+
 tc_geography("acs/acs5", 2024)[1:10, c("geography", "summary_level")]
 #> # A tibble: 10 × 2
 #>    geography                 summary_level
@@ -258,6 +270,7 @@ This is a typical discovery path:
 3.  retrieve the estimate
 
 ``` r
+
 income_hits <- tc_search_variables(
   "acs/acs5",
   2024,
@@ -279,6 +292,7 @@ income_hits[
 ```
 
 ``` r
+
 tc_table_variables("acs/acs5", "B19013", 2024)[
   1:5,
   c("name", "label", "universe")
@@ -294,6 +308,7 @@ tc_table_variables("acs/acs5", "B19013", 2024)[
 ```
 
 ``` r
+
 tc_get_acs(
   year = 2024,
   variables = "B19013_001E",
@@ -309,6 +324,7 @@ tc_get_acs(
 ## Migration flows
 
 ``` r
+
 tc_get_flows(
   geography = "county",
   year = 2018,
@@ -360,6 +376,7 @@ tc_get_flows(
 ## Other products
 
 ``` r
+
 tc_get_pep(
   year = 2021,
   product = "population",
@@ -380,6 +397,7 @@ tc_get_pep(
 ```
 
 ``` r
+
 tc_get_pep(
   year = 2023,
   product = "characteristics",
@@ -405,6 +423,7 @@ tc_get_pep(
 ```
 
 ``` r
+
 tc_get_cbp(
   year = 2021,
   variables = "ESTAB",
@@ -429,6 +448,7 @@ dataset is inferred from geography:
 - `state` / `county` -\> `pdb/statecounty`
 
 ``` r
+
 tc_get_pdb(
   year = 2024,
   variables = "Tot_Population_CEN_2020",
@@ -453,6 +473,7 @@ tc_get_pdb(
 ```
 
 ``` r
+
 tc_get_pdb(
   year = 2024,
   variables = "Tot_Population_CEN_2020",
@@ -468,6 +489,7 @@ tc_get_pdb(
 ```
 
 ``` r
+
 tc_get_pdb(
   year = 2020,
   variables = "Tot_Population_CEN_2010",
@@ -487,6 +509,7 @@ tc_get_pdb(
 The package also supports discovery-catalog time-series endpoints:
 
 ``` r
+
 tc_get_timeseries(
   dataset = "intltrade/exports/hs",
   variables = "ALL_VAL_MO",
@@ -507,6 +530,7 @@ and then joins matching geometry from `tinytiger`. Set
 well.
 
 ``` r
+
 tc_get_acs(
   year = 2024,
   variables = "B01001_001E",
