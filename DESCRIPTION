@@ -37,3 +37,4 @@ Suggests:
     testthat (>= 3.0.0),
     vcr
 Config/testthat/edition: 3
+Config/Needs/website: christopherkenny/ctktemplate
