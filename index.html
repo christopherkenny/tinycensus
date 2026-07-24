@@ -136,7 +136,7 @@
 <h2 id="discover-datasets">Discover datasets<a class="anchor" aria-label="anchor" href="#discover-datasets"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_datasets.html">tc_datasets</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2024</span>, family <span class="op">=</span> <span class="st">"acs"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"dataset"</span>, <span class="st">"title"</span><span class="op">)</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_datasets.html">tc_datasets</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2024</span>, family <span class="op">=</span> <span class="st">'acs'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'year'</span>, <span class="st">'dataset'</span>, <span class="st">'title'</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 5 × 3</span></span>
 <span><span class="co">#&gt;    year dataset           title                                                 </span></span>
 <span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;                                                 </span></span>
@@ -153,9 +153,9 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_acs.html">tc_get_acs</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"B01001_001E"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NY"</span>, <span class="st">"Delaware"</span>, <span class="st">"36"</span><span class="op">)</span></span>
+<span>  variables <span class="op">=</span> <span class="st">'B01001_001E'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'state'</span>,</span>
+<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'NY'</span>, <span class="st">'Delaware'</span>, <span class="st">'36'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
 <span><span class="co">#&gt;   NAME     B01001_001E state GEOID</span></span>
@@ -172,9 +172,9 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_acs.html">tc_get_acs</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"B19013_001E"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NY"</span>, <span class="st">"Delaware"</span><span class="op">)</span></span>
+<span>  variables <span class="op">=</span> <span class="st">'B19013_001E'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'state'</span>,</span>
+<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'NY'</span>, <span class="st">'Delaware'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
 <span><span class="co">#&gt;   NAME     B19013_001E state GEOID</span></span>
@@ -185,10 +185,10 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_decennial.html">tc_get_decennial</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2020</span>,</span>
-<span>  dataset <span class="op">=</span> <span class="st">"pl"</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"P1_001N"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"county"</span>,</span>
-<span>  state <span class="op">=</span> <span class="st">"Delaware"</span></span>
+<span>  dataset <span class="op">=</span> <span class="st">'pl'</span>,</span>
+<span>  variables <span class="op">=</span> <span class="st">'P1_001N'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'county'</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">'Delaware'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
 <span><span class="co">#&gt;   NAME                        P1_001N state county GEOID</span></span>
@@ -200,9 +200,9 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_acs.html">tc_get_acs</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
-<span>  table <span class="op">=</span> <span class="st">"B01001"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  state <span class="op">=</span> <span class="st">"Delaware"</span></span>
+<span>  table <span class="op">=</span> <span class="st">'B01001'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'state'</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">'Delaware'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 102</span></span>
 <span><span class="co">#&gt;   NAME   B01001_001E B01001_001M B01001_002E B01001_002M B01001_003E B01001_003M</span></span>
@@ -221,7 +221,7 @@
 </h2>
 <p>Metadata helpers make it easier to explore unfamiliar datasets before you query them. For most workflows, <code><a href="reference/tc_tables.html">tc_tables()</a></code> is the best place to start because it gives you a compact, table-oriented view of the API. <code><a href="reference/tc_variables.html">tc_variables()</a></code> is still useful when you want fields like <code>universe</code>, and <code><a href="reference/tc_search_variables.html">tc_search_variables()</a></code> is the quickest way to find likely candidates by label or concept.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_tables.html">tc_tables</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"description"</span><span class="op">)</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_tables.html">tc_tables</a></span><span class="op">(</span><span class="st">'acs/acs5'</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'name'</span>, <span class="st">'description'</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 5 × 2</span></span>
 <span><span class="co">#&gt;   name   description                                                            </span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                                                                  </span></span>
@@ -231,10 +231,10 @@
 <span><span class="co">#&gt; 4 B18105 Sex by Age by Ambulatory Difficulty                                    </span></span>
 <span><span class="co">#&gt; 5 B17017 Poverty Status in the Past 12 Months by Household Type by Age of House…</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tc_variables.html">tc_variables</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="fl">2024</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tc_variables.html">tc_variables</a></span><span class="op">(</span><span class="st">'acs/acs5'</span>, <span class="fl">2024</span><span class="op">)</span></span>
 <span><span class="va">vars</span><span class="op">[</span></span>
-<span>  <span class="va">vars</span><span class="op">$</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B01001_001E"</span>, <span class="st">"B19013_001E"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"label"</span>, <span class="st">"concept"</span>, <span class="st">"universe"</span><span class="op">)</span></span>
+<span>  <span class="va">vars</span><span class="op">$</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'B01001_001E'</span>, <span class="st">'B19013_001E'</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'name'</span>, <span class="st">'label'</span>, <span class="st">'concept'</span>, <span class="st">'universe'</span><span class="op">)</span></span>
 <span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
 <span><span class="co">#&gt;   name        label                                             concept universe</span></span>
@@ -242,7 +242,7 @@
 <span><span class="co">#&gt; 1 B01001_001E Estimate!!Total:                                  Sex by… Total p…</span></span>
 <span><span class="co">#&gt; 2 B19013_001E Estimate!!Median household income in the past 12… Median… Househo…</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_geography.html">tc_geography</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"geography"</span>, <span class="st">"summary_level"</span><span class="op">)</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_geography.html">tc_geography</a></span><span class="op">(</span><span class="st">'acs/acs5'</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'geography'</span>, <span class="st">'summary_level'</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 10 × 2</span></span>
 <span><span class="co">#&gt;    geography                 summary_level</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;                     &lt;chr&gt;        </span></span>
@@ -267,14 +267,14 @@
 </ol>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">income_hits</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tc_search_variables.html">tc_search_variables</a></span><span class="op">(</span></span>
-<span>  <span class="st">"acs/acs5"</span>,</span>
+<span>  <span class="st">'acs/acs5'</span>,</span>
 <span>  <span class="fl">2024</span>,</span>
-<span>  query <span class="op">=</span> <span class="st">"median household income"</span></span>
+<span>  query <span class="op">=</span> <span class="st">'median household income'</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">income_hits</span><span class="op">[</span></span>
 <span>  <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"label"</span>, <span class="st">"concept"</span>, <span class="st">"universe"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'name'</span>, <span class="st">'label'</span>, <span class="st">'concept'</span>, <span class="st">'universe'</span><span class="op">)</span></span>
 <span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 5 × 4</span></span>
 <span><span class="co">#&gt;   name         label                                            concept universe</span></span>
@@ -285,9 +285,9 @@
 <span><span class="co">#&gt; 4 B19013C_001E Estimate!!Median household income in the past 1… Median… Househo…</span></span>
 <span><span class="co">#&gt; 5 B19013D_001E Estimate!!Median household income in the past 1… Median… Househo…</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_table_variables.html">tc_table_variables</a></span><span class="op">(</span><span class="st">"acs/acs5"</span>, <span class="st">"B19013"</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tc_table_variables.html">tc_table_variables</a></span><span class="op">(</span><span class="st">'acs/acs5'</span>, <span class="st">'B19013'</span>, <span class="fl">2024</span><span class="op">)</span><span class="op">[</span></span>
 <span>  <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"label"</span>, <span class="st">"universe"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'name'</span>, <span class="st">'label'</span>, <span class="st">'universe'</span><span class="op">)</span></span>
 <span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 5 × 3</span></span>
 <span><span class="co">#&gt;   name        label                                                     universe</span></span>
@@ -300,9 +300,9 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_acs.html">tc_get_acs</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"B19013_001E"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  state <span class="op">=</span> <span class="st">"Delaware"</span></span>
+<span>  variables <span class="op">=</span> <span class="st">'B19013_001E'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'state'</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">'Delaware'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 4</span></span>
 <span><span class="co">#&gt;   NAME     B19013_001E state GEOID</span></span>
@@ -315,11 +315,11 @@
 </h2>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_flows.html">tc_get_flows</a></span><span class="op">(</span></span>
-<span>  geography <span class="op">=</span> <span class="st">"county"</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'county'</span>,</span>
 <span>  year <span class="op">=</span> <span class="fl">2018</span>,</span>
-<span>  state <span class="op">=</span> <span class="st">"NY"</span>,</span>
-<span>  county <span class="op">=</span> <span class="st">"001"</span>,</span>
-<span>  geometry <span class="op">=</span> <span class="st">"destination"</span></span>
+<span>  state <span class="op">=</span> <span class="st">'NY'</span>,</span>
+<span>  county <span class="op">=</span> <span class="st">'001'</span>,</span>
+<span>  geometry <span class="op">=</span> <span class="st">'destination'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Simple feature collection with 316 features and 10 fields (with 8 geometries empty)</span></span>
 <span><span class="co">#&gt; Geometry type: POINT</span></span>
@@ -367,9 +367,9 @@
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pep.html">tc_get_pep</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2021</span>,</span>
-<span>  product <span class="op">=</span> <span class="st">"population"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NY"</span>, <span class="st">"Delaware"</span><span class="op">)</span></span>
+<span>  product <span class="op">=</span> <span class="st">'population'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'state'</span>,</span>
+<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'NY'</span>, <span class="st">'Delaware'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 24</span></span>
 <span><span class="co">#&gt;   NAME     DENSITY_2020 DENSITY_2021 DENSITY_BASE2020 NPOPCHG_2020 NPOPCHG_2021</span></span>
@@ -385,11 +385,11 @@
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pep.html">tc_get_pep</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2023</span>,</span>
-<span>  product <span class="op">=</span> <span class="st">"characteristics"</span>,</span>
-<span>  breakdown <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  product <span class="op">=</span> <span class="st">'characteristics'</span>,</span>
+<span>  breakdown <span class="op">=</span> <span class="st">'RACE'</span>,</span>
 <span>  breakdown_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  state <span class="op">=</span> <span class="st">"NY"</span></span>
+<span>  geography <span class="op">=</span> <span class="st">'state'</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">'NY'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 24 × 6</span></span>
 <span><span class="co">#&gt;    NAME          POP POPGROUP state GEOID POPGROUP_LABEL                        </span></span>
@@ -400,17 +400,17 @@
 <span><span class="co">#&gt;  4 New York 13872582 002      36    36    White alone                           </span></span>
 <span><span class="co">#&gt;  5 New York 14391976 003      36    36    White alone or in combination with on…</span></span>
 <span><span class="co">#&gt;  6 New York 14322340 003      36    36    White alone or in combination with on…</span></span>
-<span><span class="co">#&gt;  7 New York  3598865 004      36    36    Black or African American alone       </span></span>
-<span><span class="co">#&gt;  8 New York  3577768 004      36    36    Black or African American alone       </span></span>
-<span><span class="co">#&gt;  9 New York  3941239 005      36    36    Black or African American alone or in…</span></span>
-<span><span class="co">#&gt; 10 New York  3920776 005      36    36    Black or African American alone or in…</span></span>
+<span><span class="co">#&gt;  7 New York   545066 102      36    36    Two or more races excluding Some Othe…</span></span>
+<span><span class="co">#&gt;  8 New York  3598865 004      36    36    Black or African American alone       </span></span>
+<span><span class="co">#&gt;  9 New York  3577768 004      36    36    Black or African American alone       </span></span>
+<span><span class="co">#&gt; 10 New York  3941239 005      36    36    Black or African American alone or in…</span></span>
 <span><span class="co">#&gt; # ℹ 14 more rows</span></span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_cbp.html">tc_get_cbp</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2021</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"ESTAB"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NY"</span>, <span class="st">"DE"</span><span class="op">)</span></span>
+<span>  variables <span class="op">=</span> <span class="st">'ESTAB'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'state'</span>,</span>
+<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'NY'</span>, <span class="st">'DE'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
 <span><span class="co">#&gt;   NAME      ESTAB state GEOID</span></span>
@@ -436,10 +436,10 @@
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pdb.html">tc_get_pdb</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"Tot_Population_CEN_2020"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"tract"</span>,</span>
-<span>  state <span class="op">=</span> <span class="st">"NY"</span>,</span>
-<span>  county <span class="op">=</span> <span class="st">"061"</span></span>
+<span>  variables <span class="op">=</span> <span class="st">'Tot_Population_CEN_2020'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'tract'</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">'NY'</span>,</span>
+<span>  county <span class="op">=</span> <span class="st">'061'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 310 × 5</span></span>
 <span><span class="co">#&gt;    Tot_Population_CEN_2020 state county tract  GEOID      </span></span>
@@ -458,11 +458,11 @@
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pdb.html">tc_get_pdb</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"Tot_Population_CEN_2020"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"block group"</span>,</span>
-<span>  state <span class="op">=</span> <span class="st">"NY"</span>,</span>
-<span>  county <span class="op">=</span> <span class="st">"061"</span>,</span>
-<span>  tract <span class="op">=</span> <span class="st">"000100"</span></span>
+<span>  variables <span class="op">=</span> <span class="st">'Tot_Population_CEN_2020'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'block group'</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">'NY'</span>,</span>
+<span>  county <span class="op">=</span> <span class="st">'061'</span>,</span>
+<span>  tract <span class="op">=</span> <span class="st">'000100'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 6</span></span>
 <span><span class="co">#&gt;   Tot_Population_CEN_2020 state county tract  `block group` GEOID       </span></span>
@@ -471,9 +471,9 @@
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_pdb.html">tc_get_pdb</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2020</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"Tot_Population_CEN_2010"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"county"</span>,</span>
-<span>  state <span class="op">=</span> <span class="st">"DE"</span></span>
+<span>  variables <span class="op">=</span> <span class="st">'Tot_Population_CEN_2010'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'county'</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">'DE'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
 <span><span class="co">#&gt;   Tot_Population_CEN_2010 state county GEOID</span></span>
@@ -488,15 +488,15 @@
 <p>The package also supports discovery-catalog time-series endpoints:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_timeseries.html">tc_get_timeseries</a></span><span class="op">(</span></span>
-<span>  dataset <span class="op">=</span> <span class="st">"intltrade/exports/hs"</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"ALL_VAL_MO"</span>,</span>
-<span>  time <span class="op">=</span> <span class="st">"2024-01"</span>,</span>
-<span>  predicates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CTY_CODE <span class="op">=</span> <span class="st">"2010"</span><span class="op">)</span></span>
+<span>  dataset <span class="op">=</span> <span class="st">'intltrade/exports/hs'</span>,</span>
+<span>  variables <span class="op">=</span> <span class="st">'ALL_VAL_MO'</span>,</span>
+<span>  time <span class="op">=</span> <span class="st">'2024-01'</span>,</span>
+<span>  predicates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CTY_CODE <span class="op">=</span> <span class="st">'2010'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 3</span></span>
 <span><span class="co">#&gt;    ALL_VAL_MO CTY_CODE time   </span></span>
 <span><span class="co">#&gt;         &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt; 1 26439153527 2010     2024-01</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 26511457882 2010     2024-01</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="optional-geometry-with-tinytiger">Optional geometry with tinytiger<a class="anchor" aria-label="anchor" href="#optional-geometry-with-tinytiger"></a>
@@ -505,9 +505,9 @@
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tc_get_acs.html">tc_get_acs</a></span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fl">2024</span>,</span>
-<span>  variables <span class="op">=</span> <span class="st">"B01001_001E"</span>,</span>
-<span>  geography <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NY"</span>, <span class="st">"Delaware"</span><span class="op">)</span>,</span>
+<span>  variables <span class="op">=</span> <span class="st">'B01001_001E'</span>,</span>
+<span>  geography <span class="op">=</span> <span class="st">'state'</span>,</span>
+<span>  state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'NY'</span>, <span class="st">'Delaware'</span><span class="op">)</span>,</span>
 <span>  geometry <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  keep_geo_vars <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
