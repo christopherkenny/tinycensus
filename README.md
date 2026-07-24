@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tinycensus <a href="https://christopherkenny.github.io/tinycensus/"><img src="man/figures/logo.png" align="right" height="138" alt="tinycensus website" /></a>
+# tinycensus <a href="https://christophertkenny.com/tinycensus/"><img src="man/figures/logo.png" align="right" height="138" alt="tinycensus website" /></a>
 
 <!-- badges: start -->
 
@@ -92,7 +92,7 @@ tc_has_key()
 ## Discover datasets
 
 ``` r
-tc_datasets(year = 2024, family = "acs")[1:5, c("year", "dataset", "title")]
+tc_datasets(year = 2024, family = 'acs')[1:5, c('year', 'dataset', 'title')]
 #> # A tibble: 5 × 3
 #>    year dataset           title                                                 
 #>   <int> <chr>             <chr>                                                 
@@ -111,9 +111,9 @@ query interface:
 ``` r
 tc_get_acs(
   year = 2024,
-  variables = "B01001_001E",
-  geography = "state",
-  state = c("NY", "Delaware", "36")
+  variables = 'B01001_001E',
+  geography = 'state',
+  state = c('NY', 'Delaware', '36')
 )
 #> # A tibble: 2 × 4
 #>   NAME     B01001_001E state GEOID
@@ -140,9 +140,9 @@ The ACS wrapper makes common requests compact:
 ``` r
 tc_get_acs(
   year = 2024,
-  variables = "B19013_001E",
-  geography = "state",
-  state = c("NY", "Delaware")
+  variables = 'B19013_001E',
+  geography = 'state',
+  state = c('NY', 'Delaware')
 )
 #> # A tibble: 2 × 4
 #>   NAME     B19013_001E state GEOID
@@ -156,10 +156,10 @@ You can do the same with a decennial dataset:
 ``` r
 tc_get_decennial(
   year = 2020,
-  dataset = "pl",
-  variables = "P1_001N",
-  geography = "county",
-  state = "Delaware"
+  dataset = 'pl',
+  variables = 'P1_001N',
+  geography = 'county',
+  state = 'Delaware'
 )
 #> # A tibble: 3 × 5
 #>   NAME                        P1_001N state county GEOID
@@ -174,9 +174,9 @@ You can also request a full ACS table directly:
 ``` r
 tc_get_acs(
   year = 2024,
-  table = "B01001",
-  geography = "state",
-  state = "Delaware"
+  table = 'B01001',
+  geography = 'state',
+  state = 'Delaware'
 )
 #> # A tibble: 1 × 102
 #>   NAME   B01001_001E B01001_001M B01001_002E B01001_002M B01001_003E B01001_003M
@@ -201,7 +201,7 @@ and `tc_search_variables()` is the quickest way to find likely
 candidates by label or concept.
 
 ``` r
-tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
+tc_tables('acs/acs5', 2024)[1:5, c('name', 'description')]
 #> # A tibble: 5 × 2
 #>   name   description                                                            
 #>   <chr>  <chr>                                                                  
@@ -213,10 +213,10 @@ tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
 ```
 
 ``` r
-vars <- tc_variables("acs/acs5", 2024)
+vars <- tc_variables('acs/acs5', 2024)
 vars[
-  vars$name %in% c("B01001_001E", "B19013_001E"),
-  c("name", "label", "concept", "universe")
+  vars$name %in% c('B01001_001E', 'B19013_001E'),
+  c('name', 'label', 'concept', 'universe')
 ]
 #> # A tibble: 2 × 4
 #>   name        label                                             concept universe
@@ -226,7 +226,7 @@ vars[
 ```
 
 ``` r
-tc_geography("acs/acs5", 2024)[1:10, c("geography", "summary_level")]
+tc_geography('acs/acs5', 2024)[1:10, c('geography', 'summary_level')]
 #> # A tibble: 10 × 2
 #>    geography                 summary_level
 #>    <chr>                     <chr>        
@@ -252,14 +252,14 @@ This is a typical discovery path:
 
 ``` r
 income_hits <- tc_search_variables(
-  "acs/acs5",
+  'acs/acs5',
   2024,
-  query = "median household income"
+  query = 'median household income'
 )
 
 income_hits[
   1:5,
-  c("name", "label", "concept", "universe")
+  c('name', 'label', 'concept', 'universe')
 ]
 #> # A tibble: 5 × 4
 #>   name         label                                            concept universe
@@ -272,9 +272,9 @@ income_hits[
 ```
 
 ``` r
-tc_table_variables("acs/acs5", "B19013", 2024)[
+tc_table_variables('acs/acs5', 'B19013', 2024)[
   1:5,
-  c("name", "label", "universe")
+  c('name', 'label', 'universe')
 ]
 #> # A tibble: 5 × 3
 #>   name        label                                                     universe
@@ -289,9 +289,9 @@ tc_table_variables("acs/acs5", "B19013", 2024)[
 ``` r
 tc_get_acs(
   year = 2024,
-  variables = "B19013_001E",
-  geography = "state",
-  state = "Delaware"
+  variables = 'B19013_001E',
+  geography = 'state',
+  state = 'Delaware'
 )
 #> # A tibble: 1 × 4
 #>   NAME     B19013_001E state GEOID
@@ -303,11 +303,11 @@ tc_get_acs(
 
 ``` r
 tc_get_flows(
-  geography = "county",
+  geography = 'county',
   year = 2018,
-  state = "NY",
-  county = "001",
-  geometry = "destination"
+  state = 'NY',
+  county = '001',
+  geometry = 'destination'
 )
 #> Simple feature collection with 316 features and 10 fields (with 8 geometries empty)
 #> Geometry type: POINT
@@ -355,9 +355,9 @@ tc_get_flows(
 ``` r
 tc_get_pep(
   year = 2021,
-  product = "population",
-  geography = "state",
-  state = c("NY", "Delaware")
+  product = 'population',
+  geography = 'state',
+  state = c('NY', 'Delaware')
 )
 #> # A tibble: 2 × 24
 #>   NAME     DENSITY_2020 DENSITY_2021 DENSITY_BASE2020 NPOPCHG_2020 NPOPCHG_2021
@@ -375,11 +375,11 @@ tc_get_pep(
 ``` r
 tc_get_pep(
   year = 2023,
-  product = "characteristics",
-  breakdown = "RACE",
+  product = 'characteristics',
+  breakdown = 'RACE',
   breakdown_labels = TRUE,
-  geography = "state",
-  state = "NY"
+  geography = 'state',
+  state = 'NY'
 )
 #> # A tibble: 24 × 6
 #>    NAME          POP POPGROUP state GEOID POPGROUP_LABEL                        
@@ -390,19 +390,19 @@ tc_get_pep(
 #>  4 New York 13872582 002      36    36    White alone                           
 #>  5 New York 14391976 003      36    36    White alone or in combination with on…
 #>  6 New York 14322340 003      36    36    White alone or in combination with on…
-#>  7 New York  3598865 004      36    36    Black or African American alone       
-#>  8 New York  3577768 004      36    36    Black or African American alone       
-#>  9 New York  3941239 005      36    36    Black or African American alone or in…
-#> 10 New York  3920776 005      36    36    Black or African American alone or in…
+#>  7 New York   545066 102      36    36    Two or more races excluding Some Othe…
+#>  8 New York  3598865 004      36    36    Black or African American alone       
+#>  9 New York  3577768 004      36    36    Black or African American alone       
+#> 10 New York  3941239 005      36    36    Black or African American alone or in…
 #> # ℹ 14 more rows
 ```
 
 ``` r
 tc_get_cbp(
   year = 2021,
-  variables = "ESTAB",
-  geography = "state",
-  state = c("NY", "DE")
+  variables = 'ESTAB',
+  geography = 'state',
+  state = c('NY', 'DE')
 )
 #> # A tibble: 2 × 4
 #>   NAME      ESTAB state GEOID
@@ -423,10 +423,10 @@ product-wrapper workflow. The dataset is inferred from geography:
 ``` r
 tc_get_pdb(
   year = 2024,
-  variables = "Tot_Population_CEN_2020",
-  geography = "tract",
-  state = "NY",
-  county = "061"
+  variables = 'Tot_Population_CEN_2020',
+  geography = 'tract',
+  state = 'NY',
+  county = '061'
 )
 #> # A tibble: 310 × 5
 #>    Tot_Population_CEN_2020 state county tract  GEOID      
@@ -447,11 +447,11 @@ tc_get_pdb(
 ``` r
 tc_get_pdb(
   year = 2024,
-  variables = "Tot_Population_CEN_2020",
-  geography = "block group",
-  state = "NY",
-  county = "061",
-  tract = "000100"
+  variables = 'Tot_Population_CEN_2020',
+  geography = 'block group',
+  state = 'NY',
+  county = '061',
+  tract = '000100'
 )
 #> # A tibble: 1 × 6
 #>   Tot_Population_CEN_2020 state county tract  `block group` GEOID       
@@ -462,9 +462,9 @@ tc_get_pdb(
 ``` r
 tc_get_pdb(
   year = 2020,
-  variables = "Tot_Population_CEN_2010",
-  geography = "county",
-  state = "DE"
+  variables = 'Tot_Population_CEN_2010',
+  geography = 'county',
+  state = 'DE'
 )
 #> # A tibble: 3 × 4
 #>   Tot_Population_CEN_2010 state county GEOID
@@ -480,15 +480,15 @@ The package also supports discovery-catalog time-series endpoints:
 
 ``` r
 tc_get_timeseries(
-  dataset = "intltrade/exports/hs",
-  variables = "ALL_VAL_MO",
-  time = "2024-01",
-  predicates = list(CTY_CODE = "2010")
+  dataset = 'intltrade/exports/hs',
+  variables = 'ALL_VAL_MO',
+  time = '2024-01',
+  predicates = list(CTY_CODE = '2010')
 )
 #> # A tibble: 1 × 3
 #>    ALL_VAL_MO CTY_CODE time   
 #>         <dbl> <chr>    <chr>  
-#> 1 26439153527 2010     2024-01
+#> 1 26511457882 2010     2024-01
 ```
 
 ## Optional geometry with tinytiger
@@ -501,9 +501,9 @@ well.
 ``` r
 tc_get_acs(
   year = 2024,
-  variables = "B01001_001E",
-  geography = "state",
-  state = c("NY", "Delaware"),
+  variables = 'B01001_001E',
+  geography = 'state',
+  state = c('NY', 'Delaware'),
   geometry = TRUE,
   keep_geo_vars = TRUE
 )

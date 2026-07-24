@@ -146,7 +146,7 @@ tc_prepare_predicates <- function(predicates) {
 
   if (
     is.null(names(predicates)) ||
-      any(!nzchar(names(predicates)))
+      !all(nzchar(names(predicates)))
   ) {
     cli::cli_abort('{.arg predicates} must be a named list.')
   }

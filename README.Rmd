@@ -7,13 +7,13 @@ output: github_document
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  comment = '#>',
+  fig.path = 'man/figures/README-',
+  out.width = '100%'
 )
 ```
 
-# tinycensus <a href="https://christopherkenny.github.io/tinycensus/"><img src="man/figures/logo.png" align="right" height="138" alt="tinycensus website" /></a>
+# tinycensus <a href="https://christophertkenny.com/tinycensus/"><img src="man/figures/logo.png" align="right" height="138" alt="tinycensus website" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -92,7 +92,7 @@ tc_has_key()
 ## Discover datasets
 
 ```{r datasets}
-tc_datasets(year = 2024, family = "acs")[1:5, c("year", "dataset", "title")]
+tc_datasets(year = 2024, family = 'acs')[1:5, c('year', 'dataset', 'title')]
 ```
 
 ## Flexible geography inputs
@@ -102,9 +102,9 @@ State inputs can be abbreviations, names, or FIPS codes directly in the query in
 ```{r normalize}
 tc_get_acs(
   year = 2024,
-  variables = "B01001_001E",
-  geography = "state",
-  state = c("NY", "Delaware", "36")
+  variables = 'B01001_001E',
+  geography = 'state',
+  state = c('NY', 'Delaware', '36')
 )
 ```
 
@@ -122,9 +122,9 @@ The ACS wrapper makes common requests compact:
 ```{r acs}
 tc_get_acs(
   year = 2024,
-  variables = "B19013_001E",
-  geography = "state",
-  state = c("NY", "Delaware")
+  variables = 'B19013_001E',
+  geography = 'state',
+  state = c('NY', 'Delaware')
 )
 ```
 
@@ -133,10 +133,10 @@ You can do the same with a decennial dataset:
 ```{r decennial}
 tc_get_decennial(
   year = 2020,
-  dataset = "pl",
-  variables = "P1_001N",
-  geography = "county",
-  state = "Delaware"
+  dataset = 'pl',
+  variables = 'P1_001N',
+  geography = 'county',
+  state = 'Delaware'
 )
 ```
 
@@ -145,9 +145,9 @@ You can also request a full ACS table directly:
 ```{r acs-table}
 tc_get_acs(
   year = 2024,
-  table = "B01001",
-  geography = "state",
-  state = "Delaware"
+  table = 'B01001',
+  geography = 'state',
+  state = 'Delaware'
 )
 ```
 
@@ -158,19 +158,19 @@ For most workflows, `tc_tables()` is the best place to start because it gives yo
 `tc_variables()` is still useful when you want fields like `universe`, and `tc_search_variables()` is the quickest way to find likely candidates by label or concept.
 
 ```{r tables}
-tc_tables("acs/acs5", 2024)[1:5, c("name", "description")]
+tc_tables('acs/acs5', 2024)[1:5, c('name', 'description')]
 ```
 
 ```{r metadata}
-vars <- tc_variables("acs/acs5", 2024)
+vars <- tc_variables('acs/acs5', 2024)
 vars[
-  vars$name %in% c("B01001_001E", "B19013_001E"),
-  c("name", "label", "concept", "universe")
+  vars$name %in% c('B01001_001E', 'B19013_001E'),
+  c('name', 'label', 'concept', 'universe')
 ]
 ```
 
 ```{r geographies}
-tc_geography("acs/acs5", 2024)[1:10, c("geography", "summary_level")]
+tc_geography('acs/acs5', 2024)[1:10, c('geography', 'summary_level')]
 ```
 
 ### Example metadata workflow
@@ -183,30 +183,30 @@ This is a typical discovery path:
 
 ```{r search}
 income_hits <- tc_search_variables(
-  "acs/acs5",
+  'acs/acs5',
   2024,
-  query = "median household income"
+  query = 'median household income'
 )
 
 income_hits[
   1:5,
-  c("name", "label", "concept", "universe")
+  c('name', 'label', 'concept', 'universe')
 ]
 ```
 
 ```{r table-vars}
-tc_table_variables("acs/acs5", "B19013", 2024)[
+tc_table_variables('acs/acs5', 'B19013', 2024)[
   1:5,
-  c("name", "label", "universe")
+  c('name', 'label', 'universe')
 ]
 ```
 
 ```{r metadata-to-data}
 tc_get_acs(
   year = 2024,
-  variables = "B19013_001E",
-  geography = "state",
-  state = "Delaware"
+  variables = 'B19013_001E',
+  geography = 'state',
+  state = 'Delaware'
 )
 ```
 
@@ -214,11 +214,11 @@ tc_get_acs(
 
 ```{r flows}
 tc_get_flows(
-  geography = "county",
+  geography = 'county',
   year = 2018,
-  state = "NY",
-  county = "001",
-  geometry = "destination"
+  state = 'NY',
+  county = '001',
+  geometry = 'destination'
 )
 ```
 
@@ -227,29 +227,29 @@ tc_get_flows(
 ```{r pep}
 tc_get_pep(
   year = 2021,
-  product = "population",
-  geography = "state",
-  state = c("NY", "Delaware")
+  product = 'population',
+  geography = 'state',
+  state = c('NY', 'Delaware')
 )
 ```
 
 ```{r pep-characteristics}
 tc_get_pep(
   year = 2023,
-  product = "characteristics",
-  breakdown = "RACE",
+  product = 'characteristics',
+  breakdown = 'RACE',
   breakdown_labels = TRUE,
-  geography = "state",
-  state = "NY"
+  geography = 'state',
+  state = 'NY'
 )
 ```
 
 ```{r cbp}
 tc_get_cbp(
   year = 2021,
-  variables = "ESTAB",
-  geography = "state",
-  state = c("NY", "DE")
+  variables = 'ESTAB',
+  geography = 'state',
+  state = c('NY', 'DE')
 )
 ```
 
@@ -265,30 +265,30 @@ The dataset is inferred from geography:
 ```{r pdb-tract}
 tc_get_pdb(
   year = 2024,
-  variables = "Tot_Population_CEN_2020",
-  geography = "tract",
-  state = "NY",
-  county = "061"
+  variables = 'Tot_Population_CEN_2020',
+  geography = 'tract',
+  state = 'NY',
+  county = '061'
 )
 ```
 
 ```{r pdb-block-group}
 tc_get_pdb(
   year = 2024,
-  variables = "Tot_Population_CEN_2020",
-  geography = "block group",
-  state = "NY",
-  county = "061",
-  tract = "000100"
+  variables = 'Tot_Population_CEN_2020',
+  geography = 'block group',
+  state = 'NY',
+  county = '061',
+  tract = '000100'
 )
 ```
 
 ```{r pdb-county}
 tc_get_pdb(
   year = 2020,
-  variables = "Tot_Population_CEN_2010",
-  geography = "county",
-  state = "DE"
+  variables = 'Tot_Population_CEN_2010',
+  geography = 'county',
+  state = 'DE'
 )
 ```
 
@@ -298,10 +298,10 @@ The package also supports discovery-catalog time-series endpoints:
 
 ```{r timeseries}
 tc_get_timeseries(
-  dataset = "intltrade/exports/hs",
-  variables = "ALL_VAL_MO",
-  time = "2024-01",
-  predicates = list(CTY_CODE = "2010")
+  dataset = 'intltrade/exports/hs',
+  variables = 'ALL_VAL_MO',
+  time = '2024-01',
+  predicates = list(CTY_CODE = '2010')
 )
 ```
 
@@ -313,9 +313,9 @@ Set `keep_geo_vars = TRUE` if you want the original geometry attributes as well.
 ```{r geometry}
 tc_get_acs(
   year = 2024,
-  variables = "B01001_001E",
-  geography = "state",
-  state = c("NY", "Delaware"),
+  variables = 'B01001_001E',
+  geography = 'state',
+  state = c('NY', 'Delaware'),
   geometry = TRUE,
   keep_geo_vars = TRUE
 )

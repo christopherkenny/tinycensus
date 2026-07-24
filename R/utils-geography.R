@@ -34,7 +34,7 @@ tc_normalize_within <- function(within) {
   }
 
   if (
-    is.null(names(within)) || any(!nzchar(names(within)))
+    is.null(names(within)) || !all(nzchar(names(within)))
   ) {
     cli::cli_abort('{.arg within} must be a named list.')
   }
@@ -105,7 +105,7 @@ tc_collect_geography_inputs <- function(geography, within, dots) {
   }
 
   dot_names <- names(dots)
-  if (is.null(dot_names) || any(!nzchar(dot_names))) {
+  if (is.null(dot_names) || !all(nzchar(dot_names))) {
     cli::cli_abort('All geography inputs passed through `...` must be named.')
   }
 

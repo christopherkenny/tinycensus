@@ -13,7 +13,7 @@ test_that('tc_get_acs returns wide output for variable queries', {
   expect_s3_class(out, 'tbl_df')
   expect_true('B01001_001E' %in% names(out))
   expect_equal(sort(out$state), c('10', '36'))
-  expect_true(all(!is.na(out$NAME)))
+  expect_true(!anyNA(out$NAME))
 })
 
 test_that('tc_get_acs returns table queries with summary variables', {

@@ -93,7 +93,7 @@ tc_abort_http_error <- function(resp, url, context = NULL) {
     'Census API request failed with status {.val {status}}.',
     x = if (nzchar(body)) body else 'No error body returned.',
     i = '{.url {url}}',
-    i = if (!is.null(context_text)) context_text else NULL
+    i = context_text %||% NULL
   ))
 }
 
