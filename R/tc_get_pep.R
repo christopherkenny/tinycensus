@@ -9,39 +9,39 @@ tc_pep_dataset <- function(
 
   if (!is.null(dataset) && !is.null(product)) {
     cli::cli_abort(
-      "{.arg dataset} and {.arg product} are mutually exclusive."
+      '{.arg dataset} and {.arg product} are mutually exclusive.'
     )
   }
 
-  target <- product %||% dataset %||% "population"
+  target <- product %||% dataset %||% 'population'
 
-  if (grepl("^pep/", target)) {
+  if (grepl('^pep/', target)) {
     return(target)
   }
 
-  if (identical(target, "characteristics")) {
+  if (identical(target, 'characteristics')) {
     breakdown <- unique(as.character(tc_null_if_empty(breakdown) %||% character()))
 
-    if ("AGE" %in% breakdown && "AGEGROUP" %in% breakdown) {
+    if ('AGE' %in% breakdown && 'AGEGROUP' %in% breakdown) {
       cli::cli_abort(
-        "{.arg breakdown} cannot include both {.val AGE} and {.val AGEGROUP}."
+        '{.arg breakdown} cannot include both {.val AGE} and {.val AGEGROUP}.'
       )
     }
 
     if (!is.null(year) && year >= 2023L) {
-      return("pep/charv")
+      return('pep/charv')
     }
 
     if (!is.null(year) && year >= 2000L) {
-      if ("AGEGROUP" %in% breakdown) {
-        return("pep/charagegroups")
+      if ('AGEGROUP' %in% breakdown) {
+        return('pep/charagegroups')
       }
 
-      return("pep/charage")
+      return('pep/charage')
     }
   }
 
-  paste0("pep/", target)
+  paste0('pep/', target)
 }
 
 tc_pep_breakdown_variables <- function(breakdown = NULL, dataset = NULL) {
@@ -51,55 +51,55 @@ tc_pep_breakdown_variables <- function(breakdown = NULL, dataset = NULL) {
   }
 
   breakdown <- unique(as.character(breakdown))
-  allowed <- c("AGE", "AGEGROUP", "SEX", "HISP", "RACE")
+  allowed <- c('AGE', 'AGEGROUP', 'SEX', 'HISP', 'RACE')
   bad <- setdiff(breakdown, allowed)
   if (length(bad)) {
     cli::cli_abort(
-      "{.arg breakdown} must only include {.val {allowed}}. Problem values: {.val {bad}}."
+      '{.arg breakdown} must only include {.val {allowed}}. Problem values: {.val {bad}}.'
     )
   }
 
   mapped <- c(
-    AGE = "AGE",
-    AGEGROUP = if (identical(dataset, "pep/charagegroups")) "AGEGROUP" else "AGE",
-    SEX = "SEX",
-    HISP = "HISP",
-    RACE = if (identical(dataset, "pep/charv")) "POPGROUP" else "RACE"
+    AGE = 'AGE',
+    AGEGROUP = if (identical(dataset, 'pep/charagegroups')) 'AGEGROUP' else 'AGE',
+    SEX = 'SEX',
+    HISP = 'HISP',
+    RACE = if (identical(dataset, 'pep/charv')) 'POPGROUP' else 'RACE'
   )
 
   unique(unname(mapped[breakdown]))
 }
 
 tc_pep_default_variables <- function(dataset, year, breakdown = NULL, refresh = FALSE) {
-  if (dataset %in% c("pep/charv", "pep/charage", "pep/charagegroups")) {
+  if (dataset %in% c('pep/charv', 'pep/charage', 'pep/charagegroups')) {
     return(unique(c(
-      "POP",
+      'POP',
       tc_pep_breakdown_variables(breakdown, dataset = dataset)
     )))
   }
 
   meta <- tc_variables(dataset, year, refresh = refresh)
 
-  if (dataset == "pep/population") {
-    keep <- grepl("^(POP|DENSITY|NPOPCHG|PPOPCHG|RANK_)", meta$name)
+  if (dataset == 'pep/population') {
+    keep <- grepl('^(POP|DENSITY|NPOPCHG|PPOPCHG|RANK_)', meta$name)
     return(meta$name[keep])
   }
 
-  if (dataset == "pep/components") {
+  if (dataset == 'pep/components') {
     keep <- grepl(
-      "^(BIRTHS|DEATHS|DOMESTICMIG|INTERNATIONALMIG|NATURALINC|NETMIG|PERIOD_CODE|PERIOD_DESC|RBIRTH|RDEATH|RDOMESTICMIG|RESIDUAL|RINTERNATIONALMIG|RNATURALINC|RNETMIG)$",
+      '^(BIRTHS|DEATHS|DOMESTICMIG|INTERNATIONALMIG|NATURALINC|NETMIG|PERIOD_CODE|PERIOD_DESC|RBIRTH|RDEATH|RDOMESTICMIG|RESIDUAL|RINTERNATIONALMIG|RNATURALINC|RNETMIG)$',
       meta$name
     )
     return(meta$name[keep])
   }
 
-  if (dataset == "pep/housing") {
-    return(intersect(c("DATE_CODE", "DATE_DESC", "HUEST"), meta$name))
+  if (dataset == 'pep/housing') {
+    return(intersect(c('DATE_CODE', 'DATE_DESC', 'HUEST'), meta$name))
   }
 
-  keep <- !meta$predicate_type %in% c("fips-for", "fips-in", "ucgid")
+  keep <- !meta$predicate_type %in% c('fips-for', 'fips-in', 'ucgid')
   vars <- meta$name[keep]
-  setdiff(vars, c("NAME", "GEOID", "ucgid"))
+  setdiff(vars, c('NAME', 'GEOID', 'ucgid'))
 }
 
 tc_pep_label_variables <- function(dataset, breakdown = NULL) {
@@ -109,16 +109,16 @@ tc_pep_label_variables <- function(dataset, breakdown = NULL) {
     return(character())
   }
 
-  if (dataset == "pep/charv") {
+  if (dataset == 'pep/charv') {
     out <- character()
-    if ("RACE" %in% breakdown) {
-      out <- c(out, "POPGROUP_LABEL")
+    if ('RACE' %in% breakdown) {
+      out <- c(out, 'POPGROUP_LABEL')
     }
     return(out)
   }
 
-  if (dataset == "pep/charage") {
-    mapped <- c(SEX = "SEX_LABEL", HISP = "HISP_LABEL", RACE = "RACE_LABEL")
+  if (dataset == 'pep/charage') {
+    mapped <- c(SEX = 'SEX_LABEL', HISP = 'HISP_LABEL', RACE = 'RACE_LABEL')
     return(unname(mapped[breakdown[breakdown %in% names(mapped)]]))
   }
 
@@ -159,9 +159,9 @@ tc_pep_label_variables <- function(dataset, breakdown = NULL) {
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_get_pep(
 #'   year = 2021,
-#'   product = "population",
-#'   geography = "state",
-#'   state = c("NY", "Delaware")
+#'   product = 'population',
+#'   geography = 'state',
+#'   state = c('NY', 'Delaware')
 #' )
 tc_get_pep <- function(
   geography = NULL,
@@ -203,7 +203,7 @@ tc_get_pep <- function(
   }
 
   if (length(pep_breakdown)) {
-    variables <- unique(c(variables %||% "POP", pep_breakdown))
+    variables <- unique(c(variables %||% 'POP', pep_breakdown))
   }
 
   if (isTRUE(breakdown_labels)) {

@@ -1,19 +1,18 @@
-tc_acs_dataset <- function(survey = "acs5", product = "detailed") {
-  survey <- rlang::arg_match(survey, c("acs1", "acs3", "acs5"))
+tc_acs_dataset <- function(survey = 'acs5', product = 'detailed') {
+  survey <- rlang::arg_match(survey, c('acs1', 'acs3', 'acs5'))
   product <- rlang::arg_match(
     product,
-    c("detailed", "profile", "subject", "comparison")
+    c('detailed', 'profile', 'subject', 'comparison')
   )
 
-  suffix <- switch(
-    product,
-    detailed = "",
-    profile = "/profile",
-    subject = "/subject",
-    comparison = "/cprofile"
+  suffix <- switch(product,
+    detailed = '',
+    profile = '/profile',
+    subject = '/subject',
+    comparison = '/cprofile'
   )
 
-  paste0("acs/", survey, suffix)
+  paste0('acs/', survey, suffix)
 }
 
 #' Retrieve American Community Survey data
@@ -45,17 +44,17 @@ tc_acs_dataset <- function(survey = "acs5", product = "detailed") {
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_get_acs(
 #'   year = 2024,
-#'   variables = "B01001_001E",
-#'   geography = "state",
-#'   state = c("NY", "Delaware")
+#'   variables = 'B01001_001E',
+#'   geography = 'state',
+#'   state = c('NY', 'Delaware')
 #' )
 tc_get_acs <- function(
   geography = NULL,
   variables = NULL,
   table = NULL,
   year,
-  survey = c("acs5", "acs1", "acs3"),
-  product = c("detailed", "profile", "subject", "comparison"),
+  survey = c('acs5', 'acs1', 'acs3'),
+  product = c('detailed', 'profile', 'subject', 'comparison'),
   within = NULL,
   predicates = NULL,
   summary_var = NULL,

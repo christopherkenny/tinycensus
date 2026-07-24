@@ -24,17 +24,17 @@
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_get_decennial(
 #'   year = 2020,
-#'   dataset = "pl",
-#'   variables = "P1_001N",
-#'   geography = "county",
-#'   state = "Delaware"
+#'   dataset = 'pl',
+#'   variables = 'P1_001N',
+#'   geography = 'county',
+#'   state = 'Delaware'
 #' )
 tc_get_decennial <- function(
   geography = NULL,
   variables = NULL,
   table = NULL,
   year,
-  dataset = "pl",
+  dataset = 'pl',
   within = NULL,
   predicates = NULL,
   summary_var = NULL,
@@ -47,8 +47,8 @@ tc_get_decennial <- function(
   geography_vintage = NULL,
   ...
 ) {
-  dataset <- sub("^dec/", "", dataset)
-  dataset <- paste0("dec/", dataset)
+  dataset <- sub('^dec/', '', dataset)
+  dataset <- paste0('dec/', dataset)
 
   tc_product_query(
     dataset = dataset,

@@ -10,7 +10,7 @@ tc_null_if_empty <- function(x) {
   x
 }
 
-tc_recycle <- function(x, size, arg = "x") {
+tc_recycle <- function(x, size, arg = 'x') {
   if (is.null(x)) {
     return(NULL)
   }
@@ -23,7 +23,7 @@ tc_recycle <- function(x, size, arg = "x") {
     return(rep(x, size))
   }
 
-  cli::cli_abort("{.arg {arg}} must have length 1 or {size}.")
+  cli::cli_abort('{.arg {arg}} must have length 1 or {size}.')
 }
 
 tc_compact <- function(x) {
@@ -36,18 +36,18 @@ tc_unique <- function(x) {
 
 tc_clean_name <- function(x) {
   x <- tolower(trimws(x))
-  x <- gsub("[.']", "", x)
-  x <- gsub("&", "and", x)
-  x <- gsub("\\s+", " ", x)
+  x <- gsub("[.']", '', x)
+  x <- gsub('&', 'and', x)
+  x <- gsub('\\s+', ' ', x)
   x
 }
 
 tc_clean_county_name <- function(x) {
   x <- tc_clean_name(x)
-  x <- sub(",.*$", "", x)
+  x <- sub(',.*$', '', x)
   x <- gsub(
-    "\\s+(county|parish|borough|census area|municipality|city and borough|municipio)$",
-    "",
+    '\\s+(county|parish|borough|census area|municipality|city and borough|municipio)$',
+    '',
     x
   )
   trimws(x)
@@ -57,7 +57,7 @@ tc_encode_query <- function(params) {
   params <- tc_compact(params)
 
   if (!length(params)) {
-    return("")
+    return('')
   }
 
   pieces <- unlist(
@@ -66,7 +66,7 @@ tc_encode_query <- function(params) {
         value <- as.character(value)
         paste0(
           curl::curl_escape(name),
-          "=",
+          '=',
           vapply(value, curl::curl_escape, character(1))
         )
       },
@@ -76,7 +76,7 @@ tc_encode_query <- function(params) {
     use.names = FALSE
   )
 
-  paste(pieces, collapse = "&")
+  paste(pieces, collapse = '&')
 }
 
 tc_build_url <- function(base_url, params = NULL) {
@@ -85,13 +85,13 @@ tc_build_url <- function(base_url, params = NULL) {
     return(base_url)
   }
 
-  paste0(base_url, "?", query)
+  paste0(base_url, '?', query)
 }
 
 tc_json_matrix_to_tibble <- function(x) {
   if (is.null(dim(x)) || length(dim(x)) != 2L) {
     cli::cli_abort(
-      "The Census API response was not in the expected tabular format."
+      'The Census API response was not in the expected tabular format.'
     )
   }
 
@@ -107,9 +107,9 @@ tc_json_matrix_to_tibble <- function(x) {
 }
 
 tc_add_attributes <- function(x, dataset, year, geography = NULL) {
-  attr(x, "dataset") <- dataset
-  attr(x, "year") <- year
-  attr(x, "geography") <- geography
+  attr(x, 'dataset') <- dataset
+  attr(x, 'year') <- year
+  attr(x, 'geography') <- geography
   x
 }
 
@@ -126,9 +126,9 @@ tc_parse_list_column <- function(x) {
 }
 
 tc_guess_numeric <- function(values, type) {
-  if (type %in% c("int", "integer")) {
+  if (type %in% c('int', 'integer')) {
     suppressWarnings(as.numeric(values))
-  } else if (type %in% c("float", "numeric")) {
+  } else if (type %in% c('float', 'numeric')) {
     suppressWarnings(as.numeric(values))
   } else {
     values

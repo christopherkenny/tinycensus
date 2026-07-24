@@ -3,35 +3,35 @@ tc_pdb_dataset <- function(dataset = NULL, geography = NULL) {
   geography <- tc_normalize_geography_name(tc_null_if_empty(geography))
 
   if (!is.null(dataset)) {
-    if (grepl("^pdb/", dataset)) {
+    if (grepl('^pdb/', dataset)) {
       return(dataset)
     }
 
     cli::cli_abort(
-      "{.arg dataset} for the Planning Database must be a `pdb/...` dataset path."
+      '{.arg dataset} for the Planning Database must be a `pdb/...` dataset path.'
     )
   }
 
   if (is.null(geography)) {
     cli::cli_abort(
-      "Supply either {.arg dataset} or a supported {.arg geography} for the Planning Database."
+      'Supply either {.arg dataset} or a supported {.arg geography} for the Planning Database.'
     )
   }
 
-  if (identical(geography, "tract")) {
-    return("pdb/tract")
+  if (identical(geography, 'tract')) {
+    return('pdb/tract')
   }
 
-  if (identical(geography, "block group")) {
-    return("pdb/blockgroup")
+  if (identical(geography, 'block group')) {
+    return('pdb/blockgroup')
   }
 
-  if (geography %in% c("state", "county")) {
-    return("pdb/statecounty")
+  if (geography %in% c('state', 'county')) {
+    return('pdb/statecounty')
   }
 
   cli::cli_abort(
-    "Planning Database geography must be one of {.val state}, {.val county}, {.val tract}, or {.val block group}."
+    'Planning Database geography must be one of {.val state}, {.val county}, {.val tract}, or {.val block group}.'
   )
 }
 
@@ -63,10 +63,10 @@ tc_pdb_dataset <- function(dataset = NULL, geography = NULL) {
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_get_pdb(
 #'   year = 2024,
-#'   variables = "Tot_Population_CEN_2020",
-#'   geography = "tract",
-#'   state = "NY",
-#'   county = "061"
+#'   variables = 'Tot_Population_CEN_2020',
+#'   geography = 'tract',
+#'   state = 'NY',
+#'   county = '061'
 #' )
 tc_get_pdb <- function(
   geography = NULL,

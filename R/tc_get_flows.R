@@ -4,42 +4,42 @@ tc_flows_query_geography <- function(geography, year) {
   if (
     geography %in%
       c(
-        "metropolitan statistical area/micropolitan statistical area",
-        "cbsa"
+        'metropolitan statistical area/micropolitan statistical area',
+        'cbsa'
       )
   ) {
     if (year <= 2012L) {
       cli::cli_abort(
-        "Metropolitan area flows are only available beginning with 2013-style ACS flows releases."
+        'Metropolitan area flows are only available beginning with 2013-style ACS flows releases.'
       )
     }
 
     if (year <= 2015L) {
-      return("metropolitan statistical areas")
+      return('metropolitan statistical areas')
     }
 
-    return("metropolitan statistical area/micropolitan statistical area")
+    return('metropolitan statistical area/micropolitan statistical area')
   }
 
   geography
 }
 
 tc_flows_base_url <- function(year) {
-  paste0(tc_api_base(), "/", year, "/acs/flows")
+  paste0(tc_api_base(), '/', year, '/acs/flows')
 }
 
 tc_flows_default_variables <- function() {
   c(
-    "GEOID1",
-    "GEOID2",
-    "FULL1_NAME",
-    "FULL2_NAME",
-    "MOVEDIN",
-    "MOVEDIN_M",
-    "MOVEDOUT",
-    "MOVEDOUT_M",
-    "MOVEDNET",
-    "MOVEDNET_M"
+    'GEOID1',
+    'GEOID2',
+    'FULL1_NAME',
+    'FULL2_NAME',
+    'MOVEDIN',
+    'MOVEDIN_M',
+    'MOVEDOUT',
+    'MOVEDOUT_M',
+    'MOVEDNET',
+    'MOVEDNET_M'
   )
 }
 
@@ -50,55 +50,55 @@ tc_flows_breakdown_codebook <- function(variable, year) {
     return(NULL)
   }
 
-  if (identical(variable, "AGE")) {
+  if (identical(variable, 'AGE')) {
     return(tibble::tibble(
-      code = sprintf("%02d", 1:15),
+      code = sprintf('%02d', 1:15),
       label = c(
-        "1 to 4 years",
-        "5 to 17 years",
-        "18 to 19 years",
-        "20 to 24 years",
-        "25 to 29 years",
-        "30 to 34 years",
-        "35 to 39 years",
-        "40 to 44 years",
-        "45 to 49 years",
-        "50 to 54 years",
-        "55 to 59 years",
-        "60 to 64 years",
-        "65 to 69 years",
-        "70 to 74 years",
-        "75 years and over"
+        '1 to 4 years',
+        '5 to 17 years',
+        '18 to 19 years',
+        '20 to 24 years',
+        '25 to 29 years',
+        '30 to 34 years',
+        '35 to 39 years',
+        '40 to 44 years',
+        '45 to 49 years',
+        '50 to 54 years',
+        '55 to 59 years',
+        '60 to 64 years',
+        '65 to 69 years',
+        '70 to 74 years',
+        '75 years and over'
       )
     ))
   }
 
-  if (identical(variable, "SEX")) {
+  if (identical(variable, 'SEX')) {
     return(tibble::tibble(
-      code = c("01", "02"),
-      label = c("Male", "Female")
+      code = c('01', '02'),
+      label = c('Male', 'Female')
     ))
   }
 
-  if (identical(variable, "RACE")) {
+  if (identical(variable, 'RACE')) {
     return(tibble::tibble(
-      code = c("01", "02", "03", "04"),
+      code = c('01', '02', '03', '04'),
       label = c(
-        "White alone",
-        "Black or African American alone",
-        "Asian alone",
-        "Other race alone or Two or more races"
+        'White alone',
+        'Black or African American alone',
+        'Asian alone',
+        'Other race alone or Two or more races'
       )
     ))
   }
 
-  if (identical(variable, "HISP_ORIGIN")) {
+  if (identical(variable, 'HISP_ORIGIN')) {
     return(tibble::tibble(
-      code = c("01", "02", "03"),
+      code = c('01', '02', '03'),
       label = c(
-        "White alone, not Hispanic or Latino",
-        "Not white alone, not Hispanic or Latino",
-        "Hispanic or Latino"
+        'White alone, not Hispanic or Latino',
+        'Not white alone, not Hispanic or Latino',
+        'Hispanic or Latino'
       )
     ))
   }
@@ -125,8 +125,8 @@ tc_flows_add_breakdown_labels <- function(data, breakdown, year) {
     }
 
     labels <- stats::setNames(codebook$label, codebook$code)
-    label_col <- paste0(variable, "_LABEL")
-    formatted <- sprintf("%02d", suppressWarnings(as.integer(out[[variable]])))
+    label_col <- paste0(variable, '_LABEL')
+    formatted <- sprintf('%02d', suppressWarnings(as.integer(out[[variable]])))
     out[[label_col]] <- unname(labels[formatted])
   }
 
@@ -141,40 +141,40 @@ tc_flows_validate_inputs <- function(
   breakdown = NULL
 ) {
   if (!is.null(breakdown) && !is.character(breakdown)) {
-    cli::cli_abort("{.arg breakdown} must be a character vector.")
+    cli::cli_abort('{.arg breakdown} must be a character vector.')
   }
 
   if (
     !is.null(msa) &&
       !geography %in%
         c(
-          "metropolitan statistical area/micropolitan statistical area",
-          "cbsa"
+          'metropolitan statistical area/micropolitan statistical area',
+          'cbsa'
         )
   ) {
     cli::cli_abort(
-      "{.arg msa} is only supported for metropolitan area flow requests."
+      '{.arg msa} is only supported for metropolitan area flow requests.'
     )
   }
 
-  if (identical(geography, "county") && !is.null(county)) {
+  if (identical(geography, 'county') && !is.null(county)) {
     if (is.null(state) || length(state) != 1L) {
       cli::cli_abort(
-        "County flow requests for specific counties require exactly one {.arg state}."
+        'County flow requests for specific counties require exactly one {.arg state}.'
       )
     }
   }
 
-  if (identical(geography, "county subdivision")) {
+  if (identical(geography, 'county subdivision')) {
     if (is.null(state)) {
       cli::cli_abort(
-        "County subdivision flows require at least one {.arg state}."
+        'County subdivision flows require at least one {.arg state}.'
       )
     }
 
     if (!is.null(county) && length(state) != 1L) {
       cli::cli_abort(
-        "County subdivision flow requests with {.arg county} require exactly one {.arg state}."
+        'County subdivision flow requests with {.arg county} require exactly one {.arg state}.'
       )
     }
   }
@@ -182,13 +182,13 @@ tc_flows_validate_inputs <- function(
   if (
     geography %in%
       c(
-        "metropolitan statistical area/micropolitan statistical area",
-        "cbsa"
+        'metropolitan statistical area/micropolitan statistical area',
+        'cbsa'
       ) &&
       (!is.null(state) || !is.null(county))
   ) {
     cli::cli_abort(
-      "Metropolitan area flows do not accept {.arg state} or {.arg county}."
+      'Metropolitan area flows do not accept {.arg state} or {.arg county}.'
     )
   }
 }
@@ -205,7 +205,7 @@ tc_flows_query <- function(
 ) {
   if (year < 2010L || year > 2018L) {
     cli::cli_abort(
-      "ACS migration flows are available for years 2010 through 2018."
+      'ACS migration flows are available for years 2010 through 2018.'
     )
   }
 
@@ -213,20 +213,20 @@ tc_flows_query <- function(
   if (
     !geography %in%
       c(
-        "county",
-        "county subdivision",
-        "metropolitan statistical area/micropolitan statistical area",
-        "cbsa"
+        'county',
+        'county subdivision',
+        'metropolitan statistical area/micropolitan statistical area',
+        'cbsa'
       )
   ) {
     cli::cli_abort(
-      "Flows geography must be county, county subdivision, or metropolitan statistical area."
+      'Flows geography must be county, county subdivision, or metropolitan statistical area.'
     )
   }
 
   if (!is.null(breakdown) && year > 2015L) {
     cli::cli_abort(
-      "Flow breakdown characteristics are only available through 2015."
+      'Flow breakdown characteristics are only available through 2015.'
     )
   }
 
@@ -240,72 +240,72 @@ tc_flows_query <- function(
 
   query_geography <- tc_flows_query_geography(geography, year)
   get_vars <- unique(c(tc_flows_default_variables(), breakdown, variables))
-  for_area <- paste0(query_geography, ":*")
+  for_area <- paste0(query_geography, ':*')
   in_area <- NULL
 
   if (!is.null(state)) {
-    state <- paste(normalize_state(state), collapse = ",")
+    state <- paste(normalize_state(state), collapse = ',')
   }
 
   if (!is.null(county)) {
     if (is.null(state)) {
       cli::cli_abort(
-        "County flows require {.arg state} when {.arg county} is supplied."
+        'County flows require {.arg state} when {.arg county} is supplied.'
       )
     }
     county <- paste(
       normalize_county(county, state = state, year = year),
-      collapse = ","
+      collapse = ','
     )
   }
 
   if (!is.null(msa)) {
-    msa <- paste(as.character(msa), collapse = ",")
+    msa <- paste(as.character(msa), collapse = ',')
   }
 
-  if (identical(geography, "county")) {
+  if (identical(geography, 'county')) {
     if (!is.null(county)) {
-      for_area <- paste0("county:", county)
+      for_area <- paste0('county:', county)
     }
     if (!is.null(state)) {
-      in_area <- paste0("state:", state)
+      in_area <- paste0('state:', state)
     }
   }
 
-  if (identical(geography, "county subdivision")) {
+  if (identical(geography, 'county subdivision')) {
     if (!is.null(county)) {
-      in_area <- paste0("state:", state, " county:", county)
+      in_area <- paste0('state:', state, ' county:', county)
     } else {
-      in_area <- paste0("state:", state)
+      in_area <- paste0('state:', state)
     }
   }
 
   if (
     geography %in%
       c(
-        "metropolitan statistical area/micropolitan statistical area",
-        "cbsa"
+        'metropolitan statistical area/micropolitan statistical area',
+        'cbsa'
       ) &&
       !is.null(msa)
   ) {
-    for_area <- paste0(query_geography, ":", msa)
+    for_area <- paste0(query_geography, ':', msa)
   }
 
   params <- tc_compact(list(
-    get = paste(get_vars, collapse = ","),
-    "for" = for_area,
-    "in" = in_area,
+    get = paste(get_vars, collapse = ','),
+    'for' = for_area,
+    'in' = in_area,
     key = if (nzchar(key)) key else NULL
   ))
 
   raw <- tc_fetch_json(
     tc_build_url(tc_flows_base_url(year), params),
-    context = list(dataset = "acs/flows", year = year, geography = geography)
+    context = list(dataset = 'acs/flows', year = year, geography = geography)
   )
   out <- tc_json_matrix_to_tibble(raw)
 
   for (column in names(out)) {
-    if (!grepl("_NAME$|^GEOID|^STATE|^COUNTY|^MCD|^METRO|^FULL", column)) {
+    if (!grepl('_NAME$|^GEOID|^STATE|^COUNTY|^MCD|^METRO|^FULL', column)) {
       out[[column]] <- suppressWarnings(as.numeric(out[[column]]))
     }
   }
@@ -315,26 +315,26 @@ tc_flows_query <- function(
 
 tc_flows_clean_names <- function(data) {
   rename <- c(
-    GEOID1 = "origin_geoid",
-    GEOID2 = "destination_geoid",
-    FULL1_NAME = "origin_name",
-    FULL2_NAME = "destination_name",
-    MOVEDIN = "moved_in",
-    MOVEDIN_M = "moved_in_moe",
-    MOVEDOUT = "moved_out",
-    MOVEDOUT_M = "moved_out_moe",
-    MOVEDNET = "moved_net",
-    MOVEDNET_M = "moved_net_moe"
+    GEOID1 = 'origin_geoid',
+    GEOID2 = 'destination_geoid',
+    FULL1_NAME = 'origin_name',
+    FULL2_NAME = 'destination_name',
+    MOVEDIN = 'moved_in',
+    MOVEDIN_M = 'moved_in_moe',
+    MOVEDOUT = 'moved_out',
+    MOVEDOUT_M = 'moved_out_moe',
+    MOVEDNET = 'moved_net',
+    MOVEDNET_M = 'moved_net_moe'
   )
   hits <- intersect(names(rename), names(data))
   names(data)[match(hits, names(data))] <- rename[hits]
 
   drop <- c(
-    "state",
-    "county",
-    "county subdivision",
-    "metropolitan statistical area/micropolitan statistical area",
-    "metropolitan statistical areas"
+    'state',
+    'county',
+    'county subdivision',
+    'metropolitan statistical area/micropolitan statistical area',
+    'metropolitan statistical areas'
   )
   data[, setdiff(names(data), drop), drop = FALSE]
 }
@@ -342,7 +342,7 @@ tc_flows_clean_names <- function(data) {
 tc_flows_geometry_keys <- function(geoids, geography) {
   geoids <- unique(stats::na.omit(as.character(geoids)))
 
-  if (identical(geography, "county")) {
+  if (identical(geography, 'county')) {
     return(tibble::tibble(
       GEOID = geoids,
       state = substr(geoids, 1, 2),
@@ -350,7 +350,7 @@ tc_flows_geometry_keys <- function(geoids, geography) {
     ))
   }
 
-  if (identical(geography, "county subdivision")) {
+  if (identical(geography, 'county subdivision')) {
     return(tibble::tibble(
       GEOID = geoids,
       state = substr(geoids, 1, 2),
@@ -369,14 +369,14 @@ tc_flows_geometry_frame <- function(geom, key, keep_geo_vars = FALSE) {
   keep <- if (isTRUE(keep_geo_vars)) {
     names(geom)
   } else {
-    unique(c("GEOID", "geometry"))
+    unique(c('GEOID', 'geometry'))
   }
   geom <- geom[keep[keep %in% names(geom)]]
-  names(geom)[match("GEOID", names(geom))] <- key
+  names(geom)[match('GEOID', names(geom))] <- key
 
-  geo_cols <- setdiff(names(geom), c(key, "geometry"))
+  geo_cols <- setdiff(names(geom), c(key, 'geometry'))
   if (length(geo_cols)) {
-    names(geom)[match(geo_cols, names(geom))] <- paste0("geo_", geo_cols)
+    names(geom)[match(geo_cols, names(geom))] <- paste0('geo_', geo_cols)
   }
 
   geom
@@ -398,17 +398,17 @@ tc_flows_geometry_role <- function(geometry) {
   }
 
   if (isTRUE(geometry)) {
-    return("destination")
+    return('destination')
   }
 
   if (is.character(geometry) && length(geometry) == 1L) {
-    if (geometry %in% c("destination", "origin")) {
+    if (geometry %in% c('destination', 'origin')) {
       return(geometry)
     }
   }
 
   cli::cli_abort(
-    "{.arg geometry} must be one of {.val FALSE}, {.val TRUE}, {.val \"destination\"}, or {.val \"origin\"}."
+    '{.arg geometry} must be one of {.val FALSE}, {.val TRUE}, {.val "destination"}, or {.val "origin"}.'
   )
 }
 
@@ -416,10 +416,10 @@ tc_add_flows_geometry <- function(
   data,
   geography,
   year,
-  geometry = "destination",
+  geometry = 'destination',
   keep_geo_vars = FALSE
 ) {
-  key <- paste0(geometry, "_geoid")
+  key <- paste0(geometry, '_geoid')
   keys <- tc_flows_geometry_keys(data[[key]], geography = geography)
   geom <- tc_fetch_geometry(keys, geography = geography, year = year)
   geom$geometry <- suppressWarnings(sf::st_point_on_surface(geom$geometry))
@@ -429,7 +429,7 @@ tc_add_flows_geometry <- function(
     keep_geo_vars = keep_geo_vars
   )
   out <- tc_flows_join_geometry(data, geometry = geom, key = key)
-  sf::st_as_sf(out, sf_column_name = "geometry")
+  sf::st_as_sf(out, sf_column_name = 'geometry')
 }
 
 #' Retrieve ACS migration flows
@@ -500,7 +500,7 @@ tc_get_flows <- function(
 
   tc_add_attributes(
     out,
-    dataset = "acs/flows",
+    dataset = 'acs/flows',
     year = year,
     geography = geography
   )

@@ -25,7 +25,7 @@ tc_normalize_within <- function(within) {
     ) {
       within <- as.list(within)
     } else {
-      cli::cli_abort("{.arg within} must be a named list.")
+      cli::cli_abort('{.arg within} must be a named list.')
     }
   }
 
@@ -36,7 +36,7 @@ tc_normalize_within <- function(within) {
   if (
     is.null(names(within)) || any(!nzchar(names(within)))
   ) {
-    cli::cli_abort("{.arg within} must be a named list.")
+    cli::cli_abort('{.arg within} must be a named list.')
   }
 
   names(within) <- vapply(
@@ -47,7 +47,7 @@ tc_normalize_within <- function(within) {
 
   if (anyDuplicated(names(within))) {
     cli::cli_abort(
-      "Normalized {.arg within} geography names must be unique."
+      'Normalized {.arg within} geography names must be unique.'
     )
   }
 
@@ -65,18 +65,18 @@ tc_normalize_geo_value <- function(
     return(NULL)
   }
 
-  if (all(as.character(value) == "*")) {
+  if (all(as.character(value) == '*')) {
     return(as.character(value))
   }
 
-  if (geography == "state") {
+  if (geography == 'state') {
     return(normalize_state(value))
   }
 
-  if (geography == "county") {
-    state <- within[["state"]] %||%
+  if (geography == 'county') {
+    state <- within[['state']] %||%
       cli::cli_abort(
-        "County values require a {.arg state} value or {.arg within = list(state = ...)}."
+        'County values require a {.arg state} value or {.arg within = list(state = ...)}.'
       )
     return(normalize_county(value, state = state, year = year))
   }
@@ -90,7 +90,7 @@ tc_geography_record <- function(dataset, year, geography, refresh = FALSE) {
 
   if (!any(idx)) {
     cli::cli_abort(
-      "Geography {.val {geography}} is not available for dataset {.val {dataset}} in {.val {year}}."
+      'Geography {.val {geography}} is not available for dataset {.val {dataset}} in {.val {year}}.'
     )
   }
 
@@ -106,13 +106,13 @@ tc_collect_geography_inputs <- function(geography, within, dots) {
 
   dot_names <- names(dots)
   if (is.null(dot_names) || any(!nzchar(dot_names))) {
-    cli::cli_abort("All geography inputs passed through `...` must be named.")
+    cli::cli_abort('All geography inputs passed through `...` must be named.')
   }
 
   dot_names <- vapply(dot_names, tc_normalize_geography_name, character(1))
   if (anyDuplicated(dot_names)) {
     cli::cli_abort(
-      "Normalized geography inputs passed through `...` must be unique."
+      'Normalized geography inputs passed through `...` must be unique.'
     )
   }
   names(dots) <- dot_names
@@ -121,7 +121,7 @@ tc_collect_geography_inputs <- function(geography, within, dots) {
     geography <- dot_names[[1]]
   } else if (is.null(geography) && length(dots) > 1L) {
     cli::cli_abort(
-      "Supply an explicit {.arg geography} when providing multiple geography inputs in `...`."
+      'Supply an explicit {.arg geography} when providing multiple geography inputs in `...`.'
     )
   }
 

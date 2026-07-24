@@ -6,22 +6,22 @@ tc_build_get_clause <- function(
   parts <- character()
 
   if (isTRUE(include_name)) {
-    parts <- c(parts, "NAME")
+    parts <- c(parts, 'NAME')
   }
 
   if (!is.null(group)) {
-    return(c(parts, paste0("group(", group, ")")))
+    return(c(parts, paste0('group(', group, ')')))
   }
 
   c(parts, variables)
 }
 
 tc_label_variable_base <- function(variable) {
-  if (!grepl("_LABEL$", variable)) {
+  if (!grepl('_LABEL$', variable)) {
     return(NULL)
   }
 
-  sub("_LABEL$", "", variable)
+  sub('_LABEL$', '', variable)
 }
 
 tc_prepare_special_variables <- function(
@@ -61,14 +61,14 @@ tc_prepare_special_variables <- function(
     }
   )
 
-  if (!is.null(geography) && "NAME" %in% requested) {
-    requested <- setdiff(requested, "NAME")
-    alias_map <- alias_map[alias_map$variable != "NAME", , drop = FALSE]
+  if (!is.null(geography) && 'NAME' %in% requested) {
+    requested <- setdiff(requested, 'NAME')
+    alias_map <- alias_map[alias_map$variable != 'NAME', , drop = FALSE]
   }
 
   meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
-  label_vars <- requested[grepl("_LABEL$", requested)]
-  label_map <- vector("list", length(label_vars))
+  label_vars <- requested[grepl('_LABEL$', requested)]
+  label_map <- vector('list', length(label_vars))
 
   if (length(label_vars)) {
     for (i in seq_along(label_vars)) {
@@ -77,7 +77,7 @@ tc_prepare_special_variables <- function(
 
       if (is.null(code_var) || !code_var %in% meta$name) {
         cli::cli_abort(
-          "Unknown variable(s): {.val {label_var}}."
+          'Unknown variable(s): {.val {label_var}}.'
         )
       }
 
@@ -88,9 +88,9 @@ tc_prepare_special_variables <- function(
         refresh = refresh
       )
 
-      if (!all(c("code", "label") %in% names(values)) || !nrow(values)) {
+      if (!all(c('code', 'label') %in% names(values)) || !nrow(values)) {
         cli::cli_abort(
-          "Variable {.val {code_var}} does not expose encoded labels, so {.val {label_var}} is not available."
+          'Variable {.val {code_var}} does not expose encoded labels, so {.val {label_var}} is not available.'
         )
       }
 
@@ -120,7 +120,7 @@ tc_prepare_special_variables <- function(
 }
 
 tc_dataset_supports_name <- function(dataset) {
-  !grepl("^pdb/", dataset)
+  !grepl('^pdb/', dataset)
 }
 
 tc_prepare_predicates <- function(predicates) {
@@ -137,7 +137,7 @@ tc_prepare_predicates <- function(predicates) {
       return(as.list(predicates))
     }
 
-    cli::cli_abort("{.arg predicates} must be a named list.")
+    cli::cli_abort('{.arg predicates} must be a named list.')
   }
 
   if (is.list(predicates) && length(predicates) == 0L) {
@@ -148,7 +148,7 @@ tc_prepare_predicates <- function(predicates) {
     is.null(names(predicates)) ||
       any(!nzchar(names(predicates)))
   ) {
-    cli::cli_abort("{.arg predicates} must be a named list.")
+    cli::cli_abort('{.arg predicates} must be a named list.')
   }
 
   predicates
@@ -163,7 +163,7 @@ tc_resolve_geography_vintage <- function(
     return(as.integer(geography_vintage))
   }
 
-  if (grepl("^dec/", dataset)) {
+  if (grepl('^dec/', dataset)) {
     return(as.integer(year) - (as.integer(year) %% 10L))
   }
 
@@ -189,12 +189,12 @@ tc_query_params <- function(
   geography_meta = NULL
 ) {
   if (is.null(group) && (is.null(variables) || !length(variables))) {
-    cli::cli_abort("Supply either {.arg variables} or {.arg group}.")
+    cli::cli_abort('Supply either {.arg variables} or {.arg group}.')
   }
 
   if (!is.null(ucgid) && !is.null(geography)) {
     cli::cli_abort(
-      "{.arg ucgid} is mutually exclusive with {.arg geography} and parent geography inputs."
+      '{.arg ucgid} is mutually exclusive with {.arg geography} and parent geography inputs.'
     )
   }
 
@@ -202,9 +202,9 @@ tc_query_params <- function(
   allow_name <- !is.null(geography) && tc_dataset_supports_name(dataset)
 
   if (!is.null(variables)) {
-    missing_vars <- setdiff(variables, c(meta$name, if (allow_name) "NAME"))
+    missing_vars <- setdiff(variables, c(meta$name, if (allow_name) 'NAME'))
     if (length(missing_vars)) {
-      cli::cli_abort("Unknown variable(s): {.val {missing_vars}}.")
+      cli::cli_abort('Unknown variable(s): {.val {missing_vars}}.')
     }
   }
 
@@ -212,7 +212,7 @@ tc_query_params <- function(
     groups <- groups %||% tc_groups(dataset, year, refresh = refresh)
     if (!group %in% groups$name) {
       cli::cli_abort(
-        "Unknown group {.val {group}} for dataset {.val {dataset}}."
+        'Unknown group {.val {group}} for dataset {.val {dataset}}.'
       )
     }
   }
@@ -225,7 +225,7 @@ tc_query_params <- function(
       idx <- geography_meta$geography == geography
       if (!any(idx)) {
         cli::cli_abort(
-          "Geography {.val {geography}} is not available for dataset {.val {dataset}} in {.val {year}}."
+          'Geography {.val {geography}} is not available for dataset {.val {dataset}} in {.val {year}}.'
         )
       }
       geography_meta[idx, , drop = FALSE][1, , drop = FALSE]
@@ -251,13 +251,13 @@ tc_query_params <- function(
       wildcard_missing <- intersect(missing, wildcard)
 
       if (length(wildcard_missing)) {
-        within[wildcard_missing] <- rep(list("*"), length(wildcard_missing))
+        within[wildcard_missing] <- rep(list('*'), length(wildcard_missing))
         missing <- setdiff(missing, wildcard_missing)
       }
 
       if (length(missing)) {
         cli::cli_abort(
-          "Geography {.val {geography}} requires parent geography input(s): {.val {missing}}."
+          'Geography {.val {geography}} requires parent geography input(s): {.val {missing}}.'
         )
       }
     }
@@ -288,32 +288,32 @@ tc_query_params <- function(
     include_name = include_name
   )
 
-  params <- list(get = paste(get_clause, collapse = ","))
+  params <- list(get = paste(get_clause, collapse = ','))
 
   if (!is.null(ucgid)) {
     params$ucgid <- as.character(ucgid)
   } else if (!is.null(geography)) {
-    params[["for"]] <- paste0(
+    params[['for']] <- paste0(
       geography,
-      ":",
+      ':',
       if (is.null(values)) {
-        "*"
+        '*'
       } else {
-        paste(as.character(values), collapse = ",")
+        paste(as.character(values), collapse = ',')
       }
     )
 
     if (length(within)) {
       within_parts <- paste0(
         names(within),
-        ":",
+        ':',
         vapply(
           within,
-          function(x) paste(as.character(x), collapse = ","),
+          function(x) paste(as.character(x), collapse = ','),
           character(1)
         )
       )
-      params[["in"]] <- paste(within_parts, collapse = " ")
+      params[['in']] <- paste(within_parts, collapse = ' ')
     }
   }
 
@@ -331,7 +331,7 @@ tc_query_url <- function(dataset, year, params, endpoint = NULL) {
   base_url <- if (!is.null(endpoint) && !is.na(endpoint)) {
     endpoint
   } else {
-    paste0(tc_api_base(), "/", year, "/", dataset)
+    paste0(tc_api_base(), '/', year, '/', dataset)
   }
 
   tc_build_url(base_url, params = params)
@@ -408,7 +408,7 @@ tc_apply_aliases <- function(data, alias_map) {
   conflicts <- alias_map$alias %in% setdiff(names(out), alias_map$variable)
   if (any(conflicts)) {
     cli::cli_abort(
-      "Variable alias(es) conflict with existing output columns: {.val {alias_map$alias[conflicts]}}."
+      'Variable alias(es) conflict with existing output columns: {.val {alias_map$alias[conflicts]}}.'
     )
   }
 
@@ -460,7 +460,7 @@ tc_join_chunks <- function(chunks) {
 }
 
 tc_stabilize_geography_order <- function(data, geography = NULL) {
-  if (is.null(geography) || !"GEOID" %in% names(data)) {
+  if (is.null(geography) || !'GEOID' %in% names(data)) {
     return(data)
   }
 
@@ -572,50 +572,50 @@ tc_dataset_query_raw <- function(
 
   out <- tc_stabilize_geography_order(out, geography = geography)
 
-  attr(out, "dataset") <- dataset
-  attr(out, "year") <- year
-  attr(out, "geography") <- geography
-  attr(out, "within") <- tc_normalize_within(geo_inputs$within)
+  attr(out, 'dataset') <- dataset
+  attr(out, 'year') <- year
+  attr(out, 'geography') <- geography
+  attr(out, 'within') <- tc_normalize_within(geo_inputs$within)
   out
 }
 
 tc_metric_info <- function(variable) {
-  if (grepl("(EA|PEA|NA)$", variable)) {
+  if (grepl('(EA|PEA|NA)$', variable)) {
     return(list(
-      variable = sub("(EA|PEA|NA)$", "", variable),
-      role = "annotation"
+      variable = sub('(EA|PEA|NA)$', '', variable),
+      role = 'annotation'
     ))
   }
 
-  if (grepl("(MA|PMA)$", variable)) {
-    return(list(variable = sub("(MA|PMA)$", "", variable), role = "annotation"))
+  if (grepl('(MA|PMA)$', variable)) {
+    return(list(variable = sub('(MA|PMA)$', '', variable), role = 'annotation'))
   }
 
-  if (grepl("E$", variable)) {
-    return(list(variable = sub("E$", "", variable), role = "estimate"))
+  if (grepl('E$', variable)) {
+    return(list(variable = sub('E$', '', variable), role = 'estimate'))
   }
 
-  if (grepl("M$", variable)) {
-    return(list(variable = sub("M$", "", variable), role = "moe"))
+  if (grepl('M$', variable)) {
+    return(list(variable = sub('M$', '', variable), role = 'moe'))
   }
 
-  if (grepl("N$", variable)) {
-    return(list(variable = sub("N$", "", variable), role = "estimate"))
+  if (grepl('N$', variable)) {
+    return(list(variable = sub('N$', '', variable), role = 'estimate'))
   }
 
-  list(variable = variable, role = "estimate")
+  list(variable = variable, role = 'estimate')
 }
 
 tc_is_measure_variable <- function(variable) {
-  grepl("(EA|PEA|NA|MA|PMA|E|M|N)$", variable)
+  grepl('(EA|PEA|NA|MA|PMA|E|M|N)$', variable)
 }
 
 tc_metric_map <- function(variables) {
   info <- lapply(variables, tc_metric_info)
   tibble::tibble(
     raw_variable = variables,
-    variable = vapply(info, `[[`, character(1), "variable"),
-    role = vapply(info, `[[`, character(1), "role")
+    variable = vapply(info, `[[`, character(1), 'variable'),
+    role = vapply(info, `[[`, character(1), 'role')
   )
 }
 
@@ -624,8 +624,8 @@ tc_companion_variables <- function(dataset, year, variables, refresh = FALSE, me
   expanded <- unique(as.character(variables))
 
   for (variable in variables) {
-    if (grepl("E$", variable)) {
-      companion <- sub("E$", "M", variable)
+    if (grepl('E$', variable)) {
+      companion <- sub('E$', 'M', variable)
       if (companion %in% meta$name) {
         expanded <- unique(c(expanded, companion))
       }
@@ -644,11 +644,11 @@ tc_summary_columns <- function(summary_var) {
   estimate_col <- summary_var
   moe_col <- NULL
 
-  if (info$role == "moe") {
-    estimate_col <- sub("M$", "E", summary_var)
+  if (info$role == 'moe') {
+    estimate_col <- sub('M$', 'E', summary_var)
     moe_col <- summary_var
-  } else if (grepl("E$", summary_var)) {
-    moe_col <- sub("E$", "M", summary_var)
+  } else if (grepl('E$', summary_var)) {
+    moe_col <- sub('E$', 'M', summary_var)
   }
 
   list(
@@ -673,15 +673,15 @@ tc_validate_summary_var <- function(
 
   meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
   info <- tc_metric_info(summary_var)
-  target <- if (info$role == "moe") {
-    sub("M$", "E", summary_var)
+  target <- if (info$role == 'moe') {
+    sub('M$', 'E', summary_var)
   } else {
     summary_var
   }
 
   if (!target %in% meta$name) {
     cli::cli_abort(
-      "Unknown {.arg summary_var} {.val {summary_var}} for dataset {.val {dataset}}."
+      'Unknown {.arg summary_var} {.val {summary_var}} for dataset {.val {dataset}}.'
     )
   }
 
@@ -689,7 +689,7 @@ tc_validate_summary_var <- function(
     table_vars <- meta$name[meta$group == table]
     if (!target %in% table_vars) {
       cli::cli_abort(
-        "{.arg summary_var} must belong to table {.val {table}} when {.arg table} is supplied."
+        '{.arg summary_var} must belong to table {.val {table}} when {.arg table} is supplied.'
       )
     }
   }
@@ -726,17 +726,17 @@ tc_shape_product_wide <- function(
   meta = NULL
 ) {
   map <- tc_metric_map(names(data))
-  keep <- map$role != "annotation"
+  keep <- map$role != 'annotation'
   out <- data[, map$raw_variable[keep], drop = FALSE]
   meta <- meta %||% tc_variables(dataset, year, refresh = refresh)
   shared <- intersect(names(out), meta$name)
   measure_cols <- shared[
     meta$predicate_type[match(shared, meta$name)] %in%
       c(
-        "int",
-        "integer",
-        "float",
-        "numeric"
+        'int',
+        'integer',
+        'float',
+        'numeric'
       )
   ]
   for (column in measure_cols) {
@@ -769,12 +769,12 @@ tc_product_query <- function(
 
   if (!is.null(variables) && !is.null(table)) {
     cli::cli_abort(
-      "{.arg variables} and {.arg table} are mutually exclusive."
+      '{.arg variables} and {.arg table} are mutually exclusive.'
     )
   }
 
   if (is.null(variables) && is.null(table)) {
-    cli::cli_abort("Supply either {.arg variables} or {.arg table}.")
+    cli::cli_abort('Supply either {.arg variables} or {.arg table}.')
   }
 
   dataset_info <- tc_resolve_dataset(
@@ -857,7 +857,7 @@ tc_product_query <- function(
     ...
   )
 
-  geography <- attr(raw, "geography")
+  geography <- attr(raw, 'geography')
   out <- tc_shape_product_wide(
     raw,
     dataset = dataset,
@@ -877,7 +877,7 @@ tc_product_query <- function(
 
   if (isTRUE(geometry)) {
     if (is.null(geography)) {
-      cli::cli_abort("Geometry requires an explicit {.arg geography}.")
+      cli::cli_abort('Geometry requires an explicit {.arg geography}.')
     }
     out <- tc_add_geometry(
       out,

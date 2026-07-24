@@ -12,8 +12,8 @@ match_state_name <- function(x) {
 
 match_state_fips <- function(x) {
   x <- as.character(x)
-  idx <- grepl("^\\d{1,2}$", x)
-  x[idx] <- sprintf("%02d", as.integer(x[idx]))
+  idx <- grepl('^\\d{1,2}$', x)
+  x[idx] <- sprintf('%02d', as.integer(x[idx]))
   valid <- x %in% tc_state_lookup$fips
 
   out <- rep(NA_character_, length(x))
@@ -33,7 +33,7 @@ normalize_state <- function(x) {
 
   if (anyNA(out)) {
     bad <- unique(x[is.na(out)])
-    cli::cli_abort("Could not match state input(s): {.val {bad}}.")
+    cli::cli_abort('Could not match state input(s): {.val {bad}}.')
   }
 
   out
@@ -58,13 +58,12 @@ tc_county_base_year <- function(year) {
 }
 
 tc_county_table_name <- function(year) {
-  switch(
-    as.character(year),
-    "2000" = "tc_counties_2000",
-    "2010" = "tc_counties_2010",
-    "2020" = "tc_counties_2020",
+  switch(as.character(year),
+    '2000' = 'tc_counties_2000',
+    '2010' = 'tc_counties_2010',
+    '2020' = 'tc_counties_2020',
     cli::cli_abort(
-      "No bundled county table is available for year {.val {year}}."
+      'No bundled county table is available for year {.val {year}}.'
     )
   )
 }
@@ -72,8 +71,7 @@ tc_county_table_name <- function(year) {
 tc_counties_for_year <- function(year) {
   base_year <- tc_county_base_year(year)
   table_name <- tc_county_table_name(base_year)
-  out <- switch(
-    table_name,
+  out <- switch(table_name,
     tc_counties_2000 = tc_counties_2000,
     tc_counties_2010 = tc_counties_2010,
     tc_counties_2020 = tc_counties_2020
@@ -91,8 +89,7 @@ tc_counties_for_year <- function(year) {
   }
 
   changes <- changes[
-    changes$year > base_year & changes$year <= year,
-    ,
+    changes$year > base_year & changes$year <= year, ,
     drop = FALSE
   ]
 
@@ -104,18 +101,18 @@ tc_counties_for_year <- function(year) {
     row <- changes[i, , drop = FALSE]
     key <- out$state == row$state & out$county == row$county
 
-    if (row$change == "drop") {
+    if (row$change == 'drop') {
       out <- out[!key, , drop = FALSE]
       next
     }
 
-    if (row$change == "rename" && any(key)) {
+    if (row$change == 'rename' && any(key)) {
       out$name[key] <- row$name
       next
     }
 
-    if (row$change == "add" && !any(key)) {
-      out <- rbind(out, row[c("state", "county", "name")])
+    if (row$change == 'add' && !any(key)) {
+      out <- rbind(out, row[c('state', 'county', 'name')])
     }
   }
 
@@ -125,11 +122,11 @@ tc_counties_for_year <- function(year) {
 normalize_county <- function(x, state, year = NULL) {
   x <- as.character(x)
   state <- normalize_state(state)
-  state <- tc_recycle(state, length(x), arg = "state")
+  state <- tc_recycle(state, length(x), arg = 'state')
 
   out <- rep(NA_character_, length(x))
-  numeric_idx <- grepl("^\\d{1,3}$", x)
-  out[numeric_idx] <- sprintf("%03d", as.integer(x[numeric_idx]))
+  numeric_idx <- grepl('^\\d{1,3}$', x)
+  out[numeric_idx] <- sprintf('%03d', as.integer(x[numeric_idx]))
 
   lookup <- tc_counties_for_year(year)
   lookup$county_name <- tc_clean_county_name(lookup$name)
@@ -148,13 +145,13 @@ normalize_county <- function(x, state, year = NULL) {
 
     if (!length(hits)) {
       cli::cli_abort(
-        "Could not match county {.val {x[[i]]}} within state {.val {state[[i]]}} for year {.val {year %||% tc_county_base_year(year)}}."
+        'Could not match county {.val {x[[i]]}} within state {.val {state[[i]]}} for year {.val {year %||% tc_county_base_year(year)}}.'
       )
     }
 
     if (length(hits) > 1L) {
       cli::cli_abort(
-        "County input {.val {x[[i]]}} is ambiguous within state {.val {state[[i]]}} for year {.val {year %||% tc_county_base_year(year)}}."
+        'County input {.val {x[[i]]}} is ambiguous within state {.val {state[[i]]}} for year {.val {year %||% tc_county_base_year(year)}}.'
       )
     }
 

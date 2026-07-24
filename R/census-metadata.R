@@ -1,5 +1,5 @@
 tc_cache_dir <- function(...) {
-  parts <- c(rappdirs::user_cache_dir("tinycensus"))
+  parts <- c(rappdirs::user_cache_dir('tinycensus'))
 
   do.call(file.path, c(as.list(parts), list(...)))
 }
@@ -32,7 +32,7 @@ tc_memory_cache <- new.env(parent = emptyenv())
 
 tc_memory_key <- function(...) {
   parts <- unlist(lapply(list(...), as.character), use.names = FALSE)
-  paste(parts, collapse = "::")
+  paste(parts, collapse = '::')
 }
 
 tc_memory_get <- function(...) {
@@ -62,7 +62,7 @@ tc_http_error_context <- function(context = NULL) {
       if (is.null(value) || length(value) == 0L || all(is.na(value))) {
         return(NA_character_)
       }
-      paste0(name, ": ", paste(value, collapse = ", "))
+      paste0(name, ': ', paste(value, collapse = ', '))
     },
     character(1)
   )
@@ -71,28 +71,28 @@ tc_http_error_context <- function(context = NULL) {
     return(NULL)
   }
 
-  paste(bits, collapse = "; ")
+  paste(bits, collapse = '; ')
 }
 
 tc_abort_http_error <- function(resp, url, context = NULL) {
   body <- tryCatch(
     httr2::resp_body_string(resp),
-    error = function(...) ""
+    error = function(...) ''
   )
-  body <- gsub("<[^>]+>", "", body)
-  body <- gsub("[{}]", "", body)
+  body <- gsub('<[^>]+>', '', body)
+  body <- gsub('[{}]', '', body)
   body <- trimws(body)
   status <- httr2::resp_status(resp)
   context_text <- tc_http_error_context(context)
 
   if (!nzchar(body) && identical(status, 204L)) {
-    body <- "No records were returned for the requested query."
+    body <- 'No records were returned for the requested query.'
   }
 
   cli::cli_abort(c(
-    "Census API request failed with status {.val {status}}.",
-    x = if (nzchar(body)) body else "No error body returned.",
-    i = "{.url {url}}",
+    'Census API request failed with status {.val {status}}.',
+    x = if (nzchar(body)) body else 'No error body returned.',
+    i = '{.url {url}}',
     i = if (!is.null(context_text)) context_text else NULL
   ))
 }
@@ -100,7 +100,7 @@ tc_abort_http_error <- function(resp, url, context = NULL) {
 tc_request_json <- function(url, simplifyVector = TRUE, context = NULL) {
   req <- httr2::request(url) |>
     httr2::req_user_agent(
-      "tinycensus (https://github.com/christopherkenny/tinycensus)"
+      'tinycensus (https://github.com/christopherkenny/tinycensus)'
     ) |>
     httr2::req_retry(max_tries = 3) |>
     httr2::req_error(is_error = function(resp) FALSE)
@@ -127,22 +127,22 @@ tc_normalize_link <- function(x) {
     return(NA_character_)
   }
 
-  sub("^http://", "https://", x)
+  sub('^http://', 'https://', x)
 }
 
 tc_catalog_is_valid <- function(x) {
-  if (!inherits(x, "data.frame")) {
+  if (!inherits(x, 'data.frame')) {
     return(FALSE)
   }
 
   required <- c(
-    "year",
-    "dataset",
-    "endpoint",
-    "variables_url",
-    "groups_url",
-    "geography_url",
-    "examples_url"
+    'year',
+    'dataset',
+    'endpoint',
+    'variables_url',
+    'groups_url',
+    'geography_url',
+    'examples_url'
   )
 
   if (!all(required %in% names(x))) {
@@ -153,7 +153,7 @@ tc_catalog_is_valid <- function(x) {
     return(FALSE)
   }
 
-  endpoint_ok <- is.na(x$endpoint) | grepl("^https://", x$endpoint)
+  endpoint_ok <- is.na(x$endpoint) | grepl('^https://', x$endpoint)
   dataset_ok <- nzchar(x$dataset)
 
   all(endpoint_ok) && all(dataset_ok)
@@ -161,13 +161,13 @@ tc_catalog_is_valid <- function(x) {
 
 tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
   if (isTRUE(cache) && !isTRUE(refresh)) {
-    memory_cached <- tc_memory_get("catalog")
+    memory_cached <- tc_memory_get('catalog')
     if (!is.null(memory_cached) && tc_catalog_is_valid(memory_cached)) {
       return(memory_cached)
     }
   }
 
-  cache_path <- tc_cache_path("metadata", "catalog.rds")
+  cache_path <- tc_cache_path('metadata', 'catalog.rds')
   cached <- if (isTRUE(cache) && !isTRUE(refresh)) {
     tc_cache_read(cache_path)
   } else {
@@ -175,15 +175,15 @@ tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
   }
 
   if (!is.null(cached) && tc_catalog_is_valid(cached)) {
-    tc_memory_set("catalog", value = cached)
+    tc_memory_set('catalog', value = cached)
     return(cached)
   }
 
   json <- tc_fetch_json_list(
-    "https://api.census.gov/data.json",
-    context = list(endpoint = "data.json")
+    'https://api.census.gov/data.json',
+    context = list(endpoint = 'data.json')
   )
-  catalog <- json[["dataset"]]
+  catalog <- json[['dataset']]
 
   out <- tibble::tibble(
     year = vapply(
@@ -193,7 +193,7 @@ tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
     ),
     dataset = vapply(
       catalog,
-      function(x) paste(tc_parse_list_column(x$c_dataset), collapse = "/"),
+      function(x) paste(tc_parse_list_column(x$c_dataset), collapse = '/'),
       character(1)
     ),
     title = vapply(
@@ -215,28 +215,28 @@ tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
           return(NA_character_)
         }
 
-        tc_normalize_link(distribution[[1]][["accessURL"]] %||% "")
+        tc_normalize_link(distribution[[1]][['accessURL']] %||% '')
       },
       character(1)
     ),
     geography_url = vapply(
       catalog,
-      function(x) tc_normalize_link(x$c_geographyLink %||% ""),
+      function(x) tc_normalize_link(x$c_geographyLink %||% ''),
       character(1)
     ),
     variables_url = vapply(
       catalog,
-      function(x) tc_normalize_link(x$c_variablesLink %||% ""),
+      function(x) tc_normalize_link(x$c_variablesLink %||% ''),
       character(1)
     ),
     groups_url = vapply(
       catalog,
-      function(x) tc_normalize_link(x$c_groupsLink %||% ""),
+      function(x) tc_normalize_link(x$c_groupsLink %||% ''),
       character(1)
     ),
     examples_url = vapply(
       catalog,
-      function(x) tc_normalize_link(x$c_examplesLink %||% ""),
+      function(x) tc_normalize_link(x$c_examplesLink %||% ''),
       character(1)
     ),
     is_available = vapply(
@@ -264,8 +264,8 @@ tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
         }
 
         grepl(
-          "/timeseries/",
-          distribution[[1]][["accessURL"]] %||% "",
+          '/timeseries/',
+          distribution[[1]][['accessURL']] %||% '',
           fixed = TRUE
         )
       },
@@ -277,7 +277,7 @@ tc_dataset_catalog <- function(refresh = FALSE, cache = TRUE) {
 
   if (isTRUE(cache)) {
     tc_cache_write(out, cache_path)
-    tc_memory_set("catalog", value = out)
+    tc_memory_set('catalog', value = out)
   }
 
   out
@@ -290,7 +290,7 @@ tc_resolve_dataset <- function(
   cache = TRUE
 ) {
   if (!is.character(dataset) || length(dataset) != 1L || !nzchar(dataset)) {
-    cli::cli_abort("{.arg dataset} must be a single non-empty string.")
+    cli::cli_abort('{.arg dataset} must be a single non-empty string.')
   }
 
   catalog <- tc_dataset_catalog(refresh = refresh, cache = cache)
@@ -298,7 +298,7 @@ tc_resolve_dataset <- function(
 
   if (!nrow(matches)) {
     cli::cli_abort(
-      "Dataset {.val {dataset}} was not found in the Census discovery catalog."
+      'Dataset {.val {dataset}} was not found in the Census discovery catalog.'
     )
   }
 
@@ -311,7 +311,7 @@ tc_resolve_dataset <- function(
   idx <- matches$year == as.integer(year)
   if (!any(idx)) {
     cli::cli_abort(
-      "Dataset {.val {dataset}} is not available for year {.val {year}}."
+      'Dataset {.val {dataset}} is not available for year {.val {year}}.'
     )
   }
 
@@ -319,8 +319,8 @@ tc_resolve_dataset <- function(
 }
 
 tc_metadata_cache <- function(dataset, year, type) {
-  safe_dataset <- gsub("[^A-Za-z0-9]+", "_", dataset)
-  tc_cache_path("metadata", paste0(type, "_", safe_dataset, "_", year, ".rds"))
+  safe_dataset <- gsub('[^A-Za-z0-9]+', '_', dataset)
+  tc_cache_path('metadata', paste0(type, '_', safe_dataset, '_', year, '.rds'))
 }
 
 tc_fetch_metadata <- function(
@@ -336,10 +336,10 @@ tc_fetch_metadata <- function(
     refresh = refresh,
     cache = cache
   )
-  url <- dataset_info[[paste0(type, "_url")]]
+  url <- dataset_info[[paste0(type, '_url')]]
   if (is.na(url)) {
     cli::cli_abort(
-      "No {.val {type}} metadata endpoint is available for {.val {dataset}} in {.val {year}}."
+      'No {.val {type}} metadata endpoint is available for {.val {dataset}} in {.val {year}}.'
     )
   }
 
@@ -376,7 +376,7 @@ tc_fetch_metadata <- function(
 #' @return A tibble of Census API datasets.
 #' @export
 #' @examplesIf tinycensus::tc_has_key()
-#' tc_datasets(year = 2024, family = "acs", refresh = TRUE)
+#' tc_datasets(year = 2024, family = 'acs', refresh = TRUE)
 tc_datasets <- function(
   year = NULL,
   family = NULL,
@@ -390,7 +390,7 @@ tc_datasets <- function(
   }
 
   if (!is.null(family)) {
-    pattern <- paste0("^", family, "(/|$)")
+    pattern <- paste0('^', family, '(/|$)')
     out <- out[grepl(pattern, out$dataset), , drop = FALSE]
   }
 
@@ -410,9 +410,9 @@ tc_datasets <- function(
 #' @return A tibble with one row.
 #' @export
 #' @examplesIf tinycensus::tc_has_key()
-#' tc_dataset("acs/acs5", 2024, refresh = TRUE)
+#' tc_dataset('acs/acs5', 2024, refresh = TRUE)
 tc_dataset <- function(dataset, year = NULL, refresh = FALSE) {
-  memory_key <- c("tc_dataset", dataset, year %||% NA)
+  memory_key <- c('tc_dataset', dataset, year %||% NA)
   if (!isTRUE(refresh)) {
     cached <- tc_memory_get(memory_key)
     if (!is.null(cached)) {
@@ -443,9 +443,9 @@ tc_dataset <- function(dataset, year = NULL, refresh = FALSE) {
 #' @return A tibble of variable metadata.
 #' @export
 #' @examplesIf tinycensus::tc_has_key()
-#' tc_variables("acs/acs5", 2024, refresh = TRUE)
+#' tc_variables('acs/acs5', 2024, refresh = TRUE)
 tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
-  memory_key <- c("tc_variables", dataset, year %||% NA)
+  memory_key <- c('tc_variables', dataset, year %||% NA)
   if (!isTRUE(refresh)) {
     cached <- tc_memory_get(memory_key)
     if (!is.null(cached)) {
@@ -463,7 +463,7 @@ tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
   json <- tc_fetch_metadata(
     dataset,
     year,
-    "variables",
+    'variables',
     refresh = refresh,
     cache = TRUE
   )
@@ -505,7 +505,7 @@ tc_variables <- function(dataset, year = NULL, refresh = FALSE) {
       variables,
       function(x) {
         group <- x$group %||% NA_character_
-        if (is.na(group) || !nzchar(group) || identical(group, "N/A")) {
+        if (is.na(group) || !nzchar(group) || identical(group, 'N/A')) {
           return(NA_character_)
         }
         if (!group %in% names(group_universe)) {
@@ -536,11 +536,11 @@ tc_variable_metadata_url <- function(dataset, year, variable) {
 
   if (is.na(variables_url)) {
     cli::cli_abort(
-      "No variable metadata endpoint is available for {.val {dataset}} in {.val {year}}."
+      'No variable metadata endpoint is available for {.val {dataset}} in {.val {year}}.'
     )
   }
 
-  paste0(sub("variables\\.json$", "variables/", variables_url), variable, ".json")
+  paste0(sub('variables\\.json$', 'variables/', variables_url), variable, '.json')
 }
 
 #' Retrieve raw Census group metadata
@@ -555,9 +555,9 @@ tc_variable_metadata_url <- function(dataset, year, variable) {
 #' correspond to user-facing tables.
 #' @export
 #' @examplesIf tinycensus::tc_has_key()
-#' tc_groups("acs/acs5", 2024, refresh = TRUE)
+#' tc_groups('acs/acs5', 2024, refresh = TRUE)
 tc_groups <- function(dataset, year = NULL, refresh = FALSE) {
-  memory_key <- c("tc_groups", dataset, year %||% NA)
+  memory_key <- c('tc_groups', dataset, year %||% NA)
   if (!isTRUE(refresh)) {
     cached <- tc_memory_get(memory_key)
     if (!is.null(cached)) {
@@ -575,17 +575,17 @@ tc_groups <- function(dataset, year = NULL, refresh = FALSE) {
   json <- tc_fetch_metadata(
     dataset,
     year,
-    "groups",
+    'groups',
     refresh = refresh,
     cache = TRUE
   )
-  groups <- json[["groups"]]
+  groups <- json[['groups']]
 
   out <- tibble::tibble(
     name = groups$name %||% NA_character_,
     description = groups$description %||% NA_character_,
-    universe = groups[["universe "]] %||%
-      groups[["universe"]] %||%
+    universe = groups[['universe ']] %||%
+      groups[['universe']] %||%
       NA_character_,
     variables_url = vapply(groups$variables, tc_normalize_link, character(1))
   )
@@ -629,7 +629,7 @@ tc_table_variables <- function(
   refresh = FALSE
 ) {
   if (!is.character(table) || length(table) != 1L || !nzchar(table)) {
-    cli::cli_abort("{.arg table} must be a single non-empty string.")
+    cli::cli_abort('{.arg table} must be a single non-empty string.')
   }
 
   vars <- tc_variables(dataset, year = year, refresh = refresh)
@@ -637,7 +637,7 @@ tc_table_variables <- function(
 
   if (!nrow(out)) {
     cli::cli_abort(
-      "Table {.val {table}} was not found for dataset {.val {dataset}}."
+      'Table {.val {table}} was not found for dataset {.val {dataset}}.'
     )
   }
 
@@ -649,9 +649,9 @@ tc_parse_geography_requires <- function(entry) {
     return(tc_parse_list_column(entry$requires))
   }
 
-  if (!is.null(entry[["in"]])) {
+  if (!is.null(entry[['in']])) {
     return(vapply(
-      entry[["in"]],
+      entry[['in']],
       function(x) x$name %||% NA_character_,
       character(1)
     ))
@@ -665,14 +665,14 @@ tc_parse_geography_wildcard <- function(entry) {
     return(tc_parse_list_column(entry$wildcard))
   }
 
-  if (!is.null(entry[["in"]])) {
+  if (!is.null(entry[['in']])) {
     wildcard <- vapply(
-      entry[["in"]],
+      entry[['in']],
       function(x) isTRUE(x$wildcard),
       logical(1)
     )
     return(vapply(
-      entry[["in"]][wildcard],
+      entry[['in']][wildcard],
       function(x) x$name %||% NA_character_,
       character(1)
     ))
@@ -688,9 +688,9 @@ tc_parse_geography_wildcard <- function(entry) {
 #' @return A tibble of geography metadata.
 #' @export
 #' @examplesIf tinycensus::tc_has_key()
-#' tc_geography("acs/acs5", 2024, refresh = TRUE)
+#' tc_geography('acs/acs5', 2024, refresh = TRUE)
 tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
-  memory_key <- c("tc_geography", dataset, year %||% NA)
+  memory_key <- c('tc_geography', dataset, year %||% NA)
   if (!isTRUE(refresh)) {
     cached <- tc_memory_get(memory_key)
     if (!is.null(cached)) {
@@ -708,11 +708,11 @@ tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
   json <- tc_fetch_metadata(
     dataset,
     year,
-    "geography",
+    'geography',
     refresh = refresh,
     cache = TRUE
   )
-  geographies <- json[["fips"]]
+  geographies <- json[['fips']]
 
   out <- tibble::tibble(
     geography = geographies$name %||% NA_character_,
@@ -745,9 +745,9 @@ tc_geography <- function(dataset, year = NULL, refresh = FALSE) {
 #' @return A list of example query metadata.
 #' @export
 #' @examplesIf tinycensus::tc_has_key()
-#' tc_examples("acs/acs5", 2024, refresh = TRUE)
+#' tc_examples('acs/acs5', 2024, refresh = TRUE)
 tc_examples <- function(dataset, year = NULL, refresh = FALSE) {
-  memory_key <- c("tc_examples", dataset, year %||% NA)
+  memory_key <- c('tc_examples', dataset, year %||% NA)
   if (!isTRUE(refresh)) {
     cached <- tc_memory_get(memory_key)
     if (!is.null(cached)) {
@@ -762,7 +762,7 @@ tc_examples <- function(dataset, year = NULL, refresh = FALSE) {
     cache = TRUE
   )
   year <- dataset_info$year[[1]]
-  out <- tc_fetch_metadata(dataset, year, "examples", refresh = refresh, cache = TRUE)
+  out <- tc_fetch_metadata(dataset, year, 'examples', refresh = refresh, cache = TRUE)
 
   if (!isTRUE(refresh)) {
     tc_memory_set(memory_key, value = out)
@@ -786,19 +786,19 @@ tc_search_variables <- function(
   dataset,
   year = NULL,
   query,
-  fields = c("name", "label", "concept"),
+  fields = c('name', 'label', 'concept'),
   ignore_case = TRUE,
   refresh = FALSE
 ) {
   if (!is.character(query) || length(query) != 1L || !nzchar(query)) {
-    cli::cli_abort("{.arg query} must be a single non-empty string.")
+    cli::cli_abort('{.arg query} must be a single non-empty string.')
   }
 
   fields <- unique(fields)
-  valid_fields <- c("name", "label", "concept")
+  valid_fields <- c('name', 'label', 'concept')
   if (!all(fields %in% valid_fields)) {
     cli::cli_abort(
-      "{.arg fields} must be drawn from {.val {valid_fields}}."
+      '{.arg fields} must be drawn from {.val {valid_fields}}.'
     )
   }
 
@@ -806,7 +806,7 @@ tc_search_variables <- function(
   text <- apply(
     vars[, fields, drop = FALSE],
     1,
-    function(x) paste(stats::na.omit(x), collapse = " ")
+    function(x) paste(stats::na.omit(x), collapse = ' ')
   )
   if (isTRUE(ignore_case)) {
     query <- tolower(query)
@@ -827,10 +827,10 @@ tc_search_variables <- function(
 #' @export
 tc_values <- function(dataset, year = NULL, variable, refresh = FALSE) {
   if (!is.character(variable) || length(variable) != 1L || !nzchar(variable)) {
-    cli::cli_abort("{.arg variable} must be a single non-empty string.")
+    cli::cli_abort('{.arg variable} must be a single non-empty string.')
   }
 
-  memory_key <- c("tc_values", dataset, year %||% NA, variable)
+  memory_key <- c('tc_values', dataset, year %||% NA, variable)
   if (!isTRUE(refresh)) {
     cached <- tc_memory_get(memory_key)
     if (!is.null(cached)) {
@@ -849,7 +849,7 @@ tc_values <- function(dataset, year = NULL, variable, refresh = FALSE) {
   values <- json$values$item
   if (is.null(values) || !length(values)) {
     cli::cli_abort(
-      "No encoded values metadata is available for {.val {variable}} in {.val {dataset}} ({.val {year}})."
+      'No encoded values metadata is available for {.val {variable}} in {.val {dataset}} ({.val {year}}).'
     )
   }
 

@@ -1,12 +1,12 @@
-tc_cbp_dataset <- function(dataset = "cbp") {
-  dataset <- tc_null_if_empty(dataset) %||% "cbp"
+tc_cbp_dataset <- function(dataset = 'cbp') {
+  dataset <- tc_null_if_empty(dataset) %||% 'cbp'
 
-  if (grepl("^cbp($|/)", dataset)) {
+  if (grepl('^cbp($|/)', dataset)) {
     return(dataset)
   }
 
   cli::cli_abort(
-    "{.arg dataset} for CBP must be a `cbp` dataset path, such as {.val cbp}."
+    '{.arg dataset} for CBP must be a `cbp` dataset path, such as {.val cbp}.'
   )
 }
 
@@ -37,16 +37,16 @@ tc_cbp_dataset <- function(dataset = "cbp") {
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_get_cbp(
 #'   year = 2021,
-#'   variables = "ESTAB",
-#'   geography = "state",
-#'   state = c("NY", "DE")
+#'   variables = 'ESTAB',
+#'   geography = 'state',
+#'   state = c('NY', 'DE')
 #' )
 tc_get_cbp <- function(
   geography = NULL,
   variables = NULL,
   table = NULL,
   year,
-  dataset = "cbp",
+  dataset = 'cbp',
   within = NULL,
   predicates = NULL,
   summary_var = NULL,

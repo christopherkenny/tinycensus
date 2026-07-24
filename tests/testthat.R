@@ -1,4 +1,4 @@
 library(testthat)
 library(tinycensus)
 
-test_check("tinycensus")
+test_check('tinycensus')

@@ -12,4 +12,4 @@
 #' optional geometry joins through `tinytiger`.
 #'
 #' @keywords internal
-"_PACKAGE"
+'_PACKAGE'

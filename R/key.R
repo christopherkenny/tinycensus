@@ -5,7 +5,7 @@
 #' @examples
 #' tc_has_key()
 tc_has_key <- function() {
-  Sys.getenv("CENSUS_API_KEY") != ""
+  Sys.getenv('CENSUS_API_KEY') != ''
 }
 
 #' Get the Census API key
@@ -15,7 +15,7 @@ tc_has_key <- function() {
 #' @examples
 #' invisible(tc_get_key())
 tc_get_key <- function() {
-  Sys.getenv("CENSUS_API_KEY")
+  Sys.getenv('CENSUS_API_KEY')
 }
 
 #' Set the Census API key
@@ -33,12 +33,12 @@ tc_get_key <- function() {
 #' @export
 #' @examples
 #' \dontrun{
-#' tc_set_key("YOUR-API-KEY")
+#' tc_set_key('YOUR-API-KEY')
 #' tc_set_key(
-#'   "YOUR-API-KEY",
+#'   'YOUR-API-KEY',
 #'   install = TRUE,
 #'   overwrite = TRUE,
-#'   r_env = "~/.Renviron"
+#'   r_env = '~/.Renviron'
 #' )
 #' }
 tc_set_key <- function(
@@ -48,14 +48,14 @@ tc_set_key <- function(
   r_env = NULL
 ) {
   if (missing(key)) {
-    cli::cli_abort("Input {.arg key} cannot be missing.")
+    cli::cli_abort('Input {.arg key} cannot be missing.')
   }
 
   if (!is.character(key) || length(key) != 1L || !nzchar(key)) {
-    cli::cli_abort("{.arg key} must be a single non-empty string.")
+    cli::cli_abort('{.arg key} must be a single non-empty string.')
   }
 
-  env_name <- "CENSUS_API_KEY"
+  env_name <- 'CENSUS_API_KEY'
   key_list <- list(key)
   names(key_list) <- env_name
 
@@ -66,7 +66,7 @@ tc_set_key <- function(
 
   if (is.null(r_env)) {
     cli::cli_abort(c(
-      "No path set.",
+      'No path set.',
       i = "Re-run with {.arg r_env} set, possibly to {.file {file.path(Sys.getenv('HOME'), '.Renviron')}}."
     ))
   }
@@ -77,18 +77,18 @@ tc_set_key <- function(
 
   lines <- readLines(r_env, warn = FALSE)
   newline <- paste0(env_name, "='", key, "'")
-  exists <- grepl(paste0("^", env_name, "="), lines)
+  exists <- grepl(paste0('^', env_name, '='), lines)
 
   if (any(exists)) {
     if (sum(exists) > 1L) {
       cli::cli_abort(
-        "Multiple {.val {env_name}} entries found in {.file {r_env}}. Edit manually."
+        'Multiple {.val {env_name}} entries found in {.file {r_env}}. Edit manually.'
       )
     }
 
     if (!isTRUE(overwrite)) {
       cli::cli_inform(
-        "{.arg CENSUS_API_KEY} already exists in {.file {r_env}}. Re-run with {.code overwrite = TRUE} to replace it."
+        '{.arg CENSUS_API_KEY} already exists in {.file {r_env}}. Re-run with {.code overwrite = TRUE} to replace it.'
       )
       do.call(Sys.setenv, key_list)
       return(invisible(key))

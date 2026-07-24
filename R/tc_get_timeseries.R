@@ -1,12 +1,12 @@
 tc_timeseries_dataset <- function(dataset) {
   dataset <- tc_null_if_empty(dataset)
   if (is.null(dataset)) {
-    cli::cli_abort("{.arg dataset} must be a non-empty string.")
+    cli::cli_abort('{.arg dataset} must be a non-empty string.')
   }
 
-  dataset <- sub("^/+", "", dataset)
-  if (!grepl("^timeseries/", dataset)) {
-    dataset <- paste0("timeseries/", dataset)
+  dataset <- sub('^/+', '', dataset)
+  if (!grepl('^timeseries/', dataset)) {
+    dataset <- paste0('timeseries/', dataset)
   }
 
   dataset
@@ -15,9 +15,9 @@ tc_timeseries_dataset <- function(dataset) {
 tc_timeseries_predicates <- function(predicates = NULL, time = NULL) {
   predicates <- tc_prepare_predicates(predicates)
 
-  if (!is.null(time) && "time" %in% names(predicates)) {
+  if (!is.null(time) && 'time' %in% names(predicates)) {
     cli::cli_abort(
-      "Supply timeseries dates with either {.arg time} or {.arg predicates$time}, not both."
+      'Supply timeseries dates with either {.arg time} or {.arg predicates$time}, not both.'
     )
   }
 
@@ -50,10 +50,10 @@ tc_timeseries_predicates <- function(predicates = NULL, time = NULL) {
 #' @export
 #' @examplesIf tinycensus::tc_has_key()
 #' tc_get_timeseries(
-#'   dataset = "intltrade/exports/hs",
-#'   variables = "ALL_VAL_MO",
-#'   time = "2024-01",
-#'   predicates = list(CTY_CODE = "2010")
+#'   dataset = 'intltrade/exports/hs',
+#'   variables = 'ALL_VAL_MO',
+#'   time = '2024-01',
+#'   predicates = list(CTY_CODE = '2010')
 #' )
 tc_get_timeseries <- function(
   geography = NULL,
@@ -84,13 +84,13 @@ tc_get_timeseries <- function(
   if (
     is.null(tc_null_if_empty(variables)) && is.null(tc_null_if_empty(table))
   ) {
-    cli::cli_abort("Supply either {.arg variables} or {.arg table}.")
+    cli::cli_abort('Supply either {.arg variables} or {.arg table}.')
   }
 
   if (
     !is.null(tc_null_if_empty(variables)) && !is.null(tc_null_if_empty(table))
   ) {
-    cli::cli_abort("{.arg variables} and {.arg table} are mutually exclusive.")
+    cli::cli_abort('{.arg variables} and {.arg table} are mutually exclusive.')
   }
 
   out <- tc_dataset_query_raw(
@@ -109,8 +109,8 @@ tc_get_timeseries <- function(
   )
   out <- tc_apply_value_labels(
     out,
-    dataset = attr(out, "dataset"),
-    year = attr(out, "year"),
+    dataset = attr(out, 'dataset'),
+    year = attr(out, 'year'),
     label_map = specials$label_map,
     refresh = refresh
   )
@@ -118,8 +118,8 @@ tc_get_timeseries <- function(
 
   tc_add_attributes(
     out,
-    dataset = attr(out, "dataset"),
-    year = attr(out, "year"),
+    dataset = attr(out, 'dataset'),
+    year = attr(out, 'year'),
     geography = NULL
   )
 }

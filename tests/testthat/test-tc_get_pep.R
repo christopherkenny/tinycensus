@@ -1,181 +1,181 @@
-test_that("tc_get_pep uses the product interface", {
-  skip_if_not_installed("vcr")
+test_that('tc_get_pep uses the product interface', {
+  skip_if_not_installed('vcr')
   skip_if_offline()
-  vcr::local_cassette("pep_states")
+  vcr::local_cassette('pep_states')
 
   out <- tc_get_pep(
     year = 2021,
-    dataset = "population",
-    variables = "POP_2021",
-    geography = "state",
-    state = c("NY", "Delaware")
+    dataset = 'population',
+    variables = 'POP_2021',
+    geography = 'state',
+    state = c('NY', 'Delaware')
   )
 
-  expect_s3_class(out, "tbl_df")
-  expect_true("POP_2021" %in% names(out))
-  expect_equal(sort(out$state), c("10", "36"))
+  expect_s3_class(out, 'tbl_df')
+  expect_true('POP_2021' %in% names(out))
+  expect_equal(sort(out$state), c('10', '36'))
 })
 
-test_that("tc_get_pep supports product aliases for characteristics", {
-  skip_if_not_installed("vcr")
+test_that('tc_get_pep supports product aliases for characteristics', {
+  skip_if_not_installed('vcr')
   skip_if_offline()
-  vcr::local_cassette("pep_characteristics_breakdown")
+  vcr::local_cassette('pep_characteristics_breakdown')
 
   out <- tc_get_pep(
     year = 2023,
-    product = "characteristics",
-    breakdown = "RACE",
+    product = 'characteristics',
+    breakdown = 'RACE',
     breakdown_labels = TRUE,
-    geography = "state",
-    state = "NY"
+    geography = 'state',
+    state = 'NY'
   )
 
-  expect_s3_class(out, "tbl_df")
-  expect_true(all(c("POP", "POPGROUP", "POPGROUP_LABEL") %in% names(out)))
+  expect_s3_class(out, 'tbl_df')
+  expect_true(all(c('POP', 'POPGROUP', 'POPGROUP_LABEL') %in% names(out)))
   expect_true(any(nzchar(out$POPGROUP_LABEL)))
 })
 
-test_that("tc_get_pep supports API-style characteristics predicates", {
-  skip_if_not_installed("vcr")
+test_that('tc_get_pep supports API-style characteristics predicates', {
+  skip_if_not_installed('vcr')
   skip_if_offline()
-  vcr::local_cassette("pep_characteristics_api_style")
+  vcr::local_cassette('pep_characteristics_api_style')
 
   out <- tc_get_pep(
     year = 2023,
-    product = "characteristics",
-    breakdown = "RACE",
+    product = 'characteristics',
+    breakdown = 'RACE',
     breakdown_labels = TRUE,
-    geography = "cbsa",
-    cbsa = "31080",
-    predicates = list(MONTH = 4, YEAR = 2020, UNIVERSE = "R")
+    geography = 'cbsa',
+    cbsa = '31080',
+    predicates = list(MONTH = 4, YEAR = 2020, UNIVERSE = 'R')
   )
 
-  expect_s3_class(out, "tbl_df")
+  expect_s3_class(out, 'tbl_df')
   expect_true(all(c(
-    "POP",
-    "POPGROUP",
-    "POPGROUP_LABEL",
-    "MONTH",
-    "YEAR",
-    "UNIVERSE",
-    "GEOID"
+    'POP',
+    'POPGROUP',
+    'POPGROUP_LABEL',
+    'MONTH',
+    'YEAR',
+    'UNIVERSE',
+    'GEOID'
   ) %in% names(out)))
   expect_true(any(nzchar(out$POPGROUP_LABEL)))
-  expect_true(all(out$`metropolitan statistical area/micropolitan statistical area` == "31080"))
+  expect_true(all(out$`metropolitan statistical area/micropolitan statistical area` == '31080'))
 })
 
-test_that("tc_get_pep supports older characteristics products", {
-  skip_if_not_installed("vcr")
+test_that('tc_get_pep supports older characteristics products', {
+  skip_if_not_installed('vcr')
   skip_if_offline()
-  vcr::local_cassette("pep_characteristics_legacy")
+  vcr::local_cassette('pep_characteristics_legacy')
 
   out <- tc_get_pep(
     year = 2019,
-    product = "characteristics",
-    breakdown = c("SEX", "HISP"),
+    product = 'characteristics',
+    breakdown = c('SEX', 'HISP'),
     breakdown_labels = TRUE,
-    geography = "state",
-    state = "LA"
+    geography = 'state',
+    state = 'LA'
   )
 
-  expect_s3_class(out, "tbl_df")
-  expect_true(all(c("POP", "SEX", "HISP", "SEX_LABEL", "HISP_LABEL") %in% names(out)))
+  expect_s3_class(out, 'tbl_df')
+  expect_true(all(c('POP', 'SEX', 'HISP', 'SEX_LABEL', 'HISP_LABEL') %in% names(out)))
   expect_true(any(nzchar(stats::na.omit(out$SEX_LABEL))))
   expect_true(any(nzchar(stats::na.omit(out$HISP_LABEL))))
 })
 
-test_that("tc_get_pep supports legacy race characteristics", {
-  skip_if_not_installed("vcr")
+test_that('tc_get_pep supports legacy race characteristics', {
+  skip_if_not_installed('vcr')
   skip_if_offline()
-  vcr::local_cassette("pep_characteristics_legacy_race")
+  vcr::local_cassette('pep_characteristics_legacy_race')
 
   out <- tc_get_pep(
     year = 2019,
-    product = "characteristics",
-    breakdown = "RACE",
+    product = 'characteristics',
+    breakdown = 'RACE',
     breakdown_labels = TRUE,
-    geography = "state",
-    state = "NY"
+    geography = 'state',
+    state = 'NY'
   )
 
-  expect_s3_class(out, "tbl_df")
-  expect_true(all(c("POP", "RACE", "RACE_LABEL") %in% names(out)))
+  expect_s3_class(out, 'tbl_df')
+  expect_true(all(c('POP', 'RACE', 'RACE_LABEL') %in% names(out)))
   expect_true(any(nzchar(stats::na.omit(out$RACE_LABEL))))
-  expect_true(all(out$state == "36"))
+  expect_true(all(out$state == '36'))
 })
 
-test_that("tc_get_pep returns product defaults when variables are omitted", {
-  skip_if_not_installed("vcr")
+test_that('tc_get_pep returns product defaults when variables are omitted', {
+  skip_if_not_installed('vcr')
   skip_if_offline()
-  vcr::local_cassette("pep_product_defaults")
+  vcr::local_cassette('pep_product_defaults')
 
   out <- tc_get_pep(
     year = 2019,
-    product = "components",
-    geography = "county",
-    state = "NY",
-    county = "Queens"
+    product = 'components',
+    geography = 'county',
+    state = 'NY',
+    county = 'Queens'
   )
 
-  expect_s3_class(out, "tbl_df")
-  expect_true(all(c("BIRTHS", "DEATHS", "NETMIG", "NATURALINC") %in% names(out)))
+  expect_s3_class(out, 'tbl_df')
+  expect_true(all(c('BIRTHS', 'DEATHS', 'NETMIG', 'NATURALINC') %in% names(out)))
 })
 
-test_that("tc_get_pep supports national housing defaults", {
-  skip_if_not_installed("vcr")
+test_that('tc_get_pep supports national housing defaults', {
+  skip_if_not_installed('vcr')
   skip_if_offline()
-  vcr::local_cassette("pep_housing_us_default")
+  vcr::local_cassette('pep_housing_us_default')
 
   out <- tc_get_pep(
     year = 2019,
-    product = "housing",
-    geography = "us"
+    product = 'housing',
+    geography = 'us'
   )
 
-  expect_s3_class(out, "tbl_df")
-  expect_true(all(c("DATE_CODE", "DATE_DESC", "HUEST") %in% names(out)))
+  expect_s3_class(out, 'tbl_df')
+  expect_true(all(c('DATE_CODE', 'DATE_DESC', 'HUEST') %in% names(out)))
   expect_true(nrow(out) >= 1)
 })
 
-test_that("tc_get_pep supports legacy AGEGROUP characteristics", {
-  skip_if_not_installed("vcr")
+test_that('tc_get_pep supports legacy AGEGROUP characteristics', {
+  skip_if_not_installed('vcr')
   skip_if_offline()
-  vcr::local_cassette("pep_characteristics_agegroup")
+  vcr::local_cassette('pep_characteristics_agegroup')
 
   out <- tc_get_pep(
     year = 2019,
-    product = "characteristics",
-    breakdown = "AGEGROUP",
-    geography = "state",
-    state = "LA"
+    product = 'characteristics',
+    breakdown = 'AGEGROUP',
+    geography = 'state',
+    state = 'LA'
   )
 
-  expect_s3_class(out, "tbl_df")
-  expect_true(all(c("POP", "AGEGROUP") %in% names(out)))
+  expect_s3_class(out, 'tbl_df')
+  expect_true(all(c('POP', 'AGEGROUP') %in% names(out)))
   expect_true(nrow(out) > 0)
 })
 
-test_that("tc_get_pep validates dataset and product inputs", {
+test_that('tc_get_pep validates dataset and product inputs', {
   expect_error(
     tc_get_pep(
       year = 2023,
-      dataset = "population",
-      product = "population",
-      variables = "POP",
-      geography = "state",
-      state = "NY"
+      dataset = 'population',
+      product = 'population',
+      variables = 'POP',
+      geography = 'state',
+      state = 'NY'
     ),
-    "mutually exclusive"
+    'mutually exclusive'
   )
 
   expect_error(
     tc_get_pep(
       year = 2019,
-      product = "characteristics",
-      breakdown = c("AGE", "AGEGROUP"),
-      geography = "state",
-      state = "NY"
+      product = 'characteristics',
+      breakdown = c('AGE', 'AGEGROUP'),
+      geography = 'state',
+      state = 'NY'
     ),
-    "cannot include both"
+    'cannot include both'
   )
 })
